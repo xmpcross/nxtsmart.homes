@@ -11,12 +11,12 @@ export default function Header() {
       <div className="mx-auto flex max-w-7xl items-center gap-6 px-6 py-4">
         <Link href="/" className="block shrink-0" data-testid="logo-link" aria-label={`${SITE.name} home`}>
           <Image
-            src="/nxt_bargains_logo.png"
+            src="/logo.png"
             alt={SITE.name}
-            width={450}
-            height={218}
+            width={427}
+            height={97}
             priority
-            className="h-10 w-auto sm:h-12"
+            className="h-8 w-auto sm:h-10"
           />
         </Link>
 
