@@ -1,0 +1,12 @@
+[build]
+  command = "yarn build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+  NEXT_TELEMETRY_DISABLED = "1"
+  NEXT_PUBLIC_STRAPI_URL = "https://strapi.fxnstudio.com"
+  NEXT_PUBLIC_SITE_URL = "https://nxtsmart.homes"
+
+[context.production.environment]
+  NEXT_PUBLIC_SITE_URL = "https://nxtsmart.homes"
