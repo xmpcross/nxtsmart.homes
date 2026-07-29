@@ -4,22 +4,9 @@ import { SECTIONS, SITE } from '@/lib/site';
 import { fmtDate, firstImageUrl, postPath } from '@/lib/format';
 import PostCard from '@/components/PostCard';
 import SectionHeader from '@/components/SectionHeader';
+import CategoryIcon from '@/components/CategoryIcon';
 
 export const revalidate = 60;
-
-const CATEGORY_ICONS: Record<string, string> = {
-  'smart-home-automation': '⚡',
-  'smart-home-security': '🔒',
-  'smart-home-devices': '📱',
-  'smart-home-entertainment': '📺',
-  'smart-home-energy': '🔋',
-  'smart-home-integration': '🔗',
-  'product-reviews': '⭐',
-  'product-comparisons': '⚖️',
-  'how-to-guides': '📖',
-  'top-rated': '🏆',
-  'informative-articles': '💡',
-};
 
 export default async function HomePage() {
   const perSection = await Promise.all(
@@ -226,9 +213,9 @@ function CategoryStrip() {
           <Link
             key={item.slug}
             href={`/${item.slug}`}
-            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-ink/10 bg-muted/50 px-4 py-2 text-sm font-semibold text-ink-muted transition hover:border-primary/25 hover:bg-primary-soft hover:text-primary"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-ink/10 bg-surface px-4 py-2 text-sm font-semibold text-ink-muted transition hover:border-primary/25 hover:bg-primary-soft hover:text-primary"
           >
-            <span aria-hidden>{CATEGORY_ICONS[item.slug] ?? '→'}</span>
+            <CategoryIcon slug={item.slug} className="h-4 w-4 shrink-0" />
             {item.label}
           </Link>
         ))}
@@ -265,8 +252,8 @@ function SectionSets({
                 data-testid={`set-${s.slug}`}
               >
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-lg" aria-hidden>
-                    {CATEGORY_ICONS[s.slug] ?? '📄'}
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-primary transition group-hover:bg-primary group-hover:text-white">
+                    <CategoryIcon slug={s.slug} className="h-5 w-5" />
                   </div>
                   <span className="rounded-full bg-muted px-3 py-1 text-xs font-bold text-ink-muted">{count}+</span>
                 </div>
