@@ -103,7 +103,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
-      <header className="border-b border-ink/8 bg-paper">
+      <header className="border-b border-ink/8 bg-muted">
         <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 sm:py-14">
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center lg:gap-12">
             <div className="min-w-0">
