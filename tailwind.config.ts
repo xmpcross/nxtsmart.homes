@@ -5,33 +5,35 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Brand / action — a crisp modern electric blue.
+        // Single accent — a smart "active/on" teal (energy, connectivity),
+        // tuned to read as a bright highlight on near-black surfaces.
         primary: {
-          DEFAULT: '#2563eb',
-          emphasis: '#1d4ed8',
-          hover: '#dbe6ff',
-          pressed: '#1e40af',
-          soft: '#eef3ff',
+          DEFAULT: '#2dd4bf',
+          emphasis: '#14b8a6',
+          hover: 'rgba(45,212,191,0.16)',
+          pressed: '#0d9488',
+          soft: 'rgba(45,212,191,0.10)',
         },
-        // Secondary — a smart "active/on" teal (energy, connectivity).
         accent: {
-          DEFAULT: '#14b8a6',
-          emphasis: '#0d9488',
-          soft: '#effcf9',
+          DEFAULT: '#2dd4bf',
+          emphasis: '#14b8a6',
+          soft: 'rgba(45,212,191,0.10)',
         },
-        // Cool, near-black neutrals for a precise, device-UI feel.
+        // Dark-first neutrals. `ink` is now light (text on dark), so existing
+        // `text-ink` / `border-ink/8` utilities become light-on-dark for free.
         ink: {
-          DEFAULT: '#0d1117',
-          muted: '#4b5563',
-          faint: '#98a2b3',
+          DEFAULT: '#e9ecf1',
+          muted: '#9aa1ad',
+          faint: '#616a76',
         },
-        paper: '#f6f7f9',
-        surface: '#ffffff',
-        muted: '#eef1f6',
+        // Near-black page + slightly raised card/muted surfaces.
+        paper: '#08090c',
+        surface: '#0f1116',
+        muted: '#171a21',
         dark: {
-          DEFAULT: '#0a0d12',
-          surface: '#12161d',
-          border: 'rgba(255,255,255,0.07)',
+          DEFAULT: '#08090c',
+          surface: '#0f1116',
+          border: 'rgba(255,255,255,0.08)',
         },
       },
       fontFamily: {
@@ -45,13 +47,23 @@ export default {
         '4xl': '1.25rem',
       },
       boxShadow: {
-        card: '0 1px 2px rgba(13,17,23,0.05), 0 6px 20px rgba(13,17,23,0.035)',
-        'card-hover': '0 2px 8px rgba(13,17,23,0.06), 0 14px 36px rgba(13,17,23,0.06)',
-        glow: '0 0 0 1px rgba(37,99,235,0.14), 0 6px 26px rgba(37,99,235,0.14)',
+        card: '0 1px 0 rgba(255,255,255,0.02) inset, 0 8px 30px rgba(0,0,0,0.45)',
+        'card-hover': '0 1px 0 rgba(255,255,255,0.04) inset, 0 16px 44px rgba(0,0,0,0.6)',
+        glow: '0 0 0 1px rgba(45,212,191,0.22), 0 8px 34px rgba(45,212,191,0.14)',
       },
       backgroundImage: {
-        'hero-gradient': 'linear-gradient(140deg, #0a0d12 0%, #12161d 55%, #131d2e 100%)',
-        'mesh': 'radial-gradient(at 82% 18%, rgba(37,99,235,0.16) 0%, transparent 52%), radial-gradient(at 16% 84%, rgba(20,184,166,0.12) 0%, transparent 50%)',
+        'hero-gradient': 'linear-gradient(180deg, #0a0c10 0%, #08090c 100%)',
+        'mesh':
+          'radial-gradient(at 78% 12%, rgba(45,212,191,0.14) 0%, transparent 50%), radial-gradient(at 12% 88%, rgba(45,212,191,0.06) 0%, transparent 55%)',
+        // Optimus-style technical dot grid for hero / dark sections.
+        'grid-dots':
+          'radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)',
+        'grid-lines':
+          'linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px)',
+      },
+      backgroundSize: {
+        'grid-dots': '22px 22px',
+        'grid-lines': '56px 56px',
       },
     },
   },

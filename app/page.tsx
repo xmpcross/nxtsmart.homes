@@ -185,7 +185,7 @@ function Hero({
             {picks.length > 0 && (
               <div className="grid gap-3">
                 {picks.map((p) => (
-                  <PostCard key={p.id} post={p} variant="horizontal" thumbBg="bg-white/5" />
+                  <PostCard key={p.id} post={p} variant="horizontal" thumbBg="bg-white" />
                 ))}
               </div>
             )}
@@ -260,12 +260,14 @@ function SectionSets({
                 <h3 className="mt-5 font-display text-xl font-bold text-ink">{s.title}</h3>
                 <p className="mt-2 flex-1 text-sm leading-6 text-ink-muted">{s.blurb}</p>
                 {img && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={img}
-                    alt=""
-                    className="mt-5 h-32 w-full object-contain mix-blend-multiply transition duration-500 group-hover:scale-[1.03]"
-                  />
+                  <div className="mt-5 overflow-hidden rounded-2xl bg-white p-3">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={img}
+                      alt=""
+                      className="h-28 w-full object-contain mix-blend-multiply transition duration-500 group-hover:scale-[1.03]"
+                    />
+                  </div>
                 )}
                 <span className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-primary">
                   Explore
@@ -308,10 +310,10 @@ function EditorialBlock({
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeader eyebrow={eyebrow} title={title} subtitle={subtitle} viewAll={viewAll} />
         <div className="mt-12 grid gap-8 lg:grid-cols-[1.15fr_1fr]">
-          <PostCard post={feature} variant="feature" thumbBg="bg-muted/50" />
+          <PostCard post={feature} variant="feature" thumbBg="bg-white" />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
             {rest.slice(0, 4).map((p) => (
-              <PostCard key={p.id} post={p} variant="compact" thumbBg="bg-muted/50" />
+              <PostCard key={p.id} post={p} variant="compact" thumbBg="bg-white" />
             ))}
           </div>
         </div>
