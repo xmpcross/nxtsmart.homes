@@ -5,7 +5,7 @@ import { getPost, listPosts, mediaUrl, coverImageSrc, type NxtSmartPost } from '
 import { SECTIONS, SITE } from '@/lib/site';
 import { fmtDate, primaryCategorySlug, postPath } from '@/lib/format';
 import PostContent from '@/components/PostContent';
-import PostCard from '@/components/PostCard';
+import RelatedCarousel from '@/components/RelatedCarousel';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -59,8 +59,8 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
     redirect(postPath(post));
   }
 
-  const related = await listPosts({ category, pageSize: 5 })
-    .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 4))
+  const related = await listPosts({ category, pageSize: 9 })
+    .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 8))
     .catch(() => [] as NxtSmartPost[]);
 
   const cover = coverImageSrc(post);
@@ -156,11 +156,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
             <h2 className="font-display text-2xl font-bold tracking-tight text-ink">
               More in {cat?.name ?? categoryName(category)}
             </h2>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              {related.map((r) => (
-                <PostCard key={r.id} post={r} variant="tile" />
-              ))}
-            </div>
+            <RelatedCarousel posts={related} />
           </aside>
         )}
       </div>

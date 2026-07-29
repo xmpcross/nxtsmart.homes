@@ -21,19 +21,44 @@
        url('/fonts/InterVariable-Italic.woff2') format('woff2');
 }
 
+/* Self-hosted Urbanist (variable, latin) — headings. */
+@font-face {
+  font-family: 'Urbanist';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/UrbanistVariable.woff2') format('woff2-variations'),
+       url('/fonts/UrbanistVariable.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Urbanist';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/UrbanistVariable-Italic.woff2') format('woff2-variations'),
+       url('/fonts/UrbanistVariable-Italic.woff2') format('woff2');
+}
+/* Self-hosted Outfit (variable, latin; no italic exists) — body text. */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/OutfitVariable.woff2') format('woff2-variations'),
+       url('/fonts/OutfitVariable.woff2') format('woff2');
+}
+
 :root {
   color-scheme: light;
   --font-inter: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  /* Aliased so existing Tailwind `font-display` / `font-outfit` / `font-urbanist`
-     utilities all resolve to Inter without touching consumers. */
-  --font-urbanist: var(--font-inter);
-  --font-outfit: var(--font-inter);
+  --font-urbanist: 'Urbanist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-outfit: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
 html, body {
   background: theme('colors.paper');
   color: theme('colors.ink.DEFAULT');
-  font-family: var(--font-inter);
+  font-family: var(--font-outfit);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -43,12 +68,19 @@ html, body {
 h1, h2, h3, h4, h5, h6,
 .post-content h1, .post-content h2, .post-content h3,
 .post-content h4, .post-content h5, .post-content h6 {
-  font-family: var(--font-inter);
+  font-family: var(--font-urbanist);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }
 

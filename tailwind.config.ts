@@ -32,10 +32,12 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['var(--font-inter)'],
-        display: ['var(--font-inter)'],
-        urbanist: ['var(--font-inter)'],
-        outfit: ['var(--font-inter)'],
+        // Body text — Outfit; headings — Urbanist (see globals.css base rules).
+        sans: ['var(--font-outfit)'],
+        display: ['var(--font-urbanist)'],
+        urbanist: ['var(--font-urbanist)'],
+        outfit: ['var(--font-outfit)'],
+        inter: ['var(--font-inter)'],
       },
       maxWidth: {
         prose: '70ch',
