@@ -7,6 +7,8 @@ import { fmtDate, primaryCategorySlug, postPath } from '@/lib/format';
 import PostContent from '@/components/PostContent';
 import RelatedCarousel from '@/components/RelatedCarousel';
 import PostSidebar from '@/components/PostSidebar';
+import CommentsSection from '@/components/CommentsSection';
+import { fetchWpComments } from '@/lib/wp';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -60,7 +62,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
     redirect(postPath(post));
   }
 
-  const [related, categories, recent] = await Promise.all([
+  const [related, categories, recent, comments] = await Promise.all([
     listPosts({ category, pageSize: 9 })
       .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 8))
       .catch(() => [] as NxtSmartPost[]),
@@ -68,6 +70,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
     listPosts({ pageSize: 6 })
       .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 5))
       .catch(() => [] as NxtSmartPost[]),
+    post.legacyWpId ? fetchWpComments(post.legacyWpId).catch(() => []) : Promise.resolve([]),
   ]);
 
   const cover = coverImageSrc(post);
@@ -163,6 +166,8 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
               commission when you buy through links on this page, at no extra cost to you.
               Prices and availability are accurate as of {fmtDate(post.updatedAt)} and subject to change.
             </div>
+
+            <CommentsSection comments={comments} />
           </div>
 
           <div className="hidden lg:mt-8 lg:block">
