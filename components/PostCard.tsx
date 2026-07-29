@@ -7,7 +7,7 @@ type Variant = 'feature' | 'compact' | 'tile' | 'horizontal';
 export default function PostCard({
   post,
   variant = 'tile',
-  thumbBg = 'bg-white',
+  thumbBg = 'bg-muted',
 }: {
   post: NxtSmartPost;
   variant?: Variant;
@@ -56,10 +56,10 @@ export default function PostCard({
               className="aspect-[16/10] w-full object-contain mix-blend-multiply p-8 transition duration-500 group-hover:scale-[1.02]"
             />
           ) : (
-            <div className="aspect-[16/10] w-full bg-gradient-to-br from-primary-soft via-surface to-accent-soft" />
+            <div className="aspect-[16/10] w-full bg-gradient-to-br from-primary-soft via-white to-accent-soft" />
           )}
           {cat && (
-            <span className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-dark">
+            <span className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
               {cat.name}
             </span>
           )}
@@ -129,10 +129,10 @@ export default function PostCard({
             className="aspect-[4/3] w-full object-contain mix-blend-multiply p-5 transition duration-500 group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="aspect-[4/3] w-full bg-gradient-to-br from-primary-soft via-surface to-accent-soft" />
+          <div className="aspect-[4/3] w-full bg-gradient-to-br from-primary-soft via-white to-accent-soft" />
         )}
         {cat && (
-          <span className="absolute left-3 top-3 rounded-full bg-dark/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm backdrop-blur">
+          <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">
             {cat.name}
           </span>
         )}

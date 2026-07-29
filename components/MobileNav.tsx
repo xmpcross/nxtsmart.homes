@@ -12,7 +12,7 @@ export default function MobileNav({ sections }: { sections: Section[] }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-ink/10 bg-surface text-ink transition hover:border-primary/30"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-ink/10 bg-white text-ink transition hover:border-primary/30"
         aria-expanded={open}
         aria-controls="mobile-nav-panel"
         aria-label={open ? 'Close menu' : 'Open menu'}
@@ -35,7 +35,7 @@ export default function MobileNav({ sections }: { sections: Section[] }) {
       {open && (
         <div
           id="mobile-nav-panel"
-          className="absolute inset-x-0 top-full z-50 border-b border-ink/10 bg-surface/98 px-6 py-5 shadow-card backdrop-blur-lg"
+          className="absolute inset-x-0 top-full z-50 border-b border-ink/10 bg-white/98 px-6 py-5 shadow-card backdrop-blur-lg"
           data-testid="mobile-nav-panel"
         >
           <form action="/search" method="get" role="search" className="mb-5 flex h-11 items-center gap-2 rounded-xl border border-ink/10 bg-muted px-4">

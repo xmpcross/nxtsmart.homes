@@ -29,7 +29,7 @@ export default function Header() {
           action="/search"
           method="get"
           role="search"
-          className="hidden lg:flex h-10 w-full max-w-xs items-center gap-2 rounded-xl border border-ink/10 bg-muted/60 px-3.5 transition focus-within:border-primary/40 focus-within:bg-muted focus-within:shadow-glow"
+          className="hidden lg:flex h-10 w-full max-w-xs items-center gap-2 rounded-xl border border-ink/10 bg-muted/60 px-3.5 transition focus-within:border-primary/40 focus-within:bg-white focus-within:shadow-glow"
           data-testid="header-search"
         >
           <svg
@@ -94,7 +94,7 @@ export default function Header() {
                 </svg>
               </button>
               <div
-                className="invisible absolute right-0 top-full z-10 mt-2 grid w-[min(90vw,420px)] grid-cols-2 gap-1 rounded-2xl border border-ink/10 bg-surface p-2 opacity-0 shadow-card-hover transition duration-150 group-hover/all:visible group-hover/all:opacity-100 group-focus-within/all:visible group-focus-within/all:opacity-100"
+                className="invisible absolute right-0 top-full z-10 mt-2 grid w-[min(90vw,420px)] grid-cols-2 gap-1 rounded-2xl border border-ink/10 bg-white p-2 opacity-0 shadow-card-hover transition duration-150 group-hover/all:visible group-hover/all:opacity-100 group-focus-within/all:visible group-focus-within/all:opacity-100"
                 role="menu"
                 data-testid="nav-all-articles-dropdown"
               >

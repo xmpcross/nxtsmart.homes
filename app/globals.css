@@ -22,7 +22,7 @@
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   --font-inter: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   /* Aliased so existing Tailwind `font-display` / `font-outfit` / `font-urbanist`
      utilities all resolve to Inter without touching consumers. */
@@ -186,27 +186,27 @@ article[data-testid^="post-"] .post-content table th {
    (default Bootstrap blue). Override the per-button CSS variables to brand
    blue (#1556ee) without touching Bootstrap's globals. */
 .post-content .btn-primary {
-  --bs-btn-bg: #0f766e;
-  --bs-btn-border-color: #0f766e;
-  --bs-btn-hover-bg: #0d9488;
-  --bs-btn-hover-border-color: #0d9488;
-  --bs-btn-active-bg: #115e59;
-  --bs-btn-active-border-color: #115e59;
-  --bs-btn-disabled-bg: #0f766e;
-  --bs-btn-disabled-border-color: #0f766e;
+  --bs-btn-bg: #2563eb;
+  --bs-btn-border-color: #2563eb;
+  --bs-btn-hover-bg: #1d4ed8;
+  --bs-btn-hover-border-color: #1d4ed8;
+  --bs-btn-active-bg: #1e40af;
+  --bs-btn-active-border-color: #1e40af;
+  --bs-btn-disabled-bg: #2563eb;
+  --bs-btn-disabled-border-color: #2563eb;
 }
 .post-content .btn-outline-primary {
-  --bs-btn-color: #0f766e;
-  --bs-btn-border-color: #0f766e;
-  --bs-btn-hover-bg: #0f766e;
-  --bs-btn-hover-border-color: #0f766e;
-  --bs-btn-active-bg: #0f766e;
-  --bs-btn-active-border-color: #0f766e;
-  --bs-btn-disabled-color: #0f766e;
-  --bs-btn-disabled-border-color: #0f766e;
+  --bs-btn-color: #2563eb;
+  --bs-btn-border-color: #2563eb;
+  --bs-btn-hover-bg: #2563eb;
+  --bs-btn-hover-border-color: #2563eb;
+  --bs-btn-active-bg: #2563eb;
+  --bs-btn-active-border-color: #2563eb;
+  --bs-btn-disabled-color: #2563eb;
+  --bs-btn-disabled-border-color: #2563eb;
 }
 .post-content .text-bg-primary {
-  background-color: #0f766e !important;
+  background-color: #2563eb !important;
 }
 
 /* Cegg grid product card — soft elevation */
@@ -218,24 +218,24 @@ article[data-testid^="post-"] .post-content table th {
 /* Buttons inside grid cards use a darker blue (#0046be) to distinguish them
    from the side-by-side comparison-block buttons. */
 .post-content .cegg-grid-card .btn-primary {
-  --bs-btn-bg: #115e59;
-  --bs-btn-border-color: #115e59;
-  --bs-btn-hover-bg: #0f766e;
-  --bs-btn-hover-border-color: #0f766e;
-  --bs-btn-active-bg: #134e4a;
-  --bs-btn-active-border-color: #134e4a;
-  --bs-btn-disabled-bg: #115e59;
-  --bs-btn-disabled-border-color: #115e59;
+  --bs-btn-bg: #1e40af;
+  --bs-btn-border-color: #1e40af;
+  --bs-btn-hover-bg: #172e73;
+  --bs-btn-hover-border-color: #172e73;
+  --bs-btn-active-bg: #172e73;
+  --bs-btn-active-border-color: #172e73;
+  --bs-btn-disabled-bg: #1e40af;
+  --bs-btn-disabled-border-color: #1e40af;
 }
 .post-content .cegg-grid-card .btn-outline-primary {
-  --bs-btn-color: #115e59;
-  --bs-btn-border-color: #115e59;
-  --bs-btn-hover-bg: #115e59;
-  --bs-btn-hover-border-color: #115e59;
-  --bs-btn-active-bg: #115e59;
-  --bs-btn-active-border-color: #115e59;
-  --bs-btn-disabled-color: #115e59;
-  --bs-btn-disabled-border-color: #115e59;
+  --bs-btn-color: #1e40af;
+  --bs-btn-border-color: #1e40af;
+  --bs-btn-hover-bg: #1e40af;
+  --bs-btn-hover-border-color: #1e40af;
+  --bs-btn-active-bg: #1e40af;
+  --bs-btn-active-border-color: #1e40af;
+  --bs-btn-disabled-color: #1e40af;
+  --bs-btn-disabled-border-color: #1e40af;
 }
 
 /* Single post page: white surface + every border (chrome, affiliate disclosure,
@@ -243,23 +243,10 @@ article[data-testid^="post-"] .post-content table th {
    blend into the page. Scoped so it doesn't affect home/category. */
 article[data-testid^="post-"] {
   background-color: #ffffff;
-  border-radius: 1.25rem;
 }
 article[data-testid^="post-"],
 article[data-testid^="post-"] * {
   border-color: #ffffff !important;
-}
-/* The site shell is dark, but the imported article HTML ships hardcoded light
-   surfaces (accordions, tables, comparison boxes). Keep the article a clean
-   white "reader card" and force its text dark so it stays readable. */
-article[data-testid^="post-"] .post-content,
-article[data-testid^="post-"] .post-content > :where(h2, h3, h4),
-article[data-testid^="post-"] .post-content .gspb_heading {
-  color: #0d1117;
-}
-article[data-testid^="post-"] .post-content > :where(blockquote) {
-  background: #f4f5f7;
-  color: #0d1117;
 }
 
 /* Product Comparison single page: keep a subtle outline (#eeeeee) on the
@@ -322,8 +309,8 @@ article[data-testid^="post-"][data-category="product-comparisons"] * {
   font-size: 0.875rem;
   font-weight: 500;
 }
-.post-content .tmn-versus-col:nth-of-type(1) .tmn-verus-title { background: #0f766e; }
-.post-content .tmn-versus-col:nth-of-type(2) .tmn-verus-title { background: #334155; }
+.post-content .tmn-versus-col:nth-of-type(1) .tmn-verus-title { background: #2563eb; }
+.post-content .tmn-versus-col:nth-of-type(2) .tmn-verus-title { background: #0d9488; }
 
 /* Pros/cons two-column grid: when a GSPB container has two .tmn-pros children
    (Advantages + Drawbacks), lay them side-by-side. The source defines this on
@@ -429,7 +416,7 @@ article[data-testid^="post-"][data-category="product-comparisons"] * {
 /* Icon colors — distinguished by Bootstrap-Icons class names baked into the SVG */
 .post-content .gspb_iconsList__item svg.bi-check-circle path { fill: #00d084; }
 .post-content .gspb_iconsList__item svg.bi-x-circle path     { fill: #de1414; }
-.post-content .gspb_iconsList__item svg.bi-info-circle path  { fill: #0f766e; }
+.post-content .gspb_iconsList__item svg.bi-info-circle path  { fill: #2563eb; }
 .post-content .gspb_iconsList__item svg.bi-exclamation-triangle path { fill: #f59e0b; }
 
 /* GreenShift progress-bar / rating circle (the "8.4" score widget).
@@ -453,8 +440,8 @@ article[data-testid^="post-"][data-category="product-comparisons"] * {
 }
 .post-content .gspb-progressbar_circle svg path {
   stroke-width: 6px;
-  stroke: #0f766e;
-  fill: #effcf9;
+  stroke: #2563eb;
+  fill: #f2f7ff;
 }
 .post-content .gspb-progressbar_circle_value {
   font-size: 32px;
