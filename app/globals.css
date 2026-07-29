@@ -119,6 +119,74 @@ h1, h2, h3, h4, h5, h6,
   border-radius: 0 0.5rem 0.5rem 0;
   font-style: italic;
 }
+/* ------------------------------------------------------------------ */
+/* Elementor-sourced posts (restored from the original WP site). Their
+   content nests inside div.elementor wrappers, so the direct-child rules
+   above never match. Widgets used are only `container` and `text-editor`
+   (rich text), so mirroring the typography with descendant scope is safe. */
+.post-content .elementor :where(p, blockquote, hr, figure, pre) {
+  margin: 1.25rem 0;
+}
+.post-content .elementor :where(h2) {
+  font-family: theme('fontFamily.display');
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 2.5rem 0 1rem;
+  color: theme('colors.ink.DEFAULT');
+}
+.post-content .elementor :where(h3) {
+  font-family: theme('fontFamily.display');
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 2rem 0 0.75rem;
+  color: theme('colors.ink.DEFAULT');
+}
+.post-content .elementor :where(h4) {
+  font-family: theme('fontFamily.display');
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.5rem;
+}
+.post-content .elementor :where(blockquote) {
+  border-left: 4px solid theme('colors.primary.DEFAULT');
+  padding: 0.5rem 1rem;
+  background: theme('colors.muted');
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+}
+.post-content .elementor :where(img) {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  margin: 1.5rem auto;
+}
+.post-content .elementor :where(img.aligncenter, .aligncenter img) {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* YouTube and other embeds: fill the column at 16:9 */
+.post-content .elementor :where(iframe) {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+  border-radius: 0.75rem;
+  margin: 1.5rem auto;
+}
+/* Breathing room between stacked text-editor widgets */
+.post-content .elementor .elementor-widget + .elementor-widget {
+  margin-top: 1rem;
+}
+/* The article shell forces descendant border-color to white; keep the
+   blockquote's brand accent visible despite it. */
+article[data-testid^="post-"] .post-content .elementor :where(blockquote) {
+  border-left-color: theme('colors.primary.DEFAULT') !important;
+}
+
 .post-content :where(a:not(.gspb_row a, .gspb_col a, [class*="gspb_"] a)) {
   color: theme('colors.primary.DEFAULT');
   text-decoration: none;
