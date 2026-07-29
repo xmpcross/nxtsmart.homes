@@ -26,63 +26,84 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   const pageCount = res?.meta?.pagination?.pageCount ?? 1;
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-12" data-testid="search-page">
-      <header>
-        <p className="text-xs font-bold uppercase tracking-wider text-primary">Search</p>
-        <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-          {query ? <>Results for “{query}”</> : 'Search'}
-        </h1>
+    <div data-testid="search-page">
+      <section className="border-b border-ink/8 bg-gradient-to-br from-primary-soft/40 via-paper to-accent-soft/30">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16">
+          <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary">Search</p>
+          <h1 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+            {query ? <>Results for &ldquo;{query}&rdquo;</> : 'Search the archive'}
+          </h1>
 
-        <form action="/search" method="get" className="mt-6 flex h-12 max-w-xl items-center gap-2 rounded-full border border-ink/15 bg-white px-5 transition focus-within:border-primary">
-          <input
-            type="search"
-            name="q"
-            defaultValue={query}
-            placeholder="Search products, brands, guides…"
-            className="h-full w-full bg-transparent text-base text-ink outline-none placeholder:text-ink/45"
-            aria-label="Search"
-          />
-          <button type="submit" className="text-sm font-bold uppercase tracking-wider text-primary">
-            Search
-          </button>
-        </form>
+          <form
+            action="/search"
+            method="get"
+            className="mt-8 flex h-14 max-w-2xl items-center gap-2 rounded-2xl border border-ink/10 bg-white px-5 shadow-card transition focus-within:border-primary/30 focus-within:shadow-glow"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-5 w-5 shrink-0 text-ink-faint" aria-hidden>
+              <circle cx="11" cy="11" r="7" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+            <input
+              type="search"
+              name="q"
+              defaultValue={query}
+              placeholder="Search products, brands, guides…"
+              className="h-full w-full bg-transparent text-base text-ink outline-none placeholder:text-ink-faint"
+              aria-label="Search"
+            />
+            <button type="submit" className="shrink-0 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-white transition hover:bg-primary-emphasis">
+              Search
+            </button>
+          </form>
 
-        {query && (
-          <p className="mt-4 text-sm text-ink/55">
-            {total === 0 ? 'No results' : `${total} result${total === 1 ? '' : 's'}`}
-          </p>
-        )}
-      </header>
-
-      {posts.length > 0 && (
-        <div className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((p) => (
-            <PostCard key={p.id} post={p} variant="tile" />
-          ))}
+          {query && (
+            <p className="mt-4 text-sm text-ink-faint">
+              {total === 0 ? 'No results found' : `${total} result${total === 1 ? '' : 's'}`}
+            </p>
+          )}
         </div>
-      )}
+      </section>
 
-      {pageCount > 1 && (
-        <nav className="mt-12 flex items-center justify-center gap-3 text-sm">
-          {page > 1 && (
-            <Link
-              href={`/search?q=${encodeURIComponent(query)}${page - 1 > 1 ? `&page=${page - 1}` : ''}`}
-              className="inline-flex items-center rounded-full border border-ink/15 px-4 py-2 font-medium text-ink transition hover:border-primary hover:text-primary"
-            >
-              ← Previous
-            </Link>
-          )}
-          <span className="text-ink/55">Page {page} of {pageCount}</span>
-          {page < pageCount && (
-            <Link
-              href={`/search?q=${encodeURIComponent(query)}&page=${page + 1}`}
-              className="inline-flex items-center rounded-full border border-ink/15 px-4 py-2 font-medium text-ink transition hover:border-primary hover:text-primary"
-            >
-              Next →
-            </Link>
-          )}
-        </nav>
-      )}
-    </section>
+      <section className="mx-auto max-w-7xl px-5 py-12 sm:px-6">
+        {posts.length > 0 ? (
+          <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.map((p) => (
+              <PostCard key={p.id} post={p} variant="tile" />
+            ))}
+          </div>
+        ) : query ? (
+          <div className="rounded-4xl border border-dashed border-ink/15 bg-muted/40 px-6 py-20 text-center">
+            <p className="font-display text-xl font-bold text-ink">No matches</p>
+            <p className="mt-2 text-sm text-ink-muted">Try different keywords or browse a category from the home page.</p>
+          </div>
+        ) : (
+          <div className="rounded-4xl border border-ink/8 bg-surface p-8 text-center shadow-card">
+            <p className="text-ink-muted">Enter a search term above to find comparisons, reviews, and guides.</p>
+          </div>
+        )}
+
+        {pageCount > 1 && (
+          <nav className="mt-14 flex items-center justify-center gap-3 text-sm">
+            {page > 1 && (
+              <Link
+                href={`/search?q=${encodeURIComponent(query)}${page - 1 > 1 ? `&page=${page - 1}` : ''}`}
+                className="inline-flex items-center rounded-xl border border-ink/12 bg-white px-4 py-2.5 font-semibold text-ink transition hover:border-primary hover:text-primary"
+              >
+                ← Previous
+              </Link>
+            )}
+            <span className="rounded-full bg-muted px-4 py-2 text-ink-muted">Page {page} of {pageCount}</span>
+            {page < pageCount && (
+              <Link
+                href={`/search?q=${encodeURIComponent(query)}&page=${page + 1}`}
+                className="inline-flex items-center rounded-xl border border-ink/12 bg-white px-4 py-2.5 font-semibold text-ink transition hover:border-primary hover:text-primary"
+              >
+                Next →
+              </Link>
+            )}
+          </nav>
+        )}
+      </section>
+    </div>
   );
 }

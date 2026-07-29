@@ -53,14 +53,12 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
   const post = await getPost(slug).catch(() => null);
   if (!post) notFound();
 
-  // If the URL category doesn't match the post's primary category, send them to the canonical URL.
   const canonicalCat = primaryCategorySlug(post);
   if (canonicalCat !== category) {
     const { redirect } = await import('next/navigation');
     redirect(postPath(post));
   }
 
-  // Pull a few related posts from the same category, excluding this one.
   const related = await listPosts({ category, pageSize: 5 })
     .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 4))
     .catch(() => [] as NxtSmartPost[]);
@@ -86,13 +84,11 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
 
   return (
     <article
-      className="mx-auto max-w-7xl px-6 py-12"
+      className="pb-16"
       data-testid={`post-${post.slug}`}
       data-category={category}
       data-post-type={post.postType}
     >
-      {/* Vendor stylesheets used by the imported product-comparison blocks
-          (Content Egg + scoped Bootstrap). Only loaded on post pages. */}
       <link rel="stylesheet" href="/vendor/cegg-bootstrap.min.css" />
       <link rel="stylesheet" href="/vendor/cegg-products.min.css" />
       <script
@@ -100,58 +96,74 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
-      <nav className="flex items-center gap-2 text-xs text-ink/55" data-testid="breadcrumb" aria-label="Breadcrumb">
-        <Link href="/" className="shrink-0 hover:text-primary">Home</Link>
-        <span className="shrink-0">/</span>
-        <Link href={`/${category}`} className="shrink-0 hover:text-primary">
-          {cat?.name ?? categoryName(category)}
-        </Link>
-        <span className="shrink-0">/</span>
-        <span className="min-w-0 truncate text-ink/75" aria-current="page">{post.title}</span>
-      </nav>
+      <header className="border-b border-ink/8 bg-paper">
+        <div className="mx-auto max-w-4xl px-5 py-10 sm:px-6 sm:py-14">
+          <nav className="flex items-center gap-2 text-xs text-ink-faint" data-testid="breadcrumb" aria-label="Breadcrumb">
+            <Link href="/" className="shrink-0 hover:text-primary">Home</Link>
+            <span className="shrink-0">/</span>
+            <Link href={`/${category}`} className="shrink-0 hover:text-primary">
+              {cat?.name ?? categoryName(category)}
+            </Link>
+            <span className="shrink-0">/</span>
+            <span className="min-w-0 truncate text-ink-muted" aria-current="page">{post.title}</span>
+          </nav>
 
-      <header className="mt-4">
-        {cat && (
-          <p className="text-xs font-bold uppercase tracking-wider text-primary">{cat.name}</p>
-        )}
-        <h1 className="mt-3 font-display text-[2rem] font-bold leading-tight tracking-tight text-ink">
-          {post.title}
-        </h1>
-        <p className="mt-4 text-sm text-ink/55">
-          Published {fmtDate(post.publishedAt)}
-          {post.readingTimeMinutes ? ` · ${post.readingTimeMinutes} min read` : ''}
-        </p>
+          {cat && (
+            <Link
+              href={`/${category}`}
+              className="mt-6 inline-flex rounded-full bg-primary-soft px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary"
+            >
+              {cat.name}
+            </Link>
+          )}
+          <h1 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl lg:text-[2.5rem]">
+            {post.title}
+          </h1>
+          <p className="mt-5 flex flex-wrap items-center gap-3 text-sm text-ink-faint">
+            <span>Published {fmtDate(post.publishedAt)}</span>
+            {post.readingTimeMinutes ? (
+              <>
+                <span className="h-1 w-1 rounded-full bg-ink-faint" aria-hidden />
+                <span>{post.readingTimeMinutes} min read</span>
+              </>
+            ) : null}
+          </p>
+        </div>
       </header>
 
-      {cover && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={cover}
-          alt={post.coverImage?.alternativeText || post.title}
-          className="mt-8 aspect-[16/9] w-full rounded-3xl object-cover"
-        />
-      )}
+      <div className="mx-auto max-w-4xl px-5 sm:px-6">
+        {cover && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={cover}
+            alt={post.coverImage?.alternativeText || post.title}
+            className="mt-8 aspect-[16/9] w-full rounded-4xl border border-ink/8 object-cover shadow-card"
+          />
+        )}
 
-      <div className="mt-10">
-        <PostContent html={post.content} />
+        <div className="mt-10 rounded-4xl border border-ink/8 bg-surface p-6 sm:p-10 lg:p-12">
+          <PostContent html={post.content} />
+        </div>
+
+        <div className="mt-8 rounded-2xl border border-amber-200/80 bg-amber-50/80 p-5 text-xs leading-6 text-ink-muted">
+          <strong className="text-ink">Affiliate disclosure.</strong> {SITE.name} earns a
+          commission when you buy through links on this page, at no extra cost to you.
+          Prices and availability are accurate as of {fmtDate(post.updatedAt)} and subject to change.
+        </div>
+
+        {related.length > 0 && (
+          <aside className="mt-16 border-t border-ink/8 pt-12">
+            <h2 className="font-display text-2xl font-bold tracking-tight text-ink">
+              More in {cat?.name ?? categoryName(category)}
+            </h2>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2">
+              {related.map((r) => (
+                <PostCard key={r.id} post={r} variant="tile" />
+              ))}
+            </div>
+          </aside>
+        )}
       </div>
-
-      <div className="mt-12 rounded-2xl border border-ink/10 bg-muted/40 p-5 text-xs leading-5 text-ink/60">
-        <strong className="text-ink/80">Affiliate disclosure.</strong> {SITE.name} earns a
-        commission when you buy through links on this page, at no extra cost to you.
-        Prices and availability are accurate as of {fmtDate(post.updatedAt)} and subject to change.
-      </div>
-
-      {related.length > 0 && (
-        <aside className="mt-16">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-ink">More in {cat?.name ?? categoryName(category)}</h2>
-          <div className="mt-6 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {related.map((r) => (
-              <PostCard key={r.id} post={r} variant="tile" />
-            ))}
-          </div>
-        </aside>
-      )}
     </article>
   );
 }

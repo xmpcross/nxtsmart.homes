@@ -9,60 +9,57 @@ export const metadata: Metadata = {
   alternates: { canonical: '/contact' },
 };
 
-const CONTACT_EMAIL = 'hello@nxtsmart.homes';
-
 export default function ContactPage() {
   return (
     <div data-testid="contact-page">
-      <section className="bg-paper">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:py-24">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Contact</p>
-          <h1 className="mt-4 font-display font-bold leading-[1.05] tracking-tight text-ink">
-            Get in touch.
+      <section className="border-b border-ink/8 bg-gradient-to-br from-primary-soft/40 via-paper to-accent-soft/30">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16">
+          <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary">Contact</p>
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+            Get in touch
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-7 text-ink/70 sm:text-lg">
-            Story tips, partnership questions, corrections, or just hello — we read everything that
-            comes through. Pick the channel that fits.
+          <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted sm:text-lg">
+            Story tips, partnership questions, corrections, or just hello — we read everything that comes through.
           </p>
         </div>
       </section>
 
-      <section className="bg-paper py-16 sm:py-20">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
+      <section className="py-16 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Send a message</p>
-            <h2 className="mt-3 font-display font-bold tracking-tight text-ink">
-              Tell us what’s on your mind.
+            <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary">Send a message</p>
+            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+              Tell us what&apos;s on your mind
             </h2>
-            <p className="mt-4 text-base leading-7 text-ink/70">
-              Fill in the form and we’ll get back to you. Submitting opens your default email client
+            <p className="mt-4 text-base leading-7 text-ink-muted">
+              Fill in the form and we&apos;ll get back to you. Submitting opens your default email client
               with the message pre-filled — no data is sent to a server.
             </p>
-            <p className="mt-6 text-sm text-ink/55">
+            <p className="mt-6 text-sm text-ink-faint">
               Prefer email?{' '}
-              <a href="mailto:hello@nxtsmart.homes" className="font-medium text-primary hover:underline">
+              <a href="mailto:hello@nxtsmart.homes" className="font-semibold text-primary hover:underline">
                 hello@nxtsmart.homes
               </a>
             </p>
           </div>
-          <div className="rounded-3xl border border-ink/10 bg-white p-6 sm:p-10">
+          <div className="rounded-4xl border border-ink/8 bg-surface p-6 shadow-card sm:p-10">
             <ContactForm />
           </div>
         </div>
 
-        <div className="mx-auto mt-16 max-w-3xl px-6 text-center">
-          <h2 className="font-display font-bold tracking-tight text-ink">Looking for something specific?</h2>
-          <p className="mx-auto mt-3 max-w-xl text-base leading-7 text-ink/70">
+        <div className="mx-auto mt-16 max-w-3xl px-5 text-center sm:px-6">
+          <h2 className="font-display text-2xl font-bold tracking-tight text-ink">Looking for something specific?</h2>
+          <p className="mx-auto mt-3 max-w-xl text-base leading-7 text-ink-muted">
             Browse the full archive or jump to a section.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Link href="/" className="inline-flex items-center rounded-full bg-primary px-5 py-2.5 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-primary-emphasis">
+            <Link href="/" className="inline-flex items-center rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-white transition hover:bg-primary-emphasis">
               Home
             </Link>
-            <Link href="/sitemap" className="inline-flex items-center rounded-full border border-ink/15 px-5 py-2.5 font-display text-sm font-bold uppercase tracking-wider text-ink transition hover:border-primary hover:text-primary">
+            <Link href="/sitemap" className="inline-flex items-center rounded-xl border border-ink/12 bg-white px-5 py-2.5 text-sm font-bold text-ink transition hover:border-primary hover:text-primary">
               Site map
             </Link>
-            <Link href="/about" className="inline-flex items-center rounded-full border border-ink/15 px-5 py-2.5 font-display text-sm font-bold uppercase tracking-wider text-ink transition hover:border-primary hover:text-primary">
+            <Link href="/about" className="inline-flex items-center rounded-xl border border-ink/12 bg-white px-5 py-2.5 text-sm font-bold text-ink transition hover:border-primary hover:text-primary">
               About us
             </Link>
           </div>

@@ -86,13 +86,13 @@ export default function ContactForm() {
       <div className="flex flex-wrap items-center gap-4">
         <button
           type="submit"
-          className="inline-flex items-center rounded-full bg-primary px-6 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-primary-emphasis disabled:opacity-50"
+          className="inline-flex items-center rounded-xl bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-primary-emphasis disabled:opacity-50"
           disabled={!name || !email || !message}
         >
           Send message
         </button>
         {opened && (
-          <p className="text-sm text-ink/65" role="status">
+          <p className="text-sm text-ink-muted" role="status">
             Opening your email client… If nothing happens, write to{' '}
             <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-primary hover:underline">
               {CONTACT_EMAIL}
@@ -110,7 +110,7 @@ export default function ContactForm() {
 }
 
 const inputClass =
-  'block w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-base text-ink placeholder:text-ink/40 transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20';
+  'block w-full rounded-xl border border-ink/10 bg-muted/40 px-4 py-3 text-base text-ink placeholder:text-ink-faint transition focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/15';
 
 function Field({
   label,

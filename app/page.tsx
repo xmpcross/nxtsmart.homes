@@ -1,13 +1,27 @@
 import Link from 'next/link';
 import { listPosts, type NxtSmartPost } from '@/lib/strapi';
 import { SECTIONS, SITE } from '@/lib/site';
-import { fmtDate, firstImageUrl, postPath, primaryCategorySlug } from '@/lib/format';
+import { fmtDate, firstImageUrl, postPath } from '@/lib/format';
 import PostCard from '@/components/PostCard';
+import SectionHeader from '@/components/SectionHeader';
 
 export const revalidate = 60;
 
+const CATEGORY_ICONS: Record<string, string> = {
+  'smart-home-automation': '⚡',
+  'smart-home-security': '🔒',
+  'smart-home-devices': '📱',
+  'smart-home-entertainment': '📺',
+  'smart-home-energy': '🔋',
+  'smart-home-integration': '🔗',
+  'product-reviews': '⭐',
+  'product-comparisons': '⚖️',
+  'how-to-guides': '📖',
+  'top-rated': '🏆',
+  'informative-articles': '💡',
+};
+
 export default async function HomePage() {
-  // Fetch each section's recent posts in parallel
   const perSection = await Promise.all(
     SECTIONS.map((s) =>
       listPosts({ category: s.slug, pageSize: 8 })
@@ -19,7 +33,6 @@ export default async function HomePage() {
     SECTIONS.map((s, i) => [s.slug, perSection[i]]),
   );
 
-  // De-duped latest across all categories (for the hero collage)
   const latest: NxtSmartPost[] = [];
   const seen = new Set<number>();
   for (const post of perSection
@@ -32,7 +45,7 @@ export default async function HomePage() {
 
   const comparisons = bySection['product-comparisons'] ?? [];
   const reviews = bySection['product-reviews'] ?? [];
-  const roundups = bySection['product-roundups'] ?? [];
+  const roundups = bySection['top-rated'] ?? bySection['product-roundups'] ?? [];
   const guides = bySection['how-to-guides'] ?? [];
 
   const websiteJsonLd = {
@@ -55,134 +68,174 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
 
-      <Hero latest={latest} />
+      <Hero featured={latest[0]} picks={latest.slice(1, 4)} />
+      <CategoryStrip />
       <SectionSets sections={SECTIONS} bySection={bySection} />
-      {comparisons.length > 0 && <PopularBlock title="Latest Head-to-Heads" subtitle="Side-by-side product showdowns." viewAll="/product-comparisons" posts={comparisons.slice(0, 6)} />}
-      {reviews.length > 0 && <PopularBlock title="Most-Read Reviews" subtitle="Hands-on takes from the team." viewAll="/product-reviews" posts={reviews.slice(0, 6)} accent />}
-      {roundups.length > 0 && <RoundupsList posts={roundups.slice(0, 4)} />}
-      {guides.length > 0 && <GuidesStrip posts={guides.slice(0, 8)} />}
+      {comparisons.length > 0 && (
+        <EditorialBlock
+          eyebrow="Head-to-head"
+          title="Latest comparisons"
+          subtitle="Side-by-side breakdowns so you can pick the right product in minutes."
+          viewAll="/product-comparisons"
+          posts={comparisons.slice(0, 5)}
+          testId="popular-product-comparisons"
+        />
+      )}
+      {reviews.length > 0 && (
+        <EditorialBlock
+          eyebrow="Hands-on"
+          title="Most-read reviews"
+          subtitle="What works, what doesn't, and what's worth the money."
+          viewAll="/product-reviews"
+          posts={reviews.slice(0, 5)}
+          muted
+          testId="popular-product-reviews"
+        />
+      )}
+      {guides.length > 0 && <GuidesStrip posts={guides.slice(0, 4)} />}
       <HowWeWork />
-      <FooterCTA />
+      <NewsletterCTA />
     </div>
   );
 }
 
-/* ---------- HERO ---------- */
+function Hero({
+  featured,
+  picks,
+}: {
+  featured?: NxtSmartPost;
+  picks: NxtSmartPost[];
+}) {
+  const featuredImg = featured ? (firstImageUrl(featured.content) ?? '') : '';
+  const featuredCat = featured?.categories?.[0];
 
-function Hero({ latest }: { latest: NxtSmartPost[] }) {
-  const featured = latest.slice(0, 4);
   return (
-    <section className="relative overflow-hidden bg-[#101d27] text-white" data-testid="home-hero">
-      <div className="absolute inset-0 -z-0 opacity-[0.04]" aria-hidden>
-        <div className="h-full w-full bg-[radial-gradient(ellipse_at_top_right,_white_0%,_transparent_60%)]" />
-      </div>
-      <div className="relative mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-28">
-        <div className="flex flex-col justify-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary/90">Smart picks · Honest reviews</p>
-          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
-            The best gadgets,<br />
-            <span className="text-primary">side&#8209;by&#8209;side.</span>
-          </h1>
-          <p className="mt-6 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
-            Comparisons, hands-on reviews and best-of roundups for the tech and smart-home gear people are actually shopping for.
-          </p>
-          <form
-            action="/search"
-            method="get"
-            role="search"
-            className="mt-8 flex h-14 max-w-lg items-center gap-2 rounded-full bg-white pl-6 pr-2 shadow-lg shadow-black/20"
-            data-testid="hero-search"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-5 w-5 shrink-0 text-ink/40"
-              aria-hidden
+    <section className="relative overflow-hidden bg-hero-gradient text-white" data-testid="home-hero">
+      <div className="absolute inset-0 bg-mesh opacity-80" aria-hidden />
+      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:py-24">
+        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-accent">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
+              Smart home · Honest reviews
+            </p>
+            <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-[3.25rem]">
+              Make your home smarter,{' '}
+              <span className="bg-gradient-to-r from-white via-white to-accent bg-clip-text text-transparent">
+                one decision at a time.
+              </span>
+            </h1>
+            <p className="mt-6 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
+              {SITE.description}
+            </p>
+
+            <form
+              action="/search"
+              method="get"
+              role="search"
+              className="mt-8 flex h-14 max-w-lg items-center gap-2 rounded-2xl border border-white/10 bg-white/95 pl-5 pr-2 shadow-glow backdrop-blur"
+              data-testid="hero-search"
             >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-            <input
-              type="search"
-              name="q"
-              placeholder="Search products, brands, guides…"
-              className="h-full w-full bg-transparent text-base text-ink outline-none placeholder:text-ink/45"
-              aria-label="Search"
-            />
-            <button
-              type="submit"
-              className="h-10 shrink-0 rounded-full bg-primary px-5 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-primary-emphasis"
-            >
-              Search
-            </button>
-          </form>
-          <div className="mt-8 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/55">
-            <span>Browse:</span>
-            {SECTIONS.slice(0, 3).map((s) => (
-              <Link
-                key={s.slug}
-                href={`/${s.slug}`}
-                className="rounded-full border border-white/15 px-3 py-1.5 text-white/85 transition hover:border-primary hover:text-white"
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-5 w-5 shrink-0 text-ink-faint" aria-hidden>
+                <circle cx="11" cy="11" r="7" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              <input
+                type="search"
+                name="q"
+                placeholder="Search products, brands, guides…"
+                className="h-full w-full bg-transparent text-base text-ink outline-none placeholder:text-ink-faint"
+                aria-label="Search"
+              />
+              <button
+                type="submit"
+                className="h-10 shrink-0 rounded-xl bg-primary px-5 text-sm font-bold text-white transition hover:bg-primary-emphasis"
               >
-                {s.title}
+                Search
+              </button>
+            </form>
+
+            <div className="mt-8 flex flex-wrap gap-2">
+              {SECTIONS.slice(0, 4).map((s) => (
+                <Link
+                  key={s.slug}
+                  href={`/${s.slug}`}
+                  className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-xs font-semibold text-white/85 transition hover:border-accent/40 hover:bg-white/10"
+                >
+                  {s.short}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {featured && (
+              <Link
+                href={postPath(featured)}
+                className="group block overflow-hidden rounded-4xl border border-white/10 bg-dark-surface shadow-card-hover transition hover:border-accent/30"
+              >
+                <div className="relative aspect-[16/10] bg-white/5">
+                  {featuredImg ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={featuredImg}
+                      alt={featured.title}
+                      className="h-full w-full object-contain p-8 transition duration-500 group-hover:scale-[1.02]"
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-gradient-to-br from-primary/30 to-accent/20" />
+                  )}
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-dark via-dark/80 to-transparent p-5">
+                    {featuredCat && (
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-accent">{featuredCat.name}</p>
+                    )}
+                    <p className="mt-1 line-clamp-2 font-display text-lg font-bold text-white">{featured.title}</p>
+                    <p className="mt-2 text-xs text-white/55">{fmtDate(featured.publishedAt)}</p>
+                  </div>
+                </div>
               </Link>
-            ))}
+            )}
+            {picks.length > 0 && (
+              <div className="grid gap-3">
+                {picks.map((p) => (
+                  <PostCard key={p.id} post={p} variant="horizontal" thumbBg="bg-white/5" />
+                ))}
+              </div>
+            )}
           </div>
         </div>
-
-        {featured.length > 0 && (
-          <div className="relative">
-            <HeroCollage posts={featured} />
-          </div>
-        )}
       </div>
     </section>
   );
 }
 
-function HeroCollage({ posts }: { posts: NxtSmartPost[] }) {
-  const tiles = posts.slice(0, 4);
+function CategoryStrip() {
+  const quickLinks = [
+    { slug: 'product-comparisons', label: 'Comparisons' },
+    { slug: 'product-reviews', label: 'Reviews' },
+    { slug: 'how-to-guides', label: 'How-to' },
+    { slug: 'smart-home-security', label: 'Security' },
+    { slug: 'smart-home-devices', label: 'Devices' },
+    { slug: 'smart-home-energy', label: 'Energy' },
+  ];
+
   return (
-    <div className="relative grid grid-cols-2 gap-4" data-testid="hero-collage">
-      {tiles.map((p, i) => {
-        const img = firstImageUrl(p.content) ?? '';
-        const cat = p.categories?.[0];
-        const isLarge = i === 0;
-        return (
+    <section className="border-b border-ink/8 bg-surface" data-testid="category-strip">
+      <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-5 py-4 sm:px-6">
+        {quickLinks.map((item) => (
           <Link
-            key={p.id}
-            href={postPath(p)}
-            className={`group relative overflow-hidden rounded-3xl bg-white/5 ring-1 ring-white/10 ${isLarge ? 'col-span-2 row-span-2 aspect-[16/10]' : 'aspect-square'}`}
+            key={item.slug}
+            href={`/${item.slug}`}
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-ink/10 bg-muted/50 px-4 py-2 text-sm font-semibold text-ink-muted transition hover:border-primary/25 hover:bg-primary-soft hover:text-primary"
           >
-            {img ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={img}
-                alt={p.title}
-                className="h-full w-full object-contain mix-blend-multiply p-6 transition duration-500 group-hover:scale-[1.03]"
-              />
-            ) : (
-              <div className="h-full w-full bg-gradient-to-br from-primary-hover to-primary" />
-            )}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3">
-              {cat && <p className="text-[10px] font-bold uppercase tracking-wider text-primary/90">{cat.name}</p>}
-              <p className={`mt-1 line-clamp-2 font-display font-bold text-white ${isLarge ? 'text-base' : 'text-xs'}`}>
-                {p.title}
-              </p>
-            </div>
+            <span aria-hidden>{CATEGORY_ICONS[item.slug] ?? '→'}</span>
+            {item.label}
           </Link>
-        );
-      })}
-    </div>
+        ))}
+      </div>
+    </section>
   );
 }
-
-/* ---------- SECTION SETS — like flowers' "Flower Sets" ---------- */
 
 function SectionSets({
   sections,
@@ -192,14 +245,14 @@ function SectionSets({
   bySection: Record<string, NxtSmartPost[]>;
 }) {
   return (
-    <section className="bg-white py-16 sm:py-20" data-testid="section-sets">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="bg-paper py-16 sm:py-20" data-testid="section-sets">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeader
-          eyebrow="Browse by type"
-          title="Pick your reading."
-          subtitle="Six editorial formats — from quick comparisons to deep how-tos."
+          eyebrow="Browse by topic"
+          title="Everything smart home, organized."
+          subtitle="Six editorial formats and six smart-home topics — pick where you want to start."
         />
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {sections.map((s) => {
             const count = bySection[s.slug]?.length ?? 0;
             const cover = bySection[s.slug]?.[0];
@@ -208,37 +261,28 @@ function SectionSets({
               <Link
                 key={s.slug}
                 href={`/${s.slug}`}
-                className="group relative flex flex-col overflow-hidden rounded-3xl bg-muted p-6 transition hover:bg-primary-hover/40"
+                className="group flex flex-col overflow-hidden rounded-4xl border border-ink/8 bg-surface p-6 shadow-card transition hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-card-hover"
                 data-testid={`set-${s.slug}`}
               >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-display text-xl font-bold text-ink">{s.title}</h3>
-                    <p className="mt-2 max-w-sm text-sm leading-6 text-ink/65">{s.blurb}</p>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-lg" aria-hidden>
+                    {CATEGORY_ICONS[s.slug] ?? '📄'}
                   </div>
-                  <div className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-bold text-primary">{count}+</div>
+                  <span className="rounded-full bg-muted px-3 py-1 text-xs font-bold text-ink-muted">{count}+</span>
                 </div>
+                <h3 className="mt-5 font-display text-xl font-bold text-ink">{s.title}</h3>
+                <p className="mt-2 flex-1 text-sm leading-6 text-ink-muted">{s.blurb}</p>
                 {img && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={img}
                     alt=""
-                    className="mt-6 h-40 w-full object-contain mix-blend-multiply transition duration-500 group-hover:scale-[1.05]"
+                    className="mt-5 h-32 w-full object-contain mix-blend-multiply transition duration-500 group-hover:scale-[1.03]"
                   />
                 )}
-                <span className="mt-6 inline-flex items-center gap-1 font-display text-sm font-bold uppercase tracking-wider text-primary">
+                <span className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-primary">
                   Explore
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-4 w-4 transition group-hover:translate-x-0.5"
-                    aria-hidden
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden>
                     <path d="M5 12h14" />
                     <polyline points="13 6 19 12 13 18" />
                   </svg>
@@ -252,31 +296,35 @@ function SectionSets({
   );
 }
 
-/* ---------- "Popular Products" — feature + 5 grid ---------- */
-
-function PopularBlock({
+function EditorialBlock({
+  eyebrow,
   title,
   subtitle,
   viewAll,
   posts,
-  accent = false,
+  muted = false,
+  testId,
 }: {
+  eyebrow: string;
   title: string;
   subtitle: string;
   viewAll: string;
   posts: NxtSmartPost[];
-  accent?: boolean;
+  muted?: boolean;
+  testId: string;
 }) {
   const [feature, ...rest] = posts;
+  if (!feature) return null;
+
   return (
-    <section className={accent ? 'bg-muted py-16 sm:py-20' : 'py-16 sm:py-20'} data-testid={`popular-${primaryCategorySlug(feature)}`}>
-      <div className="mx-auto max-w-7xl px-6">
-        <SectionHeader eyebrow="Editor’s pick" title={title} subtitle={subtitle} viewAll={viewAll} />
-        <div className="mt-12 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
-          <PostCard post={feature} variant="feature" thumbBg="bg-white" />
-          <div className="grid gap-6 sm:grid-cols-2">
+    <section className={muted ? 'bg-muted/60 py-16 sm:py-20' : 'bg-surface py-16 sm:py-20'} data-testid={testId}>
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
+        <SectionHeader eyebrow={eyebrow} title={title} subtitle={subtitle} viewAll={viewAll} />
+        <div className="mt-12 grid gap-8 lg:grid-cols-[1.15fr_1fr]">
+          <PostCard post={feature} variant="feature" thumbBg="bg-muted/50" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
             {rest.slice(0, 4).map((p) => (
-              <PostCard key={p.id} post={p} variant="tile" thumbBg="bg-white" />
+              <PostCard key={p.id} post={p} variant="compact" thumbBg="bg-muted/50" />
             ))}
           </div>
         </div>
@@ -285,76 +333,18 @@ function PopularBlock({
   );
 }
 
-/* ---------- ROUNDUPS — wide list ---------- */
-
-function RoundupsList({ posts }: { posts: NxtSmartPost[] }) {
-  return (
-    <section className="bg-white py-16 sm:py-20" data-testid="popular-roundups">
-      <div className="mx-auto max-w-7xl px-6">
-        <SectionHeader
-          eyebrow="Best of the lists"
-          title="Curated roundups."
-          subtitle="The shortlists worth bookmarking."
-          viewAll="/product-roundups"
-        />
-        <ul className="mt-10 divide-y divide-ink/10 border-y border-ink/10">
-          {posts.map((p, i) => {
-            const img = firstImageUrl(p.content);
-            return (
-              <li key={p.id} className="group">
-                <Link
-                  href={postPath(p)}
-                  className="grid grid-cols-[auto_120px_minmax(0,1fr)_auto] items-center gap-6 py-6"
-                >
-                  <span className="font-display text-2xl font-bold text-ink/30 sm:text-3xl">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <div className="overflow-hidden rounded-2xl bg-muted">
-                    {img ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={img} alt="" className="aspect-square w-full object-contain mix-blend-multiply p-3" />
-                    ) : (
-                      <div className="aspect-square bg-gradient-to-br from-primary-hover to-primary" />
-                    )}
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="font-display text-lg font-bold leading-tight text-ink transition group-hover:text-primary sm:text-xl">
-                      {p.title}
-                    </h3>
-                    {p.excerpt && (
-                      <p className="mt-1 line-clamp-2 text-sm text-ink/65">{p.excerpt}</p>
-                    )}
-                    <p className="mt-2 text-xs text-ink/45">
-                      {fmtDate(p.publishedAt)} · {p.readingTimeMinutes ?? 5} min read
-                    </p>
-                  </div>
-                  <span className="hidden shrink-0 self-center rounded-full border border-ink/15 px-4 py-2 text-xs font-bold uppercase tracking-wider text-ink transition group-hover:border-primary group-hover:text-primary sm:inline-flex">
-                    Read
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- HOW-TO STRIP ---------- */
-
 function GuidesStrip({ posts }: { posts: NxtSmartPost[] }) {
   return (
-    <section className="bg-muted py-16 sm:py-20" data-testid="popular-guides">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="bg-paper py-16 sm:py-20" data-testid="popular-guides">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeader
-          eyebrow="How to"
-          title="Get the most out of your gear."
-          subtitle="Walkthroughs, setup guides and troubleshooting."
+          eyebrow="How-to"
+          title="Setup guides & walkthroughs"
+          subtitle="Step-by-step help for getting more from your smart home gear."
           viewAll="/how-to-guides"
         />
-        <div className="mt-10 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {posts.slice(0, 4).map((p) => (
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {posts.map((p) => (
             <PostCard key={p.id} post={p} variant="tile" />
           ))}
         </div>
@@ -363,43 +353,45 @@ function GuidesStrip({ posts }: { posts: NxtSmartPost[] }) {
   );
 }
 
-/* ---------- HOW WE CHOOSE — process explainer ---------- */
-
 function HowWeWork() {
   const steps = [
     {
       n: '01',
       title: 'We track real demand',
-      body: 'We pick categories from what people are actually shopping for — not what brands want to sell.',
+      body: 'Categories come from what people are actually shopping for — not what brands want to push.',
     },
     {
       n: '02',
       title: 'Side-by-side, fact-first',
-      body: 'Specs, prices, scores. The trade-offs are explicit so you can decide in minutes.',
+      body: 'Specs, prices, and scores laid out clearly so you can decide in minutes.',
     },
     {
       n: '03',
       title: 'Affiliate, but transparent',
-      body: 'We earn a small cut when you buy through our links. Picks reflect what we’d buy ourselves.',
+      body: "We earn when you buy through our links. Picks reflect what we'd recommend ourselves.",
     },
   ];
+
   return (
-    <section className="bg-[#101d27] py-20 text-white" data-testid="how-we-work">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="bg-dark py-20 text-white" data-testid="how-we-work">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeader
-          eyebrow="How it works"
-          title={<span className="text-white">How we choose what to recommend.</span>}
-          subtitle={<span className="text-white/65">No paid placements. No reviewed-on-spec-sheet shortcuts. Three steps every time.</span>}
+          eyebrow="Our process"
+          title="How we choose what to recommend"
+          subtitle="No paid placements. No spec-sheet shortcuts. Three steps, every time."
           dark
         />
-        <ol className="mt-14 grid gap-10 sm:grid-cols-3">
+        <ol className="mt-14 grid gap-6 sm:grid-cols-3">
           {steps.map((s) => (
-            <li key={s.n} className="relative pl-16">
-              <span className="absolute left-0 top-0 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary font-display text-base font-bold text-white">
+            <li
+              key={s.n}
+              className="rounded-4xl border border-dark-border bg-dark-surface p-6 transition hover:border-accent/30"
+            >
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/20 font-display text-sm font-bold text-accent">
                 {s.n}
               </span>
-              <h3 className="font-display text-xl font-bold">{s.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-white/70">{s.body}</p>
+              <h3 className="mt-5 font-display text-xl font-bold">{s.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-white/65">{s.body}</p>
             </li>
           ))}
         </ol>
@@ -408,83 +400,40 @@ function HowWeWork() {
   );
 }
 
-/* ---------- FOOTER CTA ---------- */
-
-function FooterCTA() {
+function NewsletterCTA() {
   return (
-    <section className="bg-white py-16 sm:py-20" data-testid="footer-cta">
-      <div className="mx-auto max-w-5xl px-6 text-center">
-        <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-          Don’t buy until you’ve compared.
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-ink/65 sm:text-lg">
-          New comparisons every week — start with one of our editor picks or browse the full archive.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link
-            href="/product-comparisons"
-            className="inline-flex items-center rounded-full bg-primary px-6 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-primary-emphasis"
-          >
-            Latest comparisons
-          </Link>
-          <Link
-            href="/product-reviews"
-            className="inline-flex items-center rounded-full border border-ink/15 px-6 py-3 font-display text-sm font-bold uppercase tracking-wider text-ink transition hover:border-primary hover:text-primary"
-          >
-            Top reviews
-          </Link>
+    <section className="bg-surface py-16 sm:py-20" data-testid="footer-cta">
+      <div className="mx-auto max-w-5xl px-5 text-center sm:px-6">
+        <div className="rounded-4xl border border-ink/8 bg-gradient-to-br from-primary-soft via-surface to-accent-soft px-6 py-12 shadow-card sm:px-12 sm:py-16">
+          <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary">Start here</p>
+          <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-ink text-balance sm:text-4xl">
+            Don't buy until you've compared.
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-ink-muted">
+            New comparisons and reviews every week. Jump into our most popular sections or search the full archive.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/product-comparisons"
+              className="inline-flex items-center rounded-xl bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-primary-emphasis"
+            >
+              Latest comparisons
+            </Link>
+            <Link
+              href="/product-reviews"
+              className="inline-flex items-center rounded-xl border border-ink/12 bg-white px-6 py-3 text-sm font-bold text-ink transition hover:border-primary hover:text-primary"
+            >
+              Top reviews
+            </Link>
+            <Link
+              href="/search"
+              className="inline-flex items-center rounded-xl border border-ink/12 bg-white px-6 py-3 text-sm font-bold text-ink transition hover:border-primary hover:text-primary"
+            >
+              Search archive
+            </Link>
+          </div>
         </div>
       </div>
     </section>
-  );
-}
-
-/* ---------- shared section header ---------- */
-
-function SectionHeader({
-  eyebrow,
-  title,
-  subtitle,
-  viewAll,
-  dark = false,
-}: {
-  eyebrow: string;
-  title: React.ReactNode;
-  subtitle: React.ReactNode;
-  viewAll?: string;
-  dark?: boolean;
-}) {
-  return (
-    <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-      <div className="max-w-2xl">
-        <p className={`text-xs font-bold uppercase tracking-[0.2em] ${dark ? 'text-primary/90' : 'text-primary'}`}>{eyebrow}</p>
-        <h2 className={`mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl ${dark ? 'text-white' : 'text-ink'}`}>
-          {title}
-        </h2>
-        <p className={`mt-3 text-sm leading-7 sm:text-base ${dark ? 'text-white/65' : 'text-ink/65'}`}>{subtitle}</p>
-      </div>
-      {viewAll && (
-        <Link
-          href={viewAll}
-          className={`inline-flex w-fit items-center gap-1 rounded-full border px-4 py-2 font-display text-xs font-bold uppercase tracking-wider transition ${dark ? 'border-white/20 text-white hover:border-primary' : 'border-ink/15 text-ink hover:border-primary hover:text-primary'}`}
-        >
-          See all
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-3.5 w-3.5"
-            aria-hidden
-          >
-            <path d="M5 12h14" />
-            <polyline points="13 6 19 12 13 18" />
-          </svg>
-        </Link>
-      )}
-    </div>
   );
 }
