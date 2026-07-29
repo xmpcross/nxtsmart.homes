@@ -19,8 +19,15 @@ import { useEffect, useRef } from 'react';
  * Affiliate-tag rewriting happens at import time (server-side, in the importer)
  * — not here.
  */
+/** WP editors leave `<p>&nbsp;</p>` spacer paragraphs behind — drop any
+ *  paragraph containing only whitespace / non-breaking spaces / <br>. */
+function stripEmptyParagraphs(html: string): string {
+  return html.replace(/<div id="more-\d+"><\/div>(?:\s*<br\s*\/?>)?/gi, '').replace(/<p(?:\s[^>]*)?>(?:\s| |&nbsp;|&#160;|<br\s*\/?>)*<\/p>/gi, '');
+}
+
 export default function PostContent({ html }: { html: string }) {
   const ref = useRef<HTMLDivElement>(null);
+  const cleanedHtml = stripEmptyParagraphs(html);
 
   useEffect(() => {
     const root = ref.current;
@@ -58,7 +65,7 @@ export default function PostContent({ html }: { html: string }) {
       ref={ref}
       className="post-content"
       data-testid="post-content"
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: cleanedHtml }}
     />
   );
 }

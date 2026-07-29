@@ -1,41 +1,49 @@
 import Link from 'next/link';
-import { coverImageSrc, type NxtSmartCategory, type NxtSmartPost } from '@/lib/strapi';
+import { coverImageSrc, type NxtSmartPost } from '@/lib/strapi';
 import { fmtDate, firstImageUrl, postPath } from '@/lib/format';
+import { SECTIONS } from '@/lib/site';
 
 /**
- * Right-hand column on single post pages: category list + recent posts.
+ * Right-hand column on single post pages: Editorial + Smart Home nav (same
+ * grouping as the footer) and recent posts. The Recent Posts card pins to the
+ * top of the viewport once scrolled to, for the rest of the article.
  * Presentational only — the page fetches the data.
  */
-export default function PostSidebar({
-  categories,
-  recent,
-}: {
-  categories: NxtSmartCategory[];
-  recent: NxtSmartPost[];
-}) {
+
+const EDITORIAL = SECTIONS.filter((s) =>
+  ['product-comparisons', 'product-reviews', 'how-to-guides', 'top-rated', 'informative-articles'].includes(s.slug),
+);
+const SMART_HOME = SECTIONS.filter((s) => s.slug.startsWith('smart-home-'));
+
+function NavSection({ title, sections }: { title: string; sections: typeof SECTIONS }) {
   return (
-    <aside className="mt-10 space-y-8 lg:sticky lg:top-24 lg:mt-0 lg:self-start" data-testid="post-sidebar">
-      {categories.length > 0 && (
-        <section className="rounded-4xl border border-ink/8 bg-surface p-6 shadow-card">
-          <h2 className="font-display text-lg font-bold tracking-tight text-ink">Categories</h2>
-          <ul className="mt-4 space-y-1">
-            {categories.map((c) => (
-              <li key={c.id}>
-                <Link
-                  href={`/${c.slug}`}
-                  className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-ink-muted transition hover:bg-primary-soft hover:text-primary"
-                >
-                  <span>{c.name}</span>
-                  <span aria-hidden className="text-ink-faint">›</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+    <section className="rounded-4xl border border-ink/8 bg-surface p-6 shadow-card">
+      <h2 className="font-display text-lg font-bold tracking-tight text-ink">{title}</h2>
+      <ul className="mt-4 space-y-1">
+        {sections.map((s) => (
+          <li key={s.slug}>
+            <Link
+              href={`/${s.slug}`}
+              className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-ink-muted transition hover:bg-primary-soft hover:text-primary"
+            >
+              <span>{s.title}</span>
+              <span aria-hidden className="text-ink-faint">›</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+export default function PostSidebar({ recent }: { recent: NxtSmartPost[] }) {
+  return (
+    <aside className="mt-10 space-y-8 lg:mt-0 lg:h-full" data-testid="post-sidebar">
+      <NavSection title="Editorial" sections={EDITORIAL} />
+      <NavSection title="Smart Home" sections={SMART_HOME} />
 
       {recent.length > 0 && (
-        <section className="rounded-4xl border border-ink/8 bg-surface p-6 shadow-card">
+        <section className="rounded-4xl border border-ink/8 bg-surface p-6 shadow-card lg:sticky lg:top-24">
           <h2 className="font-display text-lg font-bold tracking-tight text-ink">Recent Posts</h2>
           <ul className="mt-4 space-y-4">
             {recent.map((p) => {
@@ -43,7 +51,7 @@ export default function PostSidebar({
               return (
                 <li key={p.id}>
                   <Link href={postPath(p)} className="group flex gap-3">
-                    <span className="h-14 w-16 shrink-0 overflow-hidden rounded-lg bg-muted">
+                    <span className="h-14 w-16 shrink-0 overflow-hidden rounded-lg">
                       {img ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img

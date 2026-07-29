@@ -58,7 +58,7 @@ export default function Header() {
         </form>
 
         <nav className="ml-auto hidden md:block" data-testid="primary-nav">
-          <ul className="flex items-center gap-0.5 text-sm font-semibold">
+          <ul className="flex items-center gap-0.5 text-base font-semibold">
             {PRIMARY_NAV.map((s) => (
               <li key={s.slug}>
                 <Link

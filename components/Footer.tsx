@@ -6,7 +6,7 @@ const CONTACT_EMAIL = 'hello@nxtsmart.homes';
 export default function Footer() {
   const year = new Date().getFullYear();
   const editorial = SECTIONS.filter((s) =>
-    ['product-comparisons', 'product-reviews', 'how-to-guides', 'top-rated'].includes(s.slug),
+    ['product-comparisons', 'product-reviews', 'how-to-guides', 'top-rated', 'informative-articles'].includes(s.slug),
   );
   const topics = SECTIONS.filter((s) => s.slug.startsWith('smart-home-'));
 

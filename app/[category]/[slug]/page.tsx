@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getPost, listPosts, listCategories, mediaUrl, coverImageSrc, type NxtSmartPost } from '@/lib/strapi';
+import { getPost, listPosts, mediaUrl, coverImageSrc, type NxtSmartPost } from '@/lib/strapi';
 import { SECTIONS, SITE } from '@/lib/site';
 import { fmtDate, primaryCategorySlug, postPath } from '@/lib/format';
 import PostContent from '@/components/PostContent';
@@ -62,11 +62,10 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
     redirect(postPath(post));
   }
 
-  const [related, categories, recent, comments] = await Promise.all([
+  const [related, recent, comments] = await Promise.all([
     listPosts({ category, pageSize: 9 })
       .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 8))
       .catch(() => [] as NxtSmartPost[]),
-    listCategories().catch(() => []),
     listPosts({ pageSize: 6 })
       .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 5))
       .catch(() => [] as NxtSmartPost[]),
@@ -106,24 +105,28 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
-      <header className="border-b border-ink/8 bg-muted">
-        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 sm:py-14">
+      <section className="border-b border-ink/8 bg-[#f9f9f9]" data-testid="breadcrumb-bar">
+        <div className="mx-auto max-w-7xl px-5 py-3 sm:px-6">
+          <nav className="flex items-center gap-2 text-xs text-ink-faint" data-testid="breadcrumb" aria-label="Breadcrumb">
+            <Link href="/" className="shrink-0 hover:text-primary">Home</Link>
+            <span className="shrink-0">/</span>
+            <Link href={`/${category}`} className="shrink-0 hover:text-primary">
+              {cat?.name ?? categoryName(category)}
+            </Link>
+            <span className="shrink-0">/</span>
+            <span className="min-w-0 truncate text-ink-muted" aria-current="page">{post.title}</span>
+          </nav>
+        </div>
+      </section>
+
+      <header className="border-b border-ink/8 bg-transparent">
+        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6">
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center lg:gap-12">
             <div className="min-w-0">
-              <nav className="flex items-center gap-2 text-xs text-ink-faint" data-testid="breadcrumb" aria-label="Breadcrumb">
-                <Link href="/" className="shrink-0 hover:text-primary">Home</Link>
-                <span className="shrink-0">/</span>
-                <Link href={`/${category}`} className="shrink-0 hover:text-primary">
-                  {cat?.name ?? categoryName(category)}
-                </Link>
-                <span className="shrink-0">/</span>
-                <span className="min-w-0 truncate text-ink-muted" aria-current="page">{post.title}</span>
-              </nav>
-
               {cat && (
                 <Link
                   href={`/${category}`}
-                  className="mt-6 inline-flex rounded-full bg-primary-soft px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary"
+                  className="inline-flex rounded-full bg-primary-soft px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary"
                 >
                   {cat.name}
                 </Link>
@@ -147,7 +150,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
               <img
                 src={cover}
                 alt={post.coverImage?.alternativeText || post.title}
-                className="mt-8 aspect-[16/10] w-full rounded-4xl border border-ink/8 bg-muted object-contain shadow-card lg:mt-0"
+                className="mt-8 aspect-[16/10] w-full rounded-4xl bg-transparent object-contain lg:mt-0"
               />
             )}
           </div>
@@ -157,7 +160,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-10">
           <div className="min-w-0">
-            <div className="mt-10 rounded-4xl border border-ink/8 bg-surface p-6 sm:p-10 lg:p-12">
+            <div className="rounded-4xl border border-ink/8 bg-surface p-6 sm:p-10">
               <PostContent html={post.content} />
             </div>
 
@@ -166,14 +169,16 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
               commission when you buy through links on this page, at no extra cost to you.
               Prices and availability are accurate as of {fmtDate(post.updatedAt)} and subject to change.
             </div>
-
-            <CommentsSection comments={comments} />
           </div>
 
-          <div className="hidden lg:mt-8 lg:block">
-            <PostSidebar categories={categories} recent={recent} />
+          <div className="hidden lg:mt-8 lg:block lg:self-stretch">
+            <PostSidebar recent={recent} />
           </div>
         </div>
+
+        <section className="mt-6" data-testid="reviews-container">
+          <CommentsSection comments={comments} />
+        </section>
 
         {related.length > 0 && (
           <aside className="mt-16 border-t border-ink/8 pt-12">

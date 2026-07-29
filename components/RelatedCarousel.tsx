@@ -53,7 +53,7 @@ export default function RelatedCarousel({ posts }: { posts: NxtSmartPost[] }) {
     >
       {posts.map((post) => (
         <div key={post.id} className="w-full shrink-0 snap-start px-2 sm:w-1/2 lg:w-1/4">
-          <PostCard post={post} variant="tile" />
+          <PostCard post={post} variant="tile" thumbBg="" />
         </div>
       ))}
     </div>
