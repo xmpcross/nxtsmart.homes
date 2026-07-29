@@ -137,7 +137,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
           <img
             src={cover}
             alt={post.coverImage?.alternativeText || post.title}
-            className="mt-8 aspect-[16/9] w-full rounded-4xl border border-ink/8 object-cover shadow-card"
+            className="mt-8 aspect-[16/9] w-full rounded-4xl border border-ink/8 bg-muted object-contain shadow-card"
           />
         )}
 
