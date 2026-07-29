@@ -80,6 +80,17 @@ h1, h2, h3, h4, h5, h6,
   font-family: var(--font-urbanist);
 }
 
+/* Body copy — explicit so imported markup and vendor CSS can't drift these
+   elements off the default font. */
+body, p,
+ul li, ul li a,
+ol li, ol li a,
+.post-content p,
+.post-content :where(ul, ol) li,
+.post-content :where(ul, ol) li a {
+  font-family: var(--font-outfit);
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
