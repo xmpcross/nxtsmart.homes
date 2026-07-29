@@ -37,7 +37,11 @@ export default {
         urbanist: ['var(--font-inter)'],
         outfit: ['var(--font-inter)'],
       },
-      maxWidth: { prose: '70ch' },
+      maxWidth: {
+        prose: '70ch',
+        // Site-wide page container width — all page shells use max-w-7xl.
+        '7xl': '1366px',
+      },
       borderRadius: {
         '4xl': '1.25rem',
       },
