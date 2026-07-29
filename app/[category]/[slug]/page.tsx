@@ -165,7 +165,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
             </div>
           </div>
 
-          <div className="lg:mt-8">
+          <div className="hidden lg:mt-8 lg:block">
             <PostSidebar categories={categories} recent={recent} />
           </div>
         </div>
