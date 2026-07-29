@@ -13,7 +13,7 @@ const MODIFIED = '2026-05-02';
 
 export default function Page() {
   return (
-    <LegalArticle pageKey="privacy" title="Website Privacy Policy" modified={MODIFIED}>
+    <LegalArticle pageKey="privacy" title="Privacy Policy" modified={MODIFIED}>
       <p>
         This Privacy Policy applies to all personal information collected by FXN Holdings
         (<strong>we</strong>, <strong>us</strong> or <strong>our</strong>) via the website located at{' '}

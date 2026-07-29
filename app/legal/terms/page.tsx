@@ -12,7 +12,7 @@ const MODIFIED = '2026-05-02';
 
 export default function Page() {
   return (
-    <LegalArticle pageKey="terms" title="Website Terms and Conditions of Use" modified={MODIFIED}>
+    <LegalArticle pageKey="terms" title="Terms and Conditions" modified={MODIFIED}>
       {/* 1. About the Website */}
       <h3>1. About the Website</h3>
       <ol className="list-[lower-alpha] pl-6 space-y-3">

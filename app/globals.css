@@ -50,12 +50,12 @@
 
 :root {
   color-scheme: light;
-  /* Inter is the site-wide default font. The legacy Urbanist/Outfit variables
-     alias it so every consumer (body, headings, vendor cegg styles, tailwind
-     font-display/font-sans) resolves to Inter. */
+  /* Default fonts: Urbanist for titles/headings (h1–h6), Outfit for body,
+     paragraphs and lists. Every consumer (body rules, heading rules, vendor
+     cegg styles, tailwind font-display/font-sans) resolves through these. */
   --font-inter: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-urbanist: var(--font-inter);
-  --font-outfit: var(--font-inter);
+  --font-urbanist: 'Urbanist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-outfit: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
 html, body {
@@ -94,6 +94,40 @@ ol li, ol li a,
   font-family: var(--font-outfit);
 }
 
+/* Legal pages: true Urbanist headings (700) + light Outfit body (300).
+   Uses the font family names directly — the global --font-urbanist/--font-outfit
+   variables alias Inter site-wide, which must not apply here. */
+[data-testid^="legal-"] h1,
+[data-testid^="legal-"] h2,
+[data-testid^="legal-"] h3,
+[data-testid^="legal-"] h4,
+[data-testid^="legal-"] h5,
+[data-testid^="legal-"] h6 {
+  font-family: 'Urbanist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 700;
+}
+[data-testid^="legal-"],
+[data-testid^="legal-"] p,
+[data-testid^="legal-"] ul li,
+[data-testid^="legal-"] ol li {
+  font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 300;
+}
+/* Site footer — Urbanist for every element. */
+[data-testid="site-footer"],
+[data-testid="site-footer"] * {
+  font-family: 'Urbanist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Legal sidebar table of contents — Urbanist at weight 500 throughout. */
+[data-testid="legal-toc"],
+[data-testid="legal-toc"] h2,
+[data-testid="legal-toc"] ul li,
+[data-testid="legal-toc"] a {
+  font-family: 'Urbanist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -109,7 +143,7 @@ ol li, ol li a,
 
 /* Post body text */
 .post-content {
-  font-family: var(--font-inter);
+  font-family: var(--font-outfit);
   font-weight: 400;
 }
 
@@ -246,6 +280,11 @@ article[data-testid^="post-"] .post-content .elementor :where(blockquote) {
    heading, wrapped in a div.gspb_heading_sep_gsbp-XXXX. The plugin CSS that
    laid these out inline never shipped with the import — recreate it: circle
    badge with brand outline, heading beside it. Used by ~47 posts. */
+/* Anchor jumps from the Top Rated "In this ranking" nav land below the
+   sticky site header. */
+.post-content h2.gspb_heading {
+  scroll-margin-top: 96px;
+}
 .post-content [class*="gspb_heading_sep_gsbp"] {
   display: flex;
   align-items: center;
@@ -536,7 +575,8 @@ article[data-testid^="post-"][data-category="product-comparisons"] * {
 /* Affiliate product list cards (Content Egg) and GreenShift title boxes —
    borderless. !important beats the vendor cegg stylesheets, which are linked
    after the app bundle on post pages. */
-.post-content .cegg-list-card.cegg-card,
+.post-content .cegg-card,
+.post-content .cegg5-container .border,
 .post-content .gs-titlebox {
   border: 0 solid #e5e7eb !important;
 }

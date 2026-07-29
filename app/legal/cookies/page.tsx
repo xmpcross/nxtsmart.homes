@@ -4,7 +4,7 @@ import LegalArticle from '@/components/LegalArticle';
 import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy',
+  title: 'Cookie Information',
   description: `Cookie Policy for ${SITE.name}, including GDPR/ePrivacy and CCPA disclosures.`,
   alternates: { canonical: '/legal/cookies' },
 };
@@ -13,7 +13,7 @@ const MODIFIED = '2026-05-02';
 
 export default function Page() {
   return (
-    <LegalArticle pageKey="cookies" title="Cookie Policy" modified={MODIFIED}>
+    <LegalArticle pageKey="cookies" title="Cookie Information" modified={MODIFIED}>
       <p>
         This Website (referred to in these &quot;terms of use&quot; as the website) is owned and
         operated by FXN Holdings, who is referred to in this Cookie Policy as &quot;we&quot;,

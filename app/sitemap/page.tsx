@@ -35,87 +35,98 @@ export default async function HtmlSitemapPage() {
       .filter((c) => !SECTIONS.some((s) => s.slug === c.slug))
       .map((c) => ({ slug: c.slug, name: c.name })),
   ];
+  const activeCats = orderedCats.filter((c) => (byCat.get(c.slug)?.length ?? 0) > 0);
 
   return (
     <div data-testid="sitemap-page">
-      <section className="bg-paper">
-        <div className="mx-auto max-w-7xl px-6 py-12 lg:py-20">
+      <section className="border-b border-ink/8 bg-muted">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Site map</p>
-          <h1 className="mt-4 font-display font-bold leading-tight tracking-tight text-ink">
+          <h1 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl">
             Everything on {SITE.name}.
           </h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-ink/70 sm:text-lg">
-            A human-readable index of every page. For machines see{' '}
-            <Link href="/sitemap.xml" className="text-primary underline-offset-2 hover:underline">
+          <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted">
+            A human-readable index of every page — {posts.length} posts across {activeCats.length}{' '}
+            categories. For machines see{' '}
+            <Link href="/sitemap.xml" className="font-semibold text-primary underline-offset-2 hover:underline">
               /sitemap.xml
             </Link>
             .
           </p>
+          <nav className="mt-6 flex flex-wrap gap-2" aria-label="Categories">
+            {activeCats.map((c) => (
+              <a
+                key={c.slug}
+                href={`#${c.slug}`}
+                className="rounded-full border border-ink/10 bg-surface px-4 py-1.5 text-sm font-semibold text-ink-muted transition hover:border-primary/30 hover:bg-primary-soft hover:text-primary"
+              >
+                {c.name} ({byCat.get(c.slug)!.length})
+              </a>
+            ))}
+          </nav>
         </div>
       </section>
 
-      <section className="bg-white py-12 sm:py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          {/* Top-level pages */}
-          <div className="grid gap-10 lg:grid-cols-[1fr_3fr] lg:gap-16">
-            <h2 className="font-display font-bold text-ink">Pages</h2>
-            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <SiteLink href="/">Home</SiteLink>
-              <SiteLink href="/about">About us</SiteLink>
-              <SiteLink href="/contact">Contact us</SiteLink>
-              <SiteLink href="/search">Search</SiteLink>
-              <SiteLink href="/feed.xml">RSS feed</SiteLink>
-              <SiteLink href="/sitemap.xml">XML sitemap</SiteLink>
-            </ul>
-          </div>
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6">
+        {/* Top-level pages */}
+        <section className="rounded border border-ink/8 bg-surface p-6 shadow-card sm:p-8">
+          <h2 className="font-display text-2xl font-bold tracking-tight text-ink">Pages</h2>
+          <ul className="mt-5 flex flex-wrap gap-2">
+            <SiteLink href="/">Home</SiteLink>
+            <SiteLink href="/about">About us</SiteLink>
+            <SiteLink href="/blog">Blog</SiteLink>
+            <SiteLink href="/contact">Contact us</SiteLink>
+            <SiteLink href="/search">Search</SiteLink>
+            <SiteLink href="/feed.xml">RSS feed</SiteLink>
+            <SiteLink href="/sitemap.xml">XML sitemap</SiteLink>
+          </ul>
+        </section>
 
-          <hr className="my-12 border-ink/10" />
-
-          {/* Categories + posts */}
-          <div className="grid gap-10 lg:grid-cols-[1fr_3fr] lg:gap-16">
-            <div>
-              <h2 className="font-display font-bold text-ink">Categories &amp; posts</h2>
-              <p className="mt-2 text-sm text-ink/55">
-                {posts.length} posts across {orderedCats.filter((c) => byCat.get(c.slug)?.length).length} categories.
-              </p>
-            </div>
-            <div className="space-y-10">
-              {orderedCats.map(({ slug, name }) => {
-                const items = byCat.get(slug) ?? [];
-                if (items.length === 0) return null;
-                return (
-                  <div key={slug} data-testid={`sitemap-cat-${slug}`}>
-                    <Link
-                      href={`/${slug}`}
-                      className="group inline-flex items-baseline gap-3 font-display font-bold text-ink hover:text-primary"
-                    >
-                      {name}
-                      <span className="text-xs font-medium text-ink/45">{items.length} posts</span>
-                    </Link>
-                    <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-                      {items.map((p) => (
-                        <li key={p.slug}>
-                          <Link
-                            href={`/${slug}/${p.slug}`}
-                            className="group flex items-baseline justify-between gap-4 rounded-lg px-3 py-2 transition hover:bg-paper"
-                          >
-                            <span className="truncate text-sm text-ink/80 group-hover:text-primary">
-                              {humanizeSlug(p.slug)}
-                            </span>
-                            <span className="shrink-0 text-[11px] text-ink/40">
-                              {fmtDate(p.updatedAt)}
-                            </span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+        {/* Categories + posts */}
+        <div className="mt-8 space-y-8">
+          {activeCats.map(({ slug, name }) => {
+            const items = byCat.get(slug)!;
+            return (
+              <section
+                key={slug}
+                id={slug}
+                className="scroll-mt-24 rounded border border-ink/8 bg-surface p-6 shadow-card sm:p-8"
+                data-testid={`sitemap-cat-${slug}`}
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <Link
+                    href={`/${slug}`}
+                    className="group inline-flex items-center gap-3 font-display text-xl font-bold tracking-tight text-ink hover:text-primary"
+                  >
+                    {name}
+                    <span className="rounded-full bg-primary-soft px-2.5 py-0.5 text-xs font-bold text-primary">
+                      {items.length} {items.length === 1 ? 'post' : 'posts'}
+                    </span>
+                  </Link>
+                  <Link href={`/${slug}`} className="text-sm font-semibold text-primary hover:underline">
+                    View category →
+                  </Link>
+                </div>
+                <ul className="mt-5 grid gap-1.5 sm:grid-cols-2">
+                  {items.map((p) => (
+                    <li key={p.slug}>
+                      <Link
+                        href={`/${slug}/${p.slug}`}
+                        className="group flex items-baseline justify-between gap-4 rounded px-3 py-2 transition hover:bg-primary-soft"
+                      >
+                        <span className="truncate text-sm text-ink-muted group-hover:text-primary">
+                          {humanizeSlug(p.slug)}
+                        </span>
+                        <span className="shrink-0 text-[11px] text-ink-faint">{fmtDate(p.updatedAt)}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            );
+          })}
         </div>
-      </section>
+      </div>
     </div>
   );
 }
@@ -125,7 +136,7 @@ function SiteLink({ href, children }: { href: string; children: React.ReactNode 
     <li>
       <Link
         href={href}
-        className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-paper/40 px-4 py-2 text-sm text-ink transition hover:border-primary hover:text-primary"
+        className="inline-flex items-center rounded-full border border-ink/10 bg-muted/60 px-4 py-2 text-sm font-semibold text-ink-muted transition hover:border-primary/30 hover:bg-primary-soft hover:text-primary"
       >
         {children}
       </Link>

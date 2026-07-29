@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
+import LegalToc from '@/components/LegalToc';
 
 const NAV: { key: 'terms' | 'privacy' | 'cookies'; label: string; href: string }[] = [
   { key: 'terms',   label: 'Terms and Conditions', href: '/legal/terms' },
   { key: 'privacy', label: 'Privacy Policy',       href: '/legal/privacy' },
-  { key: 'cookies', label: 'Cookie Policy',        href: '/legal/cookies' },
+  { key: 'cookies', label: 'Cookie Information',   href: '/legal/cookies' },
 ];
 
 export type LegalKey = (typeof NAV)[number]['key'];
@@ -26,10 +27,10 @@ export default function LegalArticle({
 
   return (
     <div data-testid={`legal-${pageKey}`}>
-      <section className="bg-paper">
+      <section className="bg-[#f8f8f8]">
         <div className="mx-auto max-w-7xl px-6 py-12">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Legal</p>
-          <h1 className="mt-4 font-display font-bold leading-tight tracking-tight text-ink">
+          <h1 className="mt-4 font-display text-[2rem] font-bold leading-tight tracking-tight text-ink">
             {title}
           </h1>
           {modifiedLabel && (
@@ -42,18 +43,23 @@ export default function LegalArticle({
             <strong className="text-ink">FXN Holdings</strong>, a registered business in Australia.
           </p>
 
-          <nav className="mt-6 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wider" aria-label="Legal pages">
+          {/* Segmented control: gray track, active tab as an elevated white pill. */}
+          <nav
+            className="mt-6 flex w-full max-w-2xl items-center rounded-xl bg-muted p-1 text-sm font-semibold"
+            aria-label="Legal pages"
+          >
             {NAV.map((n) => {
               const active = n.key === pageKey;
               return (
                 <Link
                   key={n.key}
                   href={n.href}
-                  className={
+                  aria-current={active ? 'page' : undefined}
+                  className={`flex-1 rounded-lg px-4 py-2 text-center transition ${
                     active
-                      ? 'rounded-full bg-primary px-4 py-2 text-white'
-                      : 'rounded-full border border-ink/15 px-4 py-2 text-ink transition hover:border-primary hover:text-primary'
-                  }
+                      ? 'bg-white text-ink shadow-card'
+                      : 'text-ink-muted hover:text-primary'
+                  }`}
                 >
                   {n.label}
                 </Link>
@@ -64,7 +70,9 @@ export default function LegalArticle({
       </section>
 
       <section className="bg-white py-12">
-        <article className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-7xl px-6 lg:grid lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start lg:gap-12">
+          <LegalToc />
+          <article className="min-w-0">
           <div
             className="legal-content space-y-5 text-base leading-7 text-ink/80
                        [&_h3]:mt-10 [&_h3]:mb-3 [&_h3]:font-display [&_h3]:font-bold [&_h3]:text-ink
@@ -77,7 +85,8 @@ export default function LegalArticle({
           >
             {children}
           </div>
-        </article>
+          </article>
+        </div>
       </section>
     </div>
   );

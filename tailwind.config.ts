@@ -5,12 +5,13 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Light scheme: airy blues, softened ink, no heavy navy.
         primary: {
-          DEFAULT: '#1556ee',
-          emphasis: '#0f43c0',
-          hover: '#c8d6fb',
-          pressed: '#0c389f',
-          soft: '#e8effe',
+          DEFAULT: '#3b82f6',
+          emphasis: '#2563eb',
+          hover: '#bfdbfe',
+          pressed: '#1d4ed8',
+          soft: '#eff6ff',
         },
         accent: {
           DEFAULT: '#06b6d4',
@@ -18,11 +19,11 @@ export default {
           soft: '#ecfeff',
         },
         ink: {
-          DEFAULT: '#0f172a',
-          muted: '#475569',
+          DEFAULT: '#334155',
+          muted: '#64748b',
           faint: '#94a3b8',
         },
-        paper: '#fafaf9',
+        paper: '#fcfcfd',
         surface: '#ffffff',
         muted: '#f1f5f9',
         dark: {
@@ -53,8 +54,8 @@ export default {
         glow: '0 0 0 1px rgba(21,86,238,0.12), 0 8px 32px rgba(21,86,238,0.12)',
       },
       backgroundImage: {
-        'hero-gradient': 'linear-gradient(135deg, #0c1222 0%, #151d2e 50%, #1a2744 100%)',
-        'mesh': 'radial-gradient(at 80% 20%, rgba(21,86,238,0.15) 0%, transparent 50%), radial-gradient(at 20% 80%, rgba(6,182,212,0.1) 0%, transparent 50%)',
+        'hero-gradient': 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #e0e7ff 100%)',
+        'mesh': 'radial-gradient(at 80% 20%, rgba(59,130,246,0.10) 0%, transparent 50%), radial-gradient(at 20% 80%, rgba(6,182,212,0.08) 0%, transparent 50%)',
       },
     },
   },

@@ -1,16 +1,84 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { SITE, SECTIONS } from '@/lib/site';
 import MobileNav from '@/components/MobileNav';
 
-const PRIMARY_NAV = SECTIONS.filter((s) =>
-  ['product-comparisons', 'product-reviews', 'how-to-guides', 'smart-home-devices'].includes(s.slug),
+// Same grouping as the footer's Editorial / Smart Home columns.
+const EDITORIAL = SECTIONS.filter((s) =>
+  ['product-comparisons', 'product-reviews', 'how-to-guides', 'top-rated', 'informative-articles'].includes(s.slug),
 );
+const SMART_HOME = SECTIONS.filter((s) => s.slug.startsWith('smart-home-'));
+
+function NavDropdown({
+  label,
+  group,
+  sections,
+}: {
+  label: string;
+  group: string;
+  sections: typeof SECTIONS;
+}) {
+  return (
+    <li className="group/nav relative" data-testid={`nav-item-${group}`}>
+      <button
+        type="button"
+        className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-ink-muted transition-colors hover:bg-primary-soft hover:text-primary"
+        data-testid={`nav-${group}`}
+        aria-haspopup="true"
+      >
+        {label}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-3 w-3 opacity-60"
+          aria-hidden
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+      <div
+        className="invisible absolute right-0 top-full z-10 mt-2 grid w-64 gap-1 rounded-2xl border border-ink/10 bg-white p-2 opacity-0 shadow-card-hover transition duration-150 group-hover/nav:visible group-hover/nav:opacity-100 group-focus-within/nav:visible group-focus-within/nav:opacity-100"
+        role="menu"
+        data-testid={`nav-${group}-dropdown`}
+      >
+        {sections.map((s) => (
+          <Link
+            key={s.slug}
+            href={`/${s.slug}`}
+            className="rounded-xl px-3 py-2.5 text-sm text-ink-muted transition-colors hover:bg-muted hover:text-primary"
+            role="menuitem"
+            data-testid={`nav-${group}-${s.slug}`}
+          >
+            {s.title}
+          </Link>
+        ))}
+      </div>
+    </li>
+  );
+}
 
 export default function Header() {
+  // Borderless at the top of the page; once the sticky header is pinned by
+  // scrolling, elevate it with a shadow instead.
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <header
-      className="sticky top-0 z-50 border-b border-ink/8 bg-surface/90 backdrop-blur-md"
+      className={`sticky top-0 z-50 border-0 bg-surface/90 backdrop-blur-md transition-shadow duration-200 ${scrolled ? 'shadow-card' : ''}`}
       data-testid="site-header"
     >
       <div className="relative mx-auto flex max-w-7xl items-center gap-4 px-5 py-3.5 sm:px-6 sm:py-4">
@@ -59,57 +127,34 @@ export default function Header() {
 
         <nav className="ml-auto hidden md:block" data-testid="primary-nav">
           <ul className="flex items-center gap-0.5 text-base font-semibold">
-            {PRIMARY_NAV.map((s) => (
-              <li key={s.slug}>
-                <Link
-                  href={`/${s.slug}`}
-                  className="inline-flex items-center rounded-lg px-3 py-2 text-ink-muted transition-colors hover:bg-primary-soft hover:text-primary"
-                  data-testid={`nav-${s.slug}`}
-                >
-                  {s.short}
-                </Link>
-              </li>
-            ))}
-
-            <li className="group/all relative" data-testid="nav-item-all-articles">
-              <button
-                type="button"
-                className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-ink-muted transition-colors hover:bg-primary-soft hover:text-primary"
-                data-testid="nav-all-articles"
-                aria-haspopup="true"
+            <li>
+              <Link
+                href="/"
+                className="inline-flex items-center rounded-lg px-3 py-2 text-ink-muted transition-colors hover:bg-primary-soft hover:text-primary"
+                data-testid="nav-home"
               >
-                More
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-3 w-3 opacity-60"
-                  aria-hidden
-                >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-              <div
-                className="invisible absolute right-0 top-full z-10 mt-2 grid w-[min(90vw,420px)] grid-cols-2 gap-1 rounded-2xl border border-ink/10 bg-white p-2 opacity-0 shadow-card-hover transition duration-150 group-hover/all:visible group-hover/all:opacity-100 group-focus-within/all:visible group-focus-within/all:opacity-100"
-                role="menu"
-                data-testid="nav-all-articles-dropdown"
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/about"
+                className="inline-flex items-center rounded-lg px-3 py-2 text-ink-muted transition-colors hover:bg-primary-soft hover:text-primary"
+                data-testid="nav-about"
               >
-                {SECTIONS.filter((s) => !PRIMARY_NAV.some((p) => p.slug === s.slug)).map((s) => (
-                  <Link
-                    key={s.slug}
-                    href={`/${s.slug}`}
-                    className="rounded-xl px-3 py-2.5 text-sm text-ink-muted transition-colors hover:bg-muted hover:text-primary"
-                    role="menuitem"
-                    data-testid={`nav-all-${s.slug}`}
-                  >
-                    {s.title}
-                  </Link>
-                ))}
-              </div>
+                About
+              </Link>
+            </li>
+            <NavDropdown label="Editorial" group="editorial" sections={EDITORIAL} />
+            <NavDropdown label="Smart Home" group="smart-home" sections={SMART_HOME} />
+            <li>
+              <Link
+                href="/contact"
+                className="inline-flex items-center rounded-lg px-3 py-2 text-ink-muted transition-colors hover:bg-primary-soft hover:text-primary"
+                data-testid="nav-contact"
+              >
+                Contact
+              </Link>
             </li>
           </ul>
         </nav>

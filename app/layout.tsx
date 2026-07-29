@@ -23,6 +23,9 @@ export const metadata: Metadata = {
       'application/rss+xml': [{ url: '/feed.xml', title: `${SITE.name} RSS` }],
     },
   },
+  verification: {
+    other: { 'msvalidate.01': '057158952120360611CA2F41AD7D5B50' },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

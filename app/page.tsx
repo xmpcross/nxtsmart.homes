@@ -110,22 +110,22 @@ function Hero({
   const featuredCat = featured?.categories?.[0];
 
   return (
-    <section className="relative overflow-hidden bg-hero-gradient text-white" data-testid="home-hero">
+    <section className="relative overflow-hidden border-b border-ink/8 bg-hero-gradient text-ink" data-testid="home-hero">
       <div className="absolute inset-0 bg-mesh opacity-80" aria-hidden />
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-accent">
+            <p className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-accent-emphasis">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
               Smart home · Honest reviews
             </p>
             <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-[3.25rem]">
               Make your home smarter,{' '}
-              <span className="bg-gradient-to-r from-white via-white to-accent bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
                 one decision at a time.
               </span>
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
+            <p className="mt-6 max-w-xl text-base leading-7 text-ink-muted sm:text-lg">
               {SITE.description}
             </p>
 
@@ -133,7 +133,7 @@ function Hero({
               action="/search"
               method="get"
               role="search"
-              className="mt-8 flex h-14 max-w-lg items-center gap-2 rounded-2xl border border-white/10 bg-white/95 pl-5 pr-2 shadow-glow backdrop-blur"
+              className="mt-8 flex h-14 max-w-lg items-center gap-2 rounded-2xl border border-ink/10 bg-white pl-5 pr-2 shadow-glow"
               data-testid="hero-search"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-5 w-5 shrink-0 text-ink-faint" aria-hidden>
@@ -160,7 +160,7 @@ function Hero({
                 <Link
                   key={s.slug}
                   href={`/${s.slug}`}
-                  className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-xs font-semibold text-white/85 transition hover:border-accent/40 hover:bg-white/10"
+                  className="rounded-full border border-ink/10 bg-white px-4 py-2 text-xs font-semibold text-ink-muted transition hover:border-primary/30 hover:bg-primary-soft hover:text-primary"
                 >
                   {s.short}
                 </Link>
@@ -172,9 +172,9 @@ function Hero({
             {featured && (
               <Link
                 href={postPath(featured)}
-                className="group block overflow-hidden rounded-4xl border border-white/10 bg-dark-surface shadow-card-hover transition hover:border-accent/30"
+                className="group block overflow-hidden rounded-4xl border border-ink/8 bg-surface shadow-card-hover transition hover:border-accent/30"
               >
-                <div className="relative aspect-[16/10] bg-white/5">
+                <div className="relative aspect-[16/10] bg-muted/50">
                   {featuredImg ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -185,12 +185,12 @@ function Hero({
                   ) : (
                     <div className="h-full w-full bg-gradient-to-br from-primary/30 to-accent/20" />
                   )}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-dark via-dark/80 to-transparent p-5">
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white via-white/90 to-transparent p-5">
                     {featuredCat && (
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-accent">{featuredCat.name}</p>
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-accent-emphasis">{featuredCat.name}</p>
                     )}
-                    <p className="mt-1 line-clamp-2 font-display text-lg font-bold text-white">{featured.title}</p>
-                    <p className="mt-2 text-xs text-white/55">{fmtDate(featured.publishedAt)}</p>
+                    <p className="mt-1 line-clamp-2 font-display text-lg font-bold text-ink">{featured.title}</p>
+                    <p className="mt-2 text-xs text-ink-faint">{fmtDate(featured.publishedAt)}</p>
                   </div>
                 </div>
               </Link>
@@ -198,7 +198,7 @@ function Hero({
             {picks.length > 0 && (
               <div className="grid gap-3">
                 {picks.map((p) => (
-                  <PostCard key={p.id} post={p} variant="horizontal" thumbBg="bg-white/5" />
+                  <PostCard key={p.id} post={p} variant="horizontal" thumbBg="bg-muted/50" />
                 ))}
               </div>
             )}
@@ -373,25 +373,24 @@ function HowWeWork() {
   ];
 
   return (
-    <section className="bg-dark py-20 text-white" data-testid="how-we-work">
+    <section className="border-y border-ink/8 bg-muted py-20 text-ink" data-testid="how-we-work">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeader
           eyebrow="Our process"
           title="How we choose what to recommend"
           subtitle="No paid placements. No spec-sheet shortcuts. Three steps, every time."
-          dark
         />
         <ol className="mt-14 grid gap-6 sm:grid-cols-3">
           {steps.map((s) => (
             <li
               key={s.n}
-              className="rounded-4xl border border-dark-border bg-dark-surface p-6 transition hover:border-accent/30"
+              className="rounded-4xl border border-ink/8 bg-surface p-6 shadow-card transition hover:border-accent/30"
             >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/20 font-display text-sm font-bold text-accent">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft font-display text-sm font-bold text-primary">
                 {s.n}
               </span>
-              <h3 className="mt-5 font-display text-xl font-bold">{s.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-white/65">{s.body}</p>
+              <h3 className="mt-5 font-display text-xl font-bold text-ink">{s.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-ink-muted">{s.body}</p>
             </li>
           ))}
         </ol>

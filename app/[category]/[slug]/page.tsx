@@ -120,42 +120,42 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
       </section>
 
       <header className="border-b border-ink/8 bg-transparent">
-        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6">
-          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center lg:gap-12">
-            <div className="min-w-0">
-              {cat && (
-                <Link
-                  href={`/${category}`}
-                  className="inline-flex rounded-full bg-primary-soft px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary"
-                >
-                  {cat.name}
-                </Link>
-              )}
-              <h1 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl lg:text-[2.5rem]">
-                {post.title}
-              </h1>
-              <p className="mt-5 flex flex-wrap items-center gap-3 text-sm text-ink-faint">
-                <span>Published {fmtDate(post.publishedAt)}</span>
-                {post.readingTimeMinutes ? (
-                  <>
-                    <span className="h-1 w-1 rounded-full bg-ink-faint" aria-hidden />
-                    <span>{post.readingTimeMinutes} min read</span>
-                  </>
-                ) : null}
-              </p>
-            </div>
+          <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6">
+            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center lg:gap-12">
+              <div className="min-w-0">
+                {cat && (
+                  <Link
+                    href={`/${category}`}
+                    className="inline-flex rounded-full bg-primary-soft px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary"
+                  >
+                    {cat.name}
+                  </Link>
+                )}
+                <h1 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl lg:text-[2.5rem]">
+                  {post.title}
+                </h1>
+                <p className="mt-5 flex flex-wrap items-center gap-3 text-sm text-ink-faint">
+                  <span>Published {fmtDate(post.publishedAt)}</span>
+                  {post.readingTimeMinutes ? (
+                    <>
+                      <span className="h-1 w-1 rounded-full bg-ink-faint" aria-hidden />
+                      <span>{post.readingTimeMinutes} min read</span>
+                    </>
+                  ) : null}
+                </p>
+              </div>
 
-            {cover && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={cover}
-                alt={post.coverImage?.alternativeText || post.title}
-                className="mt-8 aspect-[16/10] w-full rounded-4xl bg-transparent object-contain lg:mt-0"
-              />
-            )}
+              {cover && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={cover}
+                  alt={post.coverImage?.alternativeText || post.title}
+                  className="mt-8 aspect-[16/10] w-full rounded-4xl bg-transparent object-contain lg:mt-0"
+                />
+              )}
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-10">

@@ -11,18 +11,18 @@ export default function Footer() {
   const topics = SECTIONS.filter((s) => s.slug.startsWith('smart-home-'));
 
   return (
-    <footer className="mt-auto bg-dark text-white" data-testid="site-footer">
+    <footer className="mt-auto border-t border-ink/8 bg-muted text-ink" data-testid="site-footer">
       <div className="bg-mesh">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6">
-          <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className="grid gap-12 lg:grid-cols-[55fr_15fr_15fr_15fr]">
             <div>
               <p className="font-display text-xl font-bold">{SITE.name}</p>
-              <p className="mt-4 max-w-sm text-sm leading-7 text-white/65">
+              <p className="mt-4 max-w-sm text-sm leading-7 text-ink-muted">
                 {SITE.description}
               </p>
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="mt-6 inline-block text-sm font-semibold text-accent transition hover:text-white"
+                className="mt-6 inline-block text-sm font-semibold text-primary transition hover:text-primary-emphasis"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -40,24 +40,22 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-white/45">Editorial</h3>
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-ink-faint">About Us</h3>
               <ul className="mt-4 space-y-2.5 text-sm">
-                {editorial.map((s) => (
-                  <li key={s.slug}>
-                    <Link href={`/${s.slug}`} className="text-white/75 transition hover:text-accent">
-                      {s.title}
-                    </Link>
-                  </li>
-                ))}
+                <li><Link href="/" className="text-ink-muted transition hover:text-primary">Home</Link></li>
+                <li><Link href="/about" className="text-ink-muted transition hover:text-primary">About</Link></li>
+                <li><Link href="/blog" className="text-ink-muted transition hover:text-primary">Blog</Link></li>
+                <li><Link href="/sitemap" className="text-ink-muted transition hover:text-primary">Sitemap</Link></li>
+                <li><Link href="/contact" className="text-ink-muted transition hover:text-primary">Contact</Link></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-white/45">Smart Home</h3>
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-ink-faint">Smart Home</h3>
               <ul className="mt-4 space-y-2.5 text-sm">
                 {topics.map((s) => (
                   <li key={s.slug}>
-                    <Link href={`/${s.slug}`} className="text-white/75 transition hover:text-accent">
+                    <Link href={`/${s.slug}`} className="text-ink-muted transition hover:text-primary">
                       {s.title}
                     </Link>
                   </li>
@@ -66,25 +64,28 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-white/45">Company</h3>
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-ink-faint">Editorial</h3>
               <ul className="mt-4 space-y-2.5 text-sm">
-                <li><Link href="/about" className="text-white/75 transition hover:text-accent">About</Link></li>
-                <li><Link href="/contact" className="text-white/75 transition hover:text-accent">Contact</Link></li>
-                <li><Link href="/sitemap" className="text-white/75 transition hover:text-accent">Sitemap</Link></li>
-                <li><Link href="/search" className="text-white/75 transition hover:text-accent">Search</Link></li>
+                {editorial.map((s) => (
+                  <li key={s.slug}>
+                    <Link href={`/${s.slug}`} className="text-ink-muted transition hover:text-primary">
+                      {s.title}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-dark-border">
-        <div className="mx-auto flex max-w-7xl flex-col items-start gap-3 px-5 py-5 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+      <div className="border-t border-ink/8">
+        <div className="mx-auto flex max-w-7xl flex-col items-start gap-3 px-5 py-5 text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p>© {year} {SITE.name}. All rights reserved.</p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <li><Link href="/legal/terms" className="transition hover:text-white">Terms</Link></li>
-            <li><Link href="/legal/privacy" className="transition hover:text-white">Privacy</Link></li>
-            <li><Link href="/legal/cookies" className="transition hover:text-white">Cookies</Link></li>
+            <li><Link href="/legal/terms" className="transition hover:text-primary">Terms &amp; Conditions</Link></li>
+            <li><Link href="/legal/privacy" className="transition hover:text-primary">Privacy Policy</Link></li>
+            <li><Link href="/legal/cookies" className="transition hover:text-primary">Cookie Information</Link></li>
           </ul>
         </div>
       </div>
@@ -107,7 +108,7 @@ function SocialLink({
       href={href}
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       aria-label={`${SITE.name} on ${label}`}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:border-accent hover:text-accent"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink-muted transition hover:border-primary hover:text-primary"
     >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden>
         {children}

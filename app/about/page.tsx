@@ -24,18 +24,18 @@ export default function AboutPage() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-hero-gradient text-white">
+    <section className="relative overflow-hidden border-b border-ink/8 bg-hero-gradient text-ink">
       <div className="absolute inset-0 bg-mesh opacity-70" aria-hidden />
       <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-16 lg:py-24">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.15em] text-accent">About</p>
+          <p className="text-xs font-bold uppercase tracking-[0.15em] text-accent-emphasis">About</p>
           <h1 className="mt-4 font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
             About Us
           </h1>
           <h2 className="mt-6 font-display text-2xl font-bold leading-snug sm:text-3xl">
             Your trusted guide to the smart technology universe
           </h2>
-          <p className="mt-6 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
+          <p className="mt-6 max-w-xl text-base leading-7 text-ink-muted sm:text-lg">
             At {SITE.name}, we&apos;re more than just a website — we&apos;re your independent, tech-savvy
             companions in the exciting world of smart electronics and home gadgets.
           </p>
@@ -113,14 +113,13 @@ function Mission() {
 
 function Vision() {
   return (
-    <section className="bg-dark py-20 text-white">
+    <section className="border-y border-ink/8 bg-muted py-20 text-ink">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-16">
         <div>
           <SectionHeader
             eyebrow="Our vision"
             title="The future of smart-tech shopping"
             subtitle="We envision a future where everyone can confidently embrace smart technology, regardless of their tech knowledge."
-            dark
           />
         </div>
         <div className="relative flex justify-center">
