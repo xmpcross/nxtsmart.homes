@@ -1,133 +1,192 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 
-const CONTACT_EMAIL = 'hello@nxtsmart.homes';
+const SUBJECTS = [
+  'General support',
+  'Website issue',
+  'Partnership enquiry',
+  'Privacy request',
+  'Cookie request',
+  'Accessibility feedback',
+  'Content correction',
+  'Legal notice',
+  'Other',
+];
 
-/**
- * Client-side contact form. On submit it composes a mailto: URL with the
- * fields encoded into subject + body and opens the user's mail client.
- * Pure client-side — no backend or third-party service needed.
- */
+const inputClass =
+  'w-full rounded-lg border border-ink/10 bg-white px-4 py-3 text-base text-ink placeholder:text-ink-faint focus:border-primary-emphasis focus:outline-none focus:ring-2 focus:ring-primary/15';
+
+type Status = { type: 'idle' } | { type: 'sending' } | { type: 'ok' } | { type: 'error'; msg: string };
+
 export default function ContactForm() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
-  const [opened, setOpened] = useState(false);
+  const [status, setStatus] = useState<Status>({ type: 'idle' });
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const body = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      '',
-      message,
-    ].join('\n');
-    const subj = subject || `Contact from ${name || 'NXTSmart.Homes visitor'}`;
-    const url = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
-    window.location.href = url;
-    setOpened(true);
+    if (status.type === 'sending') return;
+    // Capture form ref synchronously — React nullifies e.currentTarget once
+    // the handler returns / hits the first await.
+    const form = e.currentTarget;
+    setStatus({ type: 'sending' });
+
+    const fd = new FormData(form);
+    const payload = {
+      name: String(fd.get('name') ?? ''),
+      email: String(fd.get('email') ?? ''),
+      subject: String(fd.get('subject') ?? ''),
+      pageUrl: String(fd.get('pageUrl') ?? ''),
+      message: String(fd.get('message') ?? ''),
+      website: String(fd.get('website') ?? ''), // honeypot
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!res.ok || !data.ok) {
+        setStatus({ type: 'error', msg: data.error ?? 'Could not send the message. Please try again later.' });
+        return;
+      }
+      setStatus({ type: 'ok' });
+      form.reset();
+    } catch {
+      setStatus({ type: 'error', msg: 'Network error. Please try again.' });
+    }
+  }
+
+  if (status.type === 'ok') {
+    return (
+      <div
+        className="rounded-lg border border-ink/8 bg-surface p-6 shadow-sm sm:p-8"
+        data-testid="contact-form-success"
+      >
+        <h2 className="font-display text-xl font-bold text-ink sm:text-2xl">
+          Thanks — message sent.
+        </h2>
+        <p className="mt-2 text-sm font-light text-ink-muted">
+          We&apos;ve received your note and will reply to the email address you gave us. If it&apos;s
+          urgent, you can also reach us at{' '}
+          <a href="mailto:hello@nxtsmart.homes" className="underline hover:text-ink">
+            hello@nxtsmart.homes
+          </a>
+          .
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus({ type: 'idle' })}
+          className="mt-6 inline-flex items-center justify-center rounded-lg bg-ink px-6 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-primary-emphasis"
+        >
+          Send another
+        </button>
+      </div>
+    );
   }
 
   return (
     <form
-      onSubmit={handleSubmit}
-      className="space-y-5"
+      onSubmit={onSubmit}
+      className="rounded-lg border border-ink/8 bg-surface p-6 shadow-sm sm:p-8"
       data-testid="contact-form"
-      aria-label="Contact form"
+      aria-describedby="contact-form-note"
+      noValidate
     >
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Your name" id="contact-name" required>
-          <input
-            id="contact-name"
-            type="text"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoComplete="name"
-            className={inputClass}
-          />
-        </Field>
-        <Field label="Email" id="contact-email" required>
-          <input
-            id="contact-email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-            className={inputClass}
-          />
-        </Field>
-      </div>
-      <Field label="Subject" id="contact-subject">
-        <input
-          id="contact-subject"
-          type="text"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          placeholder="What’s this about?"
-          className={inputClass}
-        />
-      </Field>
-      <Field label="Message" id="contact-message" required>
-        <textarea
-          id="contact-message"
-          required
-          rows={6}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Tell us a bit more…"
-          className={`${inputClass} resize-y`}
-        />
-      </Field>
+      <h2 className="font-display text-xl font-bold text-ink sm:text-2xl">
+        Send us a message
+      </h2>
+      <p id="contact-form-note" className="mt-1 text-sm font-light text-ink-muted">
+        Please don&apos;t send sensitive information (passport numbers, payment details, etc.)
+        through this form.
+      </p>
 
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="mt-6 grid gap-5 sm:grid-cols-2">
+        <Field label="Name" htmlFor="contact-name">
+          <input id="contact-name" name="name" type="text" autoComplete="name" required maxLength={200} className={inputClass} />
+        </Field>
+
+        <Field label="Email" htmlFor="contact-email">
+          <input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={200} className={inputClass} />
+        </Field>
+
+        <Field label="Subject" htmlFor="contact-subject" className="sm:col-span-2">
+          <select id="contact-subject" name="subject" required defaultValue="" className={`${inputClass} pr-8`}>
+            <option value="" disabled hidden>
+              Select a topic…
+            </option>
+            {SUBJECTS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        <Field label="Page URL (optional)" htmlFor="contact-url" className="sm:col-span-2">
+          <input
+            id="contact-url"
+            name="pageUrl"
+            type="url"
+            maxLength={500}
+            placeholder="https://nxtsmart.homes/…"
+            className={inputClass}
+          />
+        </Field>
+
+        <Field label="Message" htmlFor="contact-message" className="sm:col-span-2">
+          <textarea id="contact-message" name="message" rows={6} required maxLength={5000} className={`${inputClass} resize-y`} />
+        </Field>
+
+        {/* Honeypot: invisible to humans, bots usually fill all fields */}
+        <label className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+          Website
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
+
+      {status.type === 'error' && (
+        <p role="alert" className="mt-5 rounded-md bg-primary-emphasis/10 px-3 py-2 text-sm text-primary-emphasis">
+          {status.msg}
+        </p>
+      )}
+
+      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-xs text-ink-muted">
+          By submitting, you agree to our{' '}
+          <a href="/legal/privacy" className="underline hover:text-ink">
+            Privacy Policy
+          </a>
+          .
+        </p>
         <button
           type="submit"
-          className="inline-flex items-center rounded-xl bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-primary-emphasis disabled:opacity-50"
-          disabled={!name || !email || !message}
+          disabled={status.type === 'sending'}
+          className="inline-flex items-center justify-center rounded-lg bg-ink px-6 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-primary-emphasis disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Send message
+          {status.type === 'sending' ? 'Sending…' : 'Send message'}
         </button>
-        {opened && (
-          <p className="text-sm text-ink-muted" role="status">
-            Opening your email client… If nothing happens, write to{' '}
-            <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-primary hover:underline">
-              {CONTACT_EMAIL}
-            </a>
-            .
-          </p>
-        )}
       </div>
-      <p className="text-xs leading-5 text-ink/45">
-        Submitting this form opens your default email app with the message pre-filled — your address
-        is only used to reply to you.
-      </p>
     </form>
   );
 }
 
-const inputClass =
-  'block w-full rounded-xl border border-ink/10 bg-muted/40 px-4 py-3 text-base text-ink placeholder:text-ink-faint transition focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/15';
-
 function Field({
   label,
-  id,
-  required,
+  htmlFor,
+  className,
   children,
 }: {
   label: string;
-  id: string;
-  required?: boolean;
+  htmlFor: string;
+  className?: string;
   children: React.ReactNode;
 }) {
   return (
-    <label htmlFor={id} className="block">
-      <span className="mb-2 block text-sm font-medium text-ink/80">
+    <label htmlFor={htmlFor} className={`block ${className ?? ''}`}>
+      <span className="mb-1.5 block text-xs font-medium uppercase tracking-widest text-primary">
         {label}
-        {required && <span aria-hidden className="ml-1 text-primary">*</span>}
       </span>
       {children}
     </label>

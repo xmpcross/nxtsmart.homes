@@ -76,6 +76,7 @@ export default async function HtmlSitemapPage() {
             <SiteLink href="/about">About us</SiteLink>
             <SiteLink href="/blog">Blog</SiteLink>
             <SiteLink href="/contact">Contact us</SiteLink>
+            <SiteLink href="/editorial-policy">Editorial policy</SiteLink>
             <SiteLink href="/search">Search</SiteLink>
             <SiteLink href="/feed.xml">RSS feed</SiteLink>
             <SiteLink href="/sitemap.xml">XML sitemap</SiteLink>

@@ -253,7 +253,7 @@ function SectionSets({
           subtitle="Six editorial formats and six smart-home topics — pick where you want to start."
         />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {sections.map((s) => {
+          {sections.slice(0, 6).map((s) => {
             const count = bySection[s.slug]?.length ?? 0;
             const cover = bySection[s.slug]?.[0];
             const img = cover ? firstImageUrl(cover.content) : null;
@@ -265,7 +265,7 @@ function SectionSets({
                 data-testid={`set-${s.slug}`}
               >
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-lg" aria-hidden>
+                  <div className="flex h-11 w-11 items-center justify-center text-3xl leading-none" aria-hidden>
                     {CATEGORY_ICONS[s.slug] ?? '📄'}
                   </div>
                   <span className="rounded-full bg-muted px-3 py-1 text-xs font-bold text-ink-muted">{count}+</span>

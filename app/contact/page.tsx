@@ -32,8 +32,7 @@ export default function ContactPage() {
               Tell us what&apos;s on your mind
             </h2>
             <p className="mt-4 text-base leading-7 text-ink-muted">
-              Fill in the form and we&apos;ll get back to you. Submitting opens your default email client
-              with the message pre-filled — no data is sent to a server.
+              Fill in the form and we&apos;ll get back to you by email. Please include the product, guide, or page URL if your message is about a specific article.
             </p>
             <p className="mt-6 text-sm text-ink-faint">
               Prefer email?{' '}
@@ -42,9 +41,7 @@ export default function ContactPage() {
               </a>
             </p>
           </div>
-          <div className="rounded-4xl border border-ink/8 bg-surface p-6 shadow-card sm:p-10">
-            <ContactForm />
-          </div>
+          <ContactForm />
         </div>
 
         <div className="mx-auto mt-16 max-w-3xl px-5 text-center sm:px-6">

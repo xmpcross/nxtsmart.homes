@@ -1,0 +1,132 @@
+import { NextResponse } from 'next/server';
+import { Resend } from 'resend';
+
+export const runtime = 'nodejs';
+
+const FROM = process.env.CONTACT_FROM_EMAIL ?? 'NXTSmart.Homes Contact <onboarding@resend.dev>';
+const TO = process.env.CONTACT_TO_EMAIL ?? 'hello@nxtsmart.homes';
+
+// Naive in-memory per-IP rate limit: max 5 submissions per 15 minutes.
+const RATE = { windowMs: 15 * 60 * 1000, max: 5 };
+const hits = new Map<string, number[]>();
+function rateLimited(ip: string): boolean {
+  const now = Date.now();
+  const arr = (hits.get(ip) ?? []).filter((t) => now - t < RATE.windowMs);
+  if (arr.length >= RATE.max) {
+    hits.set(ip, arr);
+    return true;
+  }
+  arr.push(now);
+  hits.set(ip, arr);
+  return false;
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function ipFromRequest(req: Request): string {
+  const fwd = req.headers.get('x-forwarded-for');
+  if (fwd) return fwd.split(',')[0]!.trim();
+  const real = req.headers.get('x-real-ip');
+  if (real) return real.trim();
+  return 'unknown';
+}
+
+export async function POST(req: Request) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ ok: false, error: 'Email service not configured.' }, { status: 500 });
+  }
+
+  const ip = ipFromRequest(req);
+  if (rateLimited(ip)) {
+    return NextResponse.json(
+      { ok: false, error: 'Too many submissions. Please try again in a few minutes.' },
+      { status: 429 },
+    );
+  }
+
+  let body: Record<string, unknown>;
+  try {
+    body = (await req.json()) as Record<string, unknown>;
+  } catch {
+    return NextResponse.json({ ok: false, error: 'Invalid request body.' }, { status: 400 });
+  }
+
+  // Honeypot — bots typically fill all visible fields.
+  if (typeof body.website === 'string' && body.website.length > 0) {
+    return NextResponse.json({ ok: true }); // pretend success, drop silently
+  }
+
+  const name = (body.name as string | undefined)?.trim() ?? '';
+  const email = (body.email as string | undefined)?.trim() ?? '';
+  const subject = (body.subject as string | undefined)?.trim() ?? '';
+  const pageUrl = (body.pageUrl as string | undefined)?.trim() ?? '';
+  const message = (body.message as string | undefined)?.trim() ?? '';
+
+  if (!name || !email || !subject || !message) {
+    return NextResponse.json(
+      { ok: false, error: 'Name, email, subject, and message are required.' },
+      { status: 400 },
+    );
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return NextResponse.json({ ok: false, error: 'Please enter a valid email address.' }, { status: 400 });
+  }
+  if (name.length > 200 || subject.length > 200 || message.length > 5000 || pageUrl.length > 500) {
+    return NextResponse.json({ ok: false, error: 'One or more fields exceed the allowed length.' }, { status: 400 });
+  }
+
+  const resend = new Resend(apiKey);
+
+  const html = `
+    <div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#07142b;line-height:1.5">
+      <h2 style="margin:0 0 16px;font-size:18px;color:#030303">New contact-form submission</h2>
+      <table style="border-collapse:collapse;width:100%;max-width:560px">
+        <tr><td style="padding:8px 12px;background:#f0f2f4;font-weight:600;width:120px">From</td><td style="padding:8px 12px;border-bottom:1px solid #e5e7eb">${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;</td></tr>
+        <tr><td style="padding:8px 12px;background:#f0f2f4;font-weight:600">Subject</td><td style="padding:8px 12px;border-bottom:1px solid #e5e7eb">${escapeHtml(subject)}</td></tr>
+        ${pageUrl ? `<tr><td style="padding:8px 12px;background:#f0f2f4;font-weight:600">Page URL</td><td style="padding:8px 12px;border-bottom:1px solid #e5e7eb"><a href="${escapeHtml(pageUrl)}">${escapeHtml(pageUrl)}</a></td></tr>` : ''}
+        <tr><td style="padding:8px 12px;background:#f0f2f4;font-weight:600;vertical-align:top">Message</td><td style="padding:8px 12px;white-space:pre-wrap">${escapeHtml(message)}</td></tr>
+      </table>
+      <p style="margin:16px 0 0;font-size:12px;color:#07142bb3">Sent from nxtsmart.homes contact form · IP ${escapeHtml(ip)}</p>
+    </div>
+  `;
+
+  const text = [
+    `From:    ${name} <${email}>`,
+    `Subject: ${subject}`,
+    pageUrl ? `Page:    ${pageUrl}` : null,
+    '',
+    message,
+    '',
+    `--`,
+    `Sent from nxtsmart.homes contact form · IP ${ip}`,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: FROM,
+      to: [TO],
+      replyTo: `${name} <${email}>`,
+      subject: `[NXTSmart.Homes contact] ${subject}`,
+      html,
+      text,
+    });
+    if (error) {
+      console.error('[contact] resend error', error);
+      return NextResponse.json({ ok: false, error: 'Could not send the message. Please try again later.' }, { status: 502 });
+    }
+    return NextResponse.json({ ok: true, id: data?.id ?? null });
+  } catch (err) {
+    console.error('[contact] send failure', err);
+    return NextResponse.json({ ok: false, error: 'Could not send the message. Please try again later.' }, { status: 502 });
+  }
+}

@@ -29,9 +29,11 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { category } = await params;
   if (isReserved(category)) return {};
   const name = await resolveCategoryName(category);
+  const sectionMeta = SECTIONS.find((s) => s.slug === category);
+  const categoryRecord = await getCategory(category).catch(() => null);
   return {
     title: name,
-    description: `${name} from ${SITE.name} — ${SITE.tagline}`,
+    description: sectionMeta?.blurb || categoryRecord?.description || `${name} from ${SITE.name} — ${SITE.tagline}`,
     alternates: { canonical: `/${category}` },
   };
 }
@@ -49,18 +51,19 @@ export default async function CategoryPage({
   const { page: pageRaw } = await searchParams;
   const page = Math.max(1, Number(pageRaw) || 1);
 
-  const [name, res] = await Promise.all([
-    resolveCategoryName(category),
+  const [categoryRecord, res] = await Promise.all([
+    getCategory(category).catch(() => null),
     listPosts({ category, page, pageSize: PAGE_SIZE }).catch(() => null),
   ]);
 
+  const sectionMeta = SECTIONS.find((s) => s.slug === category);
+  const name = categoryRecord?.name ?? sectionMeta?.title ?? category.replace(/-/g, " ");
+  const intro = sectionMeta?.blurb ?? categoryRecord?.description;
   const posts = res?.data ?? [];
   const pageCount = res?.meta?.pagination?.pageCount ?? 1;
   const total = res?.meta?.pagination?.total ?? posts.length;
 
   if (page > 1 && posts.length === 0) notFound();
-
-  const sectionMeta = SECTIONS.find((s) => s.slug === category);
 
   return (
     <div data-testid={`category-${category}`}>
@@ -72,9 +75,9 @@ export default async function CategoryPage({
             <span className="text-ink-muted">{name}</span>
           </nav>
           <p className="mt-6 text-xs font-bold uppercase tracking-[0.15em] text-primary">Category</p>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">{name}</h1>
-          {sectionMeta && (
-            <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted">{sectionMeta.blurb}</p>
+          <h1 className="mt-3 font-display text-[2rem] font-bold tracking-tight text-ink">{name}</h1>
+          {intro && (
+            <p className="mt-4 w-full text-base leading-7 text-ink-muted">{intro}</p>
           )}
           {total > 0 && (
             <p className="mt-4 text-sm text-ink-faint">{total} article{total === 1 ? '' : 's'}</p>
@@ -94,7 +97,7 @@ export default async function CategoryPage({
         ) : (
           <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((p) => (
-              <PostCard key={p.id} post={p} variant="tile" />
+              <PostCard key={p.id} post={p} variant="tile" thumbBg="none" />
             ))}
           </div>
         )}

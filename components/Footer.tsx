@@ -17,7 +17,7 @@ export default function Footer() {
           <div className="grid gap-12 lg:grid-cols-[55fr_15fr_15fr_15fr]">
             <div>
               <p className="font-display text-xl font-bold">{SITE.name}</p>
-              <p className="mt-4 max-w-sm text-sm leading-7 text-ink-muted">
+              <p className="mt-4 max-w-sm text-base font-medium leading-7 text-ink-muted">
                 {SITE.description}
               </p>
               <a
@@ -42,11 +42,12 @@ export default function Footer() {
             <div>
               <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-ink-faint">About Us</h3>
               <ul className="mt-4 space-y-2.5 text-sm">
-                <li><Link href="/" className="text-ink-muted transition hover:text-primary">Home</Link></li>
-                <li><Link href="/about" className="text-ink-muted transition hover:text-primary">About</Link></li>
-                <li><Link href="/blog" className="text-ink-muted transition hover:text-primary">Blog</Link></li>
-                <li><Link href="/sitemap" className="text-ink-muted transition hover:text-primary">Sitemap</Link></li>
-                <li><Link href="/contact" className="text-ink-muted transition hover:text-primary">Contact</Link></li>
+                <li><Link href="/" className="font-medium text-ink-muted transition hover:text-primary">Home</Link></li>
+                <li><Link href="/about" className="font-medium text-ink-muted transition hover:text-primary">About</Link></li>
+                <li><Link href="/blog" className="font-medium text-ink-muted transition hover:text-primary">Blog</Link></li>
+                <li><Link href="/editorial-policy" className="font-medium text-ink-muted transition hover:text-primary">Editorial Policy</Link></li>
+                <li><Link href="/sitemap" className="font-medium text-ink-muted transition hover:text-primary">Sitemap</Link></li>
+                <li><Link href="/contact" className="font-medium text-ink-muted transition hover:text-primary">Contact</Link></li>
               </ul>
             </div>
 
@@ -55,7 +56,7 @@ export default function Footer() {
               <ul className="mt-4 space-y-2.5 text-sm">
                 {topics.map((s) => (
                   <li key={s.slug}>
-                    <Link href={`/${s.slug}`} className="text-ink-muted transition hover:text-primary">
+                    <Link href={`/${s.slug}`} className="font-medium text-ink-muted transition hover:text-primary">
                       {s.title}
                     </Link>
                   </li>
@@ -68,7 +69,7 @@ export default function Footer() {
               <ul className="mt-4 space-y-2.5 text-sm">
                 {editorial.map((s) => (
                   <li key={s.slug}>
-                    <Link href={`/${s.slug}`} className="text-ink-muted transition hover:text-primary">
+                    <Link href={`/${s.slug}`} className="font-medium text-ink-muted transition hover:text-primary">
                       {s.title}
                     </Link>
                   </li>

@@ -45,7 +45,7 @@ function NavDropdown({
         </svg>
       </button>
       <div
-        className="invisible absolute right-0 top-full z-10 mt-2 grid w-64 gap-1 rounded-2xl border border-ink/10 bg-white p-2 opacity-0 shadow-card-hover transition duration-150 group-hover/nav:visible group-hover/nav:opacity-100 group-focus-within/nav:visible group-focus-within/nav:opacity-100"
+        className="invisible absolute right-0 top-full z-10 grid w-64 gap-1 rounded-2xl border border-ink/10 bg-white p-2 pt-3 opacity-0 shadow-card-hover transition duration-150 group-hover/nav:visible group-hover/nav:opacity-100 group-focus-within/nav:visible group-focus-within/nav:opacity-100"
         role="menu"
         data-testid={`nav-${group}-dropdown`}
       >

@@ -17,6 +17,9 @@ export default function PostCard({
   const imgAlt = post.coverImage?.alternativeText || post.coverImageAlt || post.title;
   const href = postPath(post);
   const cat = post.categories?.[0];
+  const tileFrameClass = thumbBg === "none"
+    ? "bg-transparent shadow-none"
+    : `border border-ink/8 shadow-card hover:border-primary/15 hover:shadow-card-hover ${thumbBg}`;
 
   if (variant === 'horizontal') {
     return (
@@ -119,7 +122,7 @@ export default function PostCard({
     <article className="group flex h-full flex-col" data-testid={`tile-${post.slug}`}>
       <Link
         href={href}
-        className={`relative block overflow-hidden rounded-4xl border border-ink/8 shadow-card transition hover:-translate-y-0.5 hover:border-primary/15 hover:shadow-card-hover ${thumbBg}`}
+        className={`relative block overflow-hidden rounded-4xl transition hover:-translate-y-0.5 ${tileFrameClass}`}
       >
         {img ? (
           // eslint-disable-next-line @next/next/no-img-element

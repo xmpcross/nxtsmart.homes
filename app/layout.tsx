@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CookieConsent from '@/components/CookieConsent';
 import { SITE } from '@/lib/site';
 
 // Fonts are self-hosted via @font-face in globals.css (public/fonts/InterVariable*.woff2).
@@ -24,7 +25,10 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    other: { 'msvalidate.01': '057158952120360611CA2F41AD7D5B50' },
+    other: {
+      'msvalidate.01': '057158952120360611CA2F41AD7D5B50',
+      'google-adsense-account': 'ca-pub-2867376862905050',
+    },
   },
 };
 
@@ -35,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <CookieConsent />
       </body>
     </html>
   );

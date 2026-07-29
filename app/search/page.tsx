@@ -7,6 +7,7 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Search',
+  robots: { index: false, follow: true },
   alternates: { canonical: '/search' },
 };
 

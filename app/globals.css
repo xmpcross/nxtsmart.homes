@@ -581,6 +581,12 @@ article[data-testid^="post-"][data-category="product-comparisons"] * {
   border: 0 solid #e5e7eb !important;
 }
 
+/* Homepage: uniform 8px corner radius on all rounded UI. Circles
+   (rounded-full pills/dots) keep their shape. */
+[data-testid="home-page"] :is(.rounded, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl, .rounded-4xl) {
+  border-radius: 8px;
+}
+
 /* Single post pages: uniform 8px corner radius on all rounded UI (content
    card, featured image, sidebar cards, review cards, buttons, thumbs).
    Circles (rounded-full pills/dots) keep their shape. */
@@ -742,4 +748,35 @@ article[data-post-type] :is(.rounded, .rounded-md, .rounded-lg, .rounded-xl, .ro
   z-index: 1;
   position: relative;
   font-family: var(--font-urbanist), system-ui, sans-serif;
+}
+
+/* Generated Markdown tables */
+.post-content > .post-table-wrap {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid theme( colors.ink.DEFAULT / 0.08);
+  border-radius: 0.75rem;
+  background: theme(colors.surface);
+}
+.post-content > .post-table-wrap table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.post-content > .post-table-wrap th,
+.post-content > .post-table-wrap td {
+  padding: 0.875rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid theme(colors.ink.DEFAULT / 0.08);
+}
+.post-content > .post-table-wrap th {
+  background: theme(colors.muted);
+  color: theme(colors.ink.DEFAULT);
+  font-weight: 700;
+}
+.post-content > .post-table-wrap tr:last-child td {
+  border-bottom: 0;
 }
