@@ -201,7 +201,10 @@ article[data-testid^="post-"] .post-content .elementor :where(blockquote) {
   flex: none;
   display: flex;
 }
-.post-content [class*="gspb_heading_sep_gsbp"] > :where(h2, h3, h4) {
+/* Three-class specificity so this beats `.post-content .gspb_heading`'s
+   margin (declared later in the file). */
+.post-content [class*="gspb_heading_sep_gsbp"] > :where(h2, h3, h4),
+.post-content [class*="gspb_heading_sep_gsbp"] > .gspb_heading {
   margin: 0;
 }
 .post-content .gs-numhead__circle {
