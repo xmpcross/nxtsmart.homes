@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getPost, listPosts, mediaUrl, coverImageSrc, type NxtSmartPost } from '@/lib/strapi';
+import { getPost, listPosts, listCategories, mediaUrl, coverImageSrc, type NxtSmartPost } from '@/lib/strapi';
 import { SECTIONS, SITE } from '@/lib/site';
 import { fmtDate, primaryCategorySlug, postPath } from '@/lib/format';
 import PostContent from '@/components/PostContent';
 import RelatedCarousel from '@/components/RelatedCarousel';
+import PostSidebar from '@/components/PostSidebar';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -59,9 +60,15 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
     redirect(postPath(post));
   }
 
-  const related = await listPosts({ category, pageSize: 9 })
-    .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 8))
-    .catch(() => [] as NxtSmartPost[]);
+  const [related, categories, recent] = await Promise.all([
+    listPosts({ category, pageSize: 9 })
+      .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 8))
+      .catch(() => [] as NxtSmartPost[]),
+    listCategories().catch(() => []),
+    listPosts({ pageSize: 6 })
+      .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 5))
+      .catch(() => [] as NxtSmartPost[]),
+  ]);
 
   const cover = coverImageSrc(post);
   const cat = post.categories?.[0];
@@ -132,23 +139,31 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
       </header>
 
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
-        {cover && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={cover}
-            alt={post.coverImage?.alternativeText || post.title}
-            className="mt-8 aspect-[16/9] w-full rounded-4xl border border-ink/8 bg-muted object-contain shadow-card"
-          />
-        )}
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-10">
+          <div className="min-w-0">
+            {cover && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={cover}
+                alt={post.coverImage?.alternativeText || post.title}
+                className="mt-8 aspect-[16/9] w-full rounded-4xl border border-ink/8 bg-muted object-contain shadow-card"
+              />
+            )}
 
-        <div className="mt-10 rounded-4xl border border-ink/8 bg-surface p-6 sm:p-10 lg:p-12">
-          <PostContent html={post.content} />
-        </div>
+            <div className="mt-10 rounded-4xl border border-ink/8 bg-surface p-6 sm:p-10 lg:p-12">
+              <PostContent html={post.content} />
+            </div>
 
-        <div className="mt-8 rounded-2xl border border-amber-200/80 bg-amber-50/80 p-5 text-xs leading-6 text-ink-muted">
-          <strong className="text-ink">Affiliate disclosure.</strong> {SITE.name} earns a
-          commission when you buy through links on this page, at no extra cost to you.
-          Prices and availability are accurate as of {fmtDate(post.updatedAt)} and subject to change.
+            <div className="mt-8 rounded-2xl border border-amber-200/80 bg-amber-50/80 p-5 text-xs leading-6 text-ink-muted">
+              <strong className="text-ink">Affiliate disclosure.</strong> {SITE.name} earns a
+              commission when you buy through links on this page, at no extra cost to you.
+              Prices and availability are accurate as of {fmtDate(post.updatedAt)} and subject to change.
+            </div>
+          </div>
+
+          <div className="lg:mt-8">
+            <PostSidebar categories={categories} recent={recent} />
+          </div>
         </div>
 
         {related.length > 0 && (
