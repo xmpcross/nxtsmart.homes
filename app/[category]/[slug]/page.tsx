@@ -97,7 +97,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
       />
 
       <header className="border-b border-ink/8 bg-paper">
-        <div className="mx-auto max-w-4xl px-5 py-10 sm:px-6 sm:py-14">
+        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 sm:py-14">
           <nav className="flex items-center gap-2 text-xs text-ink-faint" data-testid="breadcrumb" aria-label="Breadcrumb">
             <Link href="/" className="shrink-0 hover:text-primary">Home</Link>
             <span className="shrink-0">/</span>
@@ -131,7 +131,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
         </div>
       </header>
 
-      <div className="mx-auto max-w-4xl px-5 sm:px-6">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         {cover && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
