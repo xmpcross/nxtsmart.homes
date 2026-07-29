@@ -64,6 +64,15 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* cegg-bootstrap.min.css (loaded on single post pages for the affiliate
+   product blocks) re-styles `body` with its own font stack and wins by load
+   order. Point its font variables at ours; the doubled :root out-specifies
+   the vendor's :root definitions no matter which stylesheet loads last. */
+:root:root {
+  --cegg-font-sans-serif: var(--font-outfit);
+  --cegg-body-font-family: var(--font-outfit);
+}
+
 /* Site chrome headings */
 h1, h2, h3, h4, h5, h6,
 .post-content h1, .post-content h2, .post-content h3,
