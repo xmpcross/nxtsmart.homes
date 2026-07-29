@@ -187,6 +187,41 @@ article[data-testid^="post-"] .post-content .elementor :where(blockquote) {
   border-left-color: theme('colors.primary.DEFAULT') !important;
 }
 
+/* GreenShift numbered headings: a .gs-numhead__circle badge followed by the
+   heading, wrapped in a div.gspb_heading_sep_gsbp-XXXX. The plugin CSS that
+   laid these out inline never shipped with the import — recreate it: circle
+   badge with brand outline, heading beside it. Used by ~47 posts. */
+.post-content [class*="gspb_heading_sep_gsbp"] {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin: 2.5rem 0 1rem;
+}
+.post-content [class*="gspb_heading_sep_gsbp"] > .gspb_heading_sep {
+  flex: none;
+  display: flex;
+}
+.post-content [class*="gspb_heading_sep_gsbp"] > :where(h2, h3, h4) {
+  margin: 0;
+}
+.post-content .gs-numhead__circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 2px solid theme('colors.primary.DEFAULT');
+  border-radius: 9999px;
+  color: theme('colors.primary.DEFAULT');
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1;
+}
+/* Beat the article-level white border-color override. */
+article[data-testid^="post-"] .post-content .gs-numhead__circle {
+  border-color: theme('colors.primary.DEFAULT') !important;
+}
+
 .post-content :where(a:not(.gspb_row a, .gspb_col a, [class*="gspb_"] a)) {
   color: theme('colors.primary.DEFAULT');
   text-decoration: none;
