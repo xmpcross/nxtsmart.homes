@@ -1,0 +1,14 @@
+== /product-comparisons
+<title>Product Comparisons · NXTSmart.Homes
+<meta name="description" content="Product comparisons help you choose between similar smart home devices, platforms, and ecosystems. We compare features, setup needs, compatibility, tradeoffs, and buyer fit so the right option is easier to spot."/
+<link rel="canonical" href="https://nxtsmart.homes/product-comparisons"/
+== /product-comparisons?view=2
+<title>Product Comparisons · NXTSmart.Homes
+<meta name="description" content="Product comparisons help you choose between similar smart home devices, platforms, and ecosystems. We compare features, setup needs, compatibility, tradeoffs, and buyer fit so the right option is easier to spot."/
+<meta name="robots" content="noindex, follow"/
+<link rel="canonical" href="https://nxtsmart.homes/product-comparisons"/
+== /product-comparisons?page=2
+<title>Product Comparisons — Page 2 · NXTSmart.Homes
+<meta name="description" content="Product comparisons help you choose between similar smart home devices, platforms, and ecosystems. We compare features, setup needs, compatibility, tradeoffs, and buyer fit so the right option is easier to spot. Page 2."/
+<link rel="canonical" href="https://nxtsmart.homes/product-comparisons?page=2"/
+sitemap parameter URLs: none found

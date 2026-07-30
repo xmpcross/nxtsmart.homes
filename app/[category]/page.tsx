@@ -13,7 +13,7 @@ const PAGE_SIZE = 12;
 const RESERVED = new Set(['about', 'search', 'feed.xml', 'sitemap.xml', 'robots.txt']);
 
 type Params = { category: string };
-type SearchParams = { page?: string };
+type SearchParams = { page?: string; view?: string };
 
 function isReserved(slug: string) {
   return RESERVED.has(slug);
@@ -26,17 +26,30 @@ async function resolveCategoryName(slug: string): Promise<string> {
   return fromConfig?.title ?? slug.replace(/-/g, ' ');
 }
 
-export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
   const { category } = await params;
   if (isReserved(category)) return {};
+  const { page: pageRaw, view: viewRaw } = await searchParams;
+  const page = Math.max(1, Number(pageRaw) || 1);
+  const hasViewParam = viewRaw === "2" || viewRaw === "4" || viewRaw === "list";
   const sectionMeta = SECTIONS.find((s) => s.slug === category);
   const categoryRecord = await getCategory(category).catch(() => null);
   if (!categoryRecord && !sectionMeta) return { title: "Not found" };
   const name = categoryRecord?.name ?? sectionMeta?.title ?? category.replace(/-/g, " " );
+  const baseDescription = sectionMeta?.blurb || categoryRecord?.description || `${name} from ${SITE.name} — ${SITE.tagline}`;
+  const pageSuffix = page > 1 ? ` — Page ${page}` : "";
+  const canonical = `/${category}${page > 1 ? `?page=${page}` : ""}`;
   return {
-    title: name,
-    description: sectionMeta?.blurb || categoryRecord?.description || `${name} from ${SITE.name} — ${SITE.tagline}`,
-    alternates: { canonical: `/${category}` },
+    title: `${name}${pageSuffix}`,
+    description: page > 1 ? `${baseDescription} Page ${page}.` : baseDescription,
+    alternates: { canonical },
+    robots: hasViewParam ? { index: false, follow: true } : undefined,
   };
 }
 
