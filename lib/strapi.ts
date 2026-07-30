@@ -1,4 +1,5 @@
 import qs from 'qs';
+import { RETIRED_POST_SLUGS } from "@/lib/retiredPosts";
 
 const BASE = (process.env.NEXT_PUBLIC_STRAPI_URL || 'https://cms.fxnstudio.com').replace(/\/$/, '');
 const TOKEN = process.env.STRAPI_API_TOKEN;
@@ -135,6 +136,9 @@ export async function listPosts(
       { categories: { name: { $containsi: q } } },
     ];
   }
+  if (RETIRED_POST_SLUGS.size) {
+    filters.slug = { $notIn: Array.from(RETIRED_POST_SLUGS) };
+  }
 
   return strapiFetch<ListResponse<NxtSmartPost>>('nxtsmart-posts', {
     fields: ['title', 'slug', 'excerpt', 'postType', 'legacyWpId', 'readingTimeMinutes', 'publishedAt', 'updatedAt', 'dateModified', 'coverImageUrl', 'coverImageAlt'],
@@ -183,6 +187,7 @@ export async function listAllPostSlugs(): Promise<{ slug: string; category: stri
       pagination: { page, pageSize: 100 },
     });
     for (const p of res.data) {
+      if (RETIRED_POST_SLUGS.has(p.slug)) continue;
       const cat = p.categories?.[0]?.slug ?? 'uncategorized';
       all.push({ slug: p.slug, category: cat, updatedAt: p.updatedAt });
     }

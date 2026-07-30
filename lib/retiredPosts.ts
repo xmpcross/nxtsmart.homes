@@ -1,0 +1,30 @@
+export const RETIRED_POST_REDIRECTS: Record<string, string> = {
+  "/top-rated/top-7-security-camera-products-protection": "/top-rated/top-6-security-cameras-for-home-protection",
+  "/top-rated/top-7-security-camera-innovations-need": "/top-rated/top-6-security-cameras-for-home-protection",
+  "/top-rated/top-6-wireless-security-cameras-2024": "/top-rated/top-6-security-cameras-for-home-protection",
+  "/top-rated/top-7-home-monitor-cameras": "/top-rated/top-6-security-cameras-for-home-protection",
+  "/product-comparisons/amazon-echo-dot-vs-echo-pop-a-comparison": "/product-comparisons/amazon-echo-pop-vs-echo-dot",
+  "/product-comparisons/teeho-te001-vs-eufy-c210": "/product-comparisons/teeho-te001-vs-eufy-c220",
+  "/smart-home-security/layered-smart-home-security-system-sensors-cameras-automated-alerts": "/smart-home-security/build-layered-smart-home-security-cameras-sensors-automation",
+  "/top-rated/top-7-innovative-smart-lock-fingerprint-products-see": "/top-rated/top-7-smart-locks-to-enhance-your-home-security",
+  "/top-rated/top-alexa-smart-plugs-home": "/top-rated/top-6-smart-plugs-and-outlets-for-home-automation",
+  "/how-to-guides/set-up-smart-light-bulbs-mobile-app": "/how-to-guides/smart-lighting-how-to-set-up",
+  "/how-to-guides/set-up-wifi-smart-light-bulbs": "/how-to-guides/smart-lighting-how-to-set-up",
+  "/product-reviews/sehmua-2k-outdoor-wireless-security-cameras-advanced-protection-your-space": "/product-reviews/sehmua-2k-outdoor-wireless-security",
+  "/top-rated/top-7-security-camera-products-enhanced-protection": "/top-rated/top-6-security-cameras-for-home-protection",
+  "/informative-articles/outdoor-security-cameras-deter-crime-truth-revealed": "/informative-articles/outdoor-security-cameras",
+};
+
+export const RETIRED_POST_SLUGS = new Set([
+  "top-7-security-camera-products-protection",
+  "top-7-security-camera-innovations-need",
+  "top-6-wireless-security-cameras-2024",
+  "top-7-home-monitor-cameras",
+  "amazon-echo-dot-vs-echo-pop-a-comparison",
+  "teeho-te001-vs-eufy-c210",
+  "layered-smart-home-security-system-sensors-cameras-automated-alerts",
+  "top-7-innovative-smart-lock-fingerprint-products-see",
+  "top-alexa-smart-plugs-home",
+  "set-up-smart-light-bulbs-mobile-app",
+  "set-up-wifi-smart-light-bulbs",
+]);

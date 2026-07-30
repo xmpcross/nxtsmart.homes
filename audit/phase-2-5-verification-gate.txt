@@ -1,0 +1,17 @@
+status checks
+--- https://nxtsmart.homes/top-rated/top-6-security-cameras-for-home-protection
+HTTP/2 200 
+--- https://nxtsmart.homes/no-such-category
+HTTP/2 404 
+--- https://nxtsmart.homes/top-rated/top-7-home-monitor-cameras
+HTTP/2 301 
+location: https://nxtsmart.homes/top-rated/top-6-security-cameras-for-home-protection
+--- https://nxtsmart.homes/product-comparisons/
+HTTP/2 301 
+location: https://nxtsmart.homes/product-comparisons
+
+structured rating grep
+0
+
+artifact grep scoped excluding home-optimus-preview and dependency route bundles
+0

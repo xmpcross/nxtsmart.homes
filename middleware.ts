@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { LEGACY_POST_ID_REDIRECTS } from "@/lib/legacyRedirects";
+import { RETIRED_POST_REDIRECTS } from "@/lib/retiredPosts";
 
 const SITE_ORIGIN = "https://nxtsmart.homes";
 
@@ -58,6 +59,8 @@ export function middleware(request: NextRequest) {
 
   const exactTarget = EXACT_REDIRECTS[pathname];
   if (exactTarget) return redirectTo(request, exactTarget);
+  const retiredTarget = RETIRED_POST_REDIRECTS[pathname];
+  if (retiredTarget) return redirectTo(request, retiredTarget);
 
   if (pathname.startsWith("/author/") && pathname !== "/author/kspellman") return redirectTo(request, "/about");
   if (pathname.startsWith("/product-category/smart-home")) return redirectTo(request, "/smart-home-devices");
