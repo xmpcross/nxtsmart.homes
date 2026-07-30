@@ -1,0 +1,28 @@
+Verification gate - 2026-07-30T01:21:26Z
+
+== status codes
+/ 200 
+/no-such-category 404 
+/contact-us 301 location: /contact
+/product-comparisons/ 301 location: https://nxtsmart.homes/product-comparisons
+
+== artifact grep
+&amp;#: 0
+&#8: 0
+&hellip;: 0
+BrandX: 0
+Optimus: 0
+Subheading:: 0
+
+== dates/schema
+datePublished":"2024-04-18T10:24:54.000Z
+dateModified":"2024-07-15T20:03:09.000Z
+
+== reading time live markers
+10<!-- --> min read
+
+== sitemap params/legacy
+none
+
+== internal crawl
+{"total":49,"redirects":0,"notfound":0}

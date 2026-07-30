@@ -8,7 +8,6 @@ const EXACT_REDIRECTS: Record<string, string> = {
   "/about-us-find-the-top-smart-home-devices-expert-guides": "/about",
   "/privacy-policy": "/legal/privacy",
   "/terms-of-use": "/legal/terms",
-  "/sitemap": "/sitemap",
   "/category/how-to-guides": "/how-to-guides",
   "/category/informative-articles": "/informative-articles",
   "/category/product-comparisons": "/product-comparisons",
@@ -50,6 +49,7 @@ function gone() {
 
 export function middleware(request: NextRequest) {
   const pathname = cleanPath(request.nextUrl.pathname);
+  if (request.nextUrl.pathname !== pathname) return redirectTo(request, pathname);
 
   if (pathname === "/" && request.nextUrl.searchParams.has("p")) {
     const target = LEGACY_POST_ID_REDIRECTS[request.nextUrl.searchParams.get("p") as keyof typeof LEGACY_POST_ID_REDIRECTS];
