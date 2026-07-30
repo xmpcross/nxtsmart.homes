@@ -107,7 +107,8 @@ function markdownToHtml(markdown: string): string {
 
 function normalizeContent(content: string): string {
   const trimmed = String(content || "").trim();
-  return stripEmptyParagraphs(looksLikeHtml(trimmed) ? trimmed : markdownToHtml(trimmed));
+  const rendered = looksLikeHtml(trimmed) ? trimmed : markdownToHtml(trimmed);
+  return stripEmptyParagraphs(rendered.replace(/<script\b[^>]*type=["\x27]application\/ld\+json["\x27][^>]*>[\s\S]*?<\/script>/gi, ""));
 }
 
 export default function PostContent({ html }: { html: string }) {

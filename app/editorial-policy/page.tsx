@@ -57,6 +57,21 @@ export default function EditorialPolicyPage() {
           ))}
         </div>
 
+        <section className="mt-10 rounded border border-ink/8 bg-surface p-6 shadow-card">
+          <h2 className="font-display text-2xl font-bold tracking-tight text-ink">Product scoring methodology</h2>
+          <p className="mt-3 text-base leading-7 text-ink-muted">
+            Product scores are based on editorial research, published product specifications, compatibility documentation, manufacturer or merchant information, and visible user feedback patterns. We do not claim hands-on lab testing unless an article clearly says the product was tested by us.
+          </p>
+          <ul className="mt-5 grid gap-3 text-sm leading-6 text-ink-muted sm:grid-cols-2">
+            <li><strong className="text-ink">Compatibility:</strong> 20%</li>
+            <li><strong className="text-ink">Setup and ease of use:</strong> 15%</li>
+            <li><strong className="text-ink">Features and automation:</strong> 25%</li>
+            <li><strong className="text-ink">Reliability signals:</strong> 15%</li>
+            <li><strong className="text-ink">Privacy and security:</strong> 10%</li>
+            <li><strong className="text-ink">Value:</strong> 15%</li>
+          </ul>
+        </section>
+
         <div className="mt-10 rounded border border-ink/8 bg-muted p-6">
           <h2 className="font-display text-2xl font-bold tracking-tight text-ink">Contact corrections</h2>
           <p className="mt-3 text-base leading-7 text-ink-muted">

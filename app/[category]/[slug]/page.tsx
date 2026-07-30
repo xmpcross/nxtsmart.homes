@@ -8,7 +8,6 @@ import PostContent from '@/components/PostContent';
 import RelatedCarousel from '@/components/RelatedCarousel';
 import PostSidebar from '@/components/PostSidebar';
 import CommentsSection from '@/components/CommentsSection';
-import { fetchWpComments } from '@/lib/wp';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -62,22 +61,23 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
     redirect(postPath(post));
   }
 
-  const [related, recent, comments] = await Promise.all([
+  const [related, recent] = await Promise.all([
     listPosts({ category, pageSize: 9 })
       .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 8))
       .catch(() => [] as NxtSmartPost[]),
     listPosts({ pageSize: 6 })
       .then((r) => r.data.filter((p) => p.id !== post.id).slice(0, 5))
       .catch(() => [] as NxtSmartPost[]),
-    post.legacyWpId ? fetchWpComments(post.legacyWpId).catch(() => []) : Promise.resolve([]),
   ]);
+
+  const comments = post.comments ?? [];
 
   const cover = coverImageSrc(post);
   const cat = post.categories?.[0];
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
-    '@type': post.postType === 'product-review' ? 'Review' : 'Article',
+    '@type': 'Article',
     headline: post.title,
     description: post.seoDescription || post.excerpt,
     image: cover ? [cover] : undefined,
@@ -177,7 +177,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
         </div>
 
         <section className="mt-6" data-testid="reviews-container">
-          <CommentsSection comments={comments} />
+          <CommentsSection comments={comments} postId={post.documentId ?? post.id} />
         </section>
 
         {related.length > 0 && (

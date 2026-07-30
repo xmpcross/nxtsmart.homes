@@ -33,6 +33,19 @@ export type NxtSmartCategory = {
   children?: { id: number; name: string; slug: string }[];
 };
 
+export type NxtSmartComment = {
+  id: number;
+  documentId?: string;
+  authorName: string;
+  body: string;
+  commentStatus: "pending" | "approved" | "rejected";
+  rating?: number;
+  postedAt?: string;
+  createdAt?: string;
+  publishedAt?: string;
+  source?: string;
+};
+
 export type NxtSmartPost = {
   id: number;
   documentId?: string;
@@ -56,6 +69,7 @@ export type NxtSmartPost = {
   ogImage?: StrapiImage;
   gallery?: NonNullable<StrapiImage>[];
   categories?: NxtSmartCategory[];
+  comments?: NxtSmartComment[];
 };
 
 type ListResponse<T> = {
@@ -90,7 +104,8 @@ export function coverImageSrc(post: NxtSmartPost): string | null {
   return post.coverImageUrl ?? null;
 }
 
-const POST_POPULATE = ['coverImage', 'ogImage', 'categories', 'gallery'];
+const POST_POPULATE = ["coverImage", "ogImage", "categories", "gallery"];
+const POST_DETAIL_POPULATE = { coverImage: true, ogImage: true, categories: true, gallery: true, comments: { filters: { commentStatus: { "$eq": "approved" } }, sort: ["postedAt:desc"] } };
 
 export async function listPosts(
   opts: { page?: number; pageSize?: number; category?: string; postType?: NxtSmartPostType; q?: string } = {},
@@ -119,7 +134,7 @@ export async function listPosts(
 export async function getPost(slug: string): Promise<NxtSmartPost | null> {
   const res = await strapiFetch<ListResponse<NxtSmartPost>>('nxtsmart-posts', {
     filters: { slug: { $eq: slug } },
-    populate: POST_POPULATE,
+    populate: POST_DETAIL_POPULATE,
     pagination: { pageSize: 1 },
   });
   return res.data?.[0] ?? null;

@@ -1,0 +1,23 @@
+Rating schema hotfix verification - 2026-07-29T23:57:05+00:00
+
+Build:
+- npm run build: passed
+- Note: Next reported existing data-cache warnings for large Strapi list responses over 2MB.
+
+Rendered article check:
+HTTP/1.1 200 OK
+- reader-rating-form count: 1
+- Reader ratings heading count: 1
+- would recommend count: 0
+- Star ratings shown disclaimer count: 0
+- reviewRating count: 0
+- AggregateRating count: 0
+- parsed JSON-LD scripts: 1
+- JSON-LD @type: Article rating/review keys: []
+
+Editorial methodology check:
+- Product scoring methodology count: 1
+- Features and automation count: 1
+
+Submission API check:
+- STRAPI_API_TOKEN present in app env: no; API returns 503 until token is configured.
