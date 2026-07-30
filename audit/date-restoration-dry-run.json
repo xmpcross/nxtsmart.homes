@@ -1,0 +1,135 @@
+{
+  "totalChanges": 138,
+  "first10": [
+    {
+      "slug": "how-do-smart-speakers-use-artificial-intelligence",
+      "legacyWpId": "23978",
+      "source": "wp REST post 23978",
+      "current": {
+        "publishedAt": "2024-03-18T14:15:06.000Z",
+        "updatedAt": "2026-05-12T05:37:14.354Z"
+      },
+      "proposed": {
+        "publishedAt": "2024-03-18T14:15:06Z",
+        "dateModified": "2024-07-15T20:10:47Z"
+      }
+    },
+    {
+      "slug": "smart-plugs-vs-traditional-outlets",
+      "legacyWpId": "24008",
+      "source": "wp REST post 24008",
+      "current": {
+        "publishedAt": "2024-03-21T08:17:55.000Z",
+        "updatedAt": "2026-05-12T05:37:14.354Z"
+      },
+      "proposed": {
+        "publishedAt": "2024-03-21T08:17:55Z",
+        "dateModified": "2024-07-15T20:10:44Z"
+      }
+    },
+    {
+      "slug": "how-to-choose-the-right-smart-plugs-for-my-home",
+      "legacyWpId": "24012",
+      "source": "wp REST post 24012",
+      "current": {
+        "publishedAt": "2024-03-21T08:17:55.000Z",
+        "updatedAt": "2026-05-12T05:37:14.354Z"
+      },
+      "proposed": {
+        "publishedAt": "2024-03-21T08:17:55Z",
+        "dateModified": "2024-06-26T03:25:53Z"
+      }
+    },
+    {
+      "slug": "top-7-smart-locks-to-enhance-your-home-security",
+      "legacyWpId": "24018",
+      "source": "wp REST post 24018",
+      "current": {
+        "publishedAt": "2024-03-21T08:17:55.000Z",
+        "updatedAt": "2026-05-12T05:37:14.354Z"
+      },
+      "proposed": {
+        "publishedAt": "2024-03-21T08:17:55Z",
+        "dateModified": "2024-06-26T03:26:06Z"
+      }
+    },
+    {
+      "slug": "z-wave-technology-smart-home-hubs",
+      "legacyWpId": "29885",
+      "source": "wp REST post 29885",
+      "current": {
+        "publishedAt": "2024-04-06T21:24:22.000Z",
+        "updatedAt": "2026-05-12T05:37:14.354Z"
+      },
+      "proposed": {
+        "publishedAt": "2024-04-06T21:24:22Z",
+        "dateModified": "2024-07-15T20:13:18Z"
+      }
+    },
+    {
+      "slug": "top-7-smart-speakers-products-for-enhanced-living",
+      "legacyWpId": "23953",
+      "source": "wp REST post 23953",
+      "current": {
+        "publishedAt": "2024-04-12T06:55:18.000Z",
+        "updatedAt": "2026-05-12T05:37:14.354Z"
+      },
+      "proposed": {
+        "publishedAt": "2024-04-12T06:55:18Z",
+        "dateModified": "2024-06-26T03:17:03Z"
+      }
+    },
+    {
+      "slug": "transform-your-space-with-tp-link-tapo-l530e-smart-light-bulbs",
+      "legacyWpId": "23998",
+      "source": "wp REST post 23998",
+      "current": {
+        "publishedAt": "2024-04-12T06:55:18.000Z",
+        "updatedAt": "2026-05-12T05:37:14.354Z"
+      },
+      "proposed": {
+        "publishedAt": "2024-04-12T06:55:18Z",
+        "dateModified": "2024-07-15T20:13:41Z"
+      }
+    },
+    {
+      "slug": "smart-light-bulbs-wifi-connected-smart-home-system",
+      "legacyWpId": "30244",
+      "source": "wp REST post 30244",
+      "current": {
+        "publishedAt": "2024-04-18T10:24:35.000Z",
+        "updatedAt": "2026-05-12T05:37:14.354Z"
+      },
+      "proposed": {
+        "publishedAt": "2024-04-18T10:24:35Z",
+        "dateModified": "2024-07-15T20:10:39Z"
+      }
+    },
+    {
+      "slug": "review-govee-smart-light-bulbs-4-pack",
+      "legacyWpId": "30184",
+      "source": "wp REST post 30184",
+      "current": {
+        "publishedAt": "2024-04-18T10:24:38.000Z",
+        "updatedAt": "2026-05-12T05:37:14.354Z"
+      },
+      "proposed": {
+        "publishedAt": "2024-04-18T10:24:38Z",
+        "dateModified": "2024-07-15T20:14:18Z"
+      }
+    },
+    {
+      "slug": "smart-water-heaters-troubleshooting-common-issues",
+      "legacyWpId": "30185",
+      "source": "wp REST post 30185",
+      "current": {
+        "publishedAt": "2024-04-18T10:24:38.000Z",
+        "updatedAt": "2026-05-12T05:37:14.354Z"
+      },
+      "proposed": {
+        "publishedAt": "2024-04-18T10:24:38Z",
+        "dateModified": "2024-07-15T20:08:22Z"
+      }
+    }
+  ]
+}

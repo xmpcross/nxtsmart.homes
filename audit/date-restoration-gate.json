@@ -1,0 +1,66 @@
+{
+  "total": 138,
+  "missingCount": 12,
+  "missing": [
+    {
+      "slug": "fully-automated-smart-home-routine-wake-up-to-bedtime",
+      "legacyWpId": "",
+      "title": "How to Build a Fully Automated Smart Home Routine From Wake-Up to Bedtime"
+    },
+    {
+      "slug": "layered-smart-home-security-system-sensors-cameras-automated-alerts",
+      "legacyWpId": "",
+      "title": "How to Build a Layered Smart Home Security System Using Sensors, Cameras, and Automated Alerts"
+    },
+    {
+      "slug": "build-fully-automated-home-routine-single-smart-hub",
+      "legacyWpId": "",
+      "title": "How to Build a Fully Automated Home Routine Using a Single Smart Hub"
+    },
+    {
+      "slug": "build-fully-integrated-smart-home-automation-system-from-scratch",
+      "legacyWpId": "",
+      "title": "How to Build a Fully Integrated Smart Home Automation System From Scratch"
+    },
+    {
+      "slug": "voice-assistant-vs-app-control-choosing-right-hub-home-automation",
+      "legacyWpId": "",
+      "title": "Voice Assistant vs. App Control: Choosing the Right Hub for Your Home Automation Setup"
+    },
+    {
+      "slug": "build-layered-smart-home-security-cameras-sensors-automation",
+      "legacyWpId": "",
+      "title": "How to Build a Layered Smart Home Security System Using Cameras, Sensors, and Automation"
+    },
+    {
+      "slug": "integrating-smart-locks-doorbells-motion-detectors-automated-security-routine",
+      "legacyWpId": "",
+      "title": "Integrating Smart Locks, Doorbells, and Motion Detectors Into a Single Automated Security Routine"
+    },
+    {
+      "slug": "local-vs-cloud-based-smart-security-homeowners-guide",
+      "legacyWpId": "",
+      "title": "Local vs. Cloud-Based Smart Security: What Every Homeowner Should Know"
+    },
+    {
+      "slug": "how-to-choose-the-right-smart-hub-for-your-home-automation-setup",
+      "legacyWpId": "",
+      "title": "How to Choose the Right Smart Hub for Your Home Automation Setup"
+    },
+    {
+      "slug": "zigbee-z-wave-wi-fi-smart-devices-explained",
+      "legacyWpId": "",
+      "title": "The Difference Between Zigbee, Z-Wave, and Wi-Fi Smart Devices Explained"
+    },
+    {
+      "slug": "smart-home-devices-that-work-together-without-a-bridge",
+      "legacyWpId": "",
+      "title": "Which Smart Home Devices Actually Work Together Without a Bridge"
+    },
+    {
+      "slug": "room-by-room-guide-to-building-a-fully-automated-smart-home",
+      "legacyWpId": "",
+      "title": "Room-by-Room Guide to Building a Fully Automated Smart Home"
+    }
+  ]
+}

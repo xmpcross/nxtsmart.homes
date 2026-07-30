@@ -63,6 +63,7 @@ export type NxtSmartPost = {
   seoKeywords?: string;
   publishedAt: string;
   updatedAt: string;
+  dateModified?: string;
   coverImage?: StrapiImage;
   coverImageUrl?: string;
   coverImageAlt?: string;

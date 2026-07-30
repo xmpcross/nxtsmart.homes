@@ -1,0 +1,973 @@
+{
+  "updatedAt": "2026-07-30T00:19:57.274Z",
+  "total": 138,
+  "updated": 138,
+  "results": [
+    {
+      "slug": "how-do-smart-speakers-use-artificial-intelligence",
+      "documentId": "gdhas4cn92f19ttsnc2gk45y",
+      "publishedAt": "2024-03-18T14:15:06Z",
+      "dateModified": "2024-07-15T20:10:47Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-plugs-vs-traditional-outlets",
+      "documentId": "rnxagnewx5v7imc67kzwkggf",
+      "publishedAt": "2024-03-21T08:17:55Z",
+      "dateModified": "2024-07-15T20:10:44Z",
+      "status": "updated"
+    },
+    {
+      "slug": "how-to-choose-the-right-smart-plugs-for-my-home",
+      "documentId": "d9x5n4734hfs72rso3epw3de",
+      "publishedAt": "2024-03-21T08:17:55Z",
+      "dateModified": "2024-06-26T03:25:53Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-smart-locks-to-enhance-your-home-security",
+      "documentId": "gjggxhyko4bz72diecrg7130",
+      "publishedAt": "2024-03-21T08:17:55Z",
+      "dateModified": "2024-06-26T03:26:06Z",
+      "status": "updated"
+    },
+    {
+      "slug": "z-wave-technology-smart-home-hubs",
+      "documentId": "zwg7hdqbyzlava787247k33a",
+      "publishedAt": "2024-04-06T21:24:22Z",
+      "dateModified": "2024-07-15T20:13:18Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-smart-speakers-products-for-enhanced-living",
+      "documentId": "vav7jd10hwpatq0c6v4y7kmp",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-06-26T03:17:03Z",
+      "status": "updated"
+    },
+    {
+      "slug": "transform-your-space-with-tp-link-tapo-l530e-smart-light-bulbs",
+      "documentId": "nds4rs3o46c6wwuxnqpgi1qw",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-07-15T20:13:41Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-light-bulbs-wifi-connected-smart-home-system",
+      "documentId": "t6ka7rjup649w1h2td6cxcw5",
+      "publishedAt": "2024-04-18T10:24:35Z",
+      "dateModified": "2024-07-15T20:10:39Z",
+      "status": "updated"
+    },
+    {
+      "slug": "review-govee-smart-light-bulbs-4-pack",
+      "documentId": "c6z9cou1n4zn3birooemh2mw",
+      "publishedAt": "2024-04-18T10:24:38Z",
+      "dateModified": "2024-07-15T20:14:18Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-water-heaters-troubleshooting-common-issues",
+      "documentId": "qldxha0iy79hxwwwgy4o57vp",
+      "publishedAt": "2024-04-18T10:24:38Z",
+      "dateModified": "2024-07-15T20:08:22Z",
+      "status": "updated"
+    },
+    {
+      "slug": "sunrise-vs-traditional-alarm-clocks",
+      "documentId": "pb7nzd1nowaqg6fmf97bnuks",
+      "publishedAt": "2024-04-18T10:24:38Z",
+      "dateModified": "2024-07-15T20:12:06Z",
+      "status": "updated"
+    },
+    {
+      "slug": "amazon-smart-air-quality-monitor-review",
+      "documentId": "fn4uq9yzxyeezelovb63r0s7",
+      "publishedAt": "2024-04-18T10:24:41Z",
+      "dateModified": "2024-07-15T20:08:16Z",
+      "status": "updated"
+    },
+    {
+      "slug": "set-up-homekit-compatible-devices",
+      "documentId": "ezco69z7algzmi7ked8jc7c1",
+      "publishedAt": "2024-04-18T10:24:43Z",
+      "dateModified": "2024-07-15T20:13:26Z",
+      "status": "updated"
+    },
+    {
+      "slug": "kasa-smart-2k-indoor-security-camera-review",
+      "documentId": "tcp3mokcrcwc5u5a25rg5er3",
+      "publishedAt": "2024-04-18T10:24:45Z",
+      "dateModified": "2024-07-15T20:10:36Z",
+      "status": "updated"
+    },
+    {
+      "slug": "share-access-arlo-pro-3-camera",
+      "documentId": "q9gjeu49n0rqlhus5zpscvlt",
+      "publishedAt": "2024-04-18T10:24:47Z",
+      "dateModified": "2024-06-26T03:23:54Z",
+      "status": "updated"
+    },
+    {
+      "slug": "configure-smart-security-sensors",
+      "documentId": "acivp2h06g7ougwru4ftih02",
+      "publishedAt": "2024-04-18T10:24:47Z",
+      "dateModified": "2024-06-26T03:26:14Z",
+      "status": "updated"
+    },
+    {
+      "slug": "best-way-use-smart-alexa",
+      "documentId": "ta1otjkjztutgeur6881bgku",
+      "publishedAt": "2024-04-18T10:24:48Z",
+      "dateModified": "2024-07-16T09:03:26Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-6-wireless-security-cameras-2024",
+      "documentId": "y8azbonowgdobx0c9138d504",
+      "publishedAt": "2024-04-18T10:24:52Z",
+      "dateModified": "2024-06-26T03:26:22Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-smart-thermostat-apps-for-phone",
+      "documentId": "bq1yv0apjtyeihqtnvodu1bx",
+      "publishedAt": "2024-04-18T10:24:52Z",
+      "dateModified": "2024-06-26T03:23:39Z",
+      "status": "updated"
+    },
+    {
+      "slug": "configure-smart-garage-door",
+      "documentId": "bvvm59goncfteut2tdopsyfj",
+      "publishedAt": "2024-04-18T10:24:53Z",
+      "dateModified": "2024-06-26T05:43:12Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smartpet-wifi-vs-5g-feeder",
+      "documentId": "cfgii7iiub5n0dedf44jffnl",
+      "publishedAt": "2024-04-18T10:24:56Z",
+      "dateModified": "2024-06-26T03:26:12Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-ac-controller",
+      "documentId": "zbcascxo6eliyc716za3wd04",
+      "publishedAt": "2024-04-18T10:24:57Z",
+      "dateModified": "2024-07-15T20:00:12Z",
+      "status": "updated"
+    },
+    {
+      "slug": "switchbot-motorized-blinds-kit",
+      "documentId": "fe44gfhhqrayk2zpj36sjev2",
+      "publishedAt": "2024-04-18T10:24:57Z",
+      "dateModified": "2024-07-15T20:03:11Z",
+      "status": "updated"
+    },
+    {
+      "slug": "levoit-core200s-air-purifier-wifi",
+      "documentId": "qfmttynteabkzw60pwd6k39q",
+      "publishedAt": "2024-04-18T10:24:57Z",
+      "dateModified": "2024-07-15T20:00:14Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-smart-blinds-upgrade-home",
+      "documentId": "r34yoauc9hstgyngoplyjmta",
+      "publishedAt": "2024-04-18T10:24:58Z",
+      "dateModified": "2024-07-15T20:00:53Z",
+      "status": "updated"
+    },
+    {
+      "slug": "what-is-a-smart-home-complete-guide-to-smart-home-technology-2025",
+      "documentId": "p6alzjv8z3ur4xsfymvwgd01",
+      "publishedAt": "2025-06-05T23:29:37Z",
+      "dateModified": "2025-06-05T23:29:37Z",
+      "status": "updated"
+    },
+    {
+      "slug": "maintain-clean-smart-robot",
+      "documentId": "vbib0qxzfxw3iuwiod78yw3d",
+      "publishedAt": "2024-04-18T10:24:35Z",
+      "dateModified": "2024-07-16T08:35:07Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smartthings-station-vs-sengled",
+      "documentId": "pdppkq48wty8k97aiab16srv",
+      "publishedAt": "2024-03-16T21:46:47Z",
+      "dateModified": "2024-07-16T08:41:48Z",
+      "status": "updated"
+    },
+    {
+      "slug": "understanding-the-different-types-of-security-camera-mounts",
+      "documentId": "oj3jke7qyyx37l9wh5pkbeex",
+      "publishedAt": "2024-03-18T18:29:30Z",
+      "dateModified": "2024-07-16T08:59:24Z",
+      "status": "updated"
+    },
+    {
+      "slug": "benefits-of-smart-lighting",
+      "documentId": "vdt6ddribed4mppjx2crv2ra",
+      "publishedAt": "2024-03-19T01:18:47Z",
+      "dateModified": "2024-07-16T08:51:14Z",
+      "status": "updated"
+    },
+    {
+      "slug": "how-to-set-up-a-smart-speaker",
+      "documentId": "l8zhtzu33v0jksn4deup66pn",
+      "publishedAt": "2024-03-19T04:33:28Z",
+      "dateModified": "2024-07-16T08:59:53Z",
+      "status": "updated"
+    },
+    {
+      "slug": "how-to-maintain-and-care-for-your-security-cameras",
+      "documentId": "l950q00ib114scmx2rmkt6ag",
+      "publishedAt": "2024-03-19T09:32:16Z",
+      "dateModified": "2024-07-16T09:02:03Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-lighting-how-to-set-up",
+      "documentId": "y4e1u5njmds6kgziud8dk15b",
+      "publishedAt": "2024-03-19T17:46:03Z",
+      "dateModified": "2024-07-16T08:44:52Z",
+      "status": "updated"
+    },
+    {
+      "slug": "honeywell-step-by-step-guide",
+      "documentId": "m5p1uamxu4svu0nnns2drdcs",
+      "publishedAt": "2024-03-20T00:17:16Z",
+      "dateModified": "2024-07-15T20:13:15Z",
+      "status": "updated"
+    },
+    {
+      "slug": "troubleshooting-common-issues-with-smart-doorbells",
+      "documentId": "ai2a85wd3rbx77ljbl2zhxqj",
+      "publishedAt": "2024-03-21T08:17:54Z",
+      "dateModified": "2024-07-15T20:10:51Z",
+      "status": "updated"
+    },
+    {
+      "slug": "how-to-troubleshoot-common-thermostat-issues",
+      "documentId": "pbzt50iswgyrzth03i5xkxbz",
+      "publishedAt": "2024-03-21T08:17:55Z",
+      "dateModified": "2024-07-15T20:05:42Z",
+      "status": "updated"
+    },
+    {
+      "slug": "do-smart-locks-need-internet",
+      "documentId": "x4vjo7yzao0i7dhkuo82ufpq",
+      "publishedAt": "2024-03-21T08:17:55Z",
+      "dateModified": "2024-07-16T08:56:03Z",
+      "status": "updated"
+    },
+    {
+      "slug": "how-to-perform-regular-maintenance-on-your-smart-lock",
+      "documentId": "zicjmjrokojvkdalisfr4pol",
+      "publishedAt": "2024-03-21T08:17:55Z",
+      "dateModified": "2024-07-15T20:06:13Z",
+      "status": "updated"
+    },
+    {
+      "slug": "how-to-customize-settings-on-your-smart-doorbell",
+      "documentId": "dksljacbl87wh2runkecrtmo",
+      "publishedAt": "2024-03-21T08:17:55Z",
+      "dateModified": "2024-07-15T20:14:19Z",
+      "status": "updated"
+    },
+    {
+      "slug": "voice-activated-assistants-healthcare",
+      "documentId": "ux5s0n7pm7uclr5ih9s40ybs",
+      "publishedAt": "2024-04-06T21:24:22Z",
+      "dateModified": "2024-07-16T08:59:54Z",
+      "status": "updated"
+    },
+    {
+      "slug": "set-up-wifi-smart-light-bulbs",
+      "documentId": "vxyd5lc4c5b5wvchf2q7mpwy",
+      "publishedAt": "2024-04-06T21:24:22Z",
+      "dateModified": "2024-07-16T09:01:36Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-6-security-cameras-for-home-protection",
+      "documentId": "ft89xqifhjoiya4snelnf6nu",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-07-15T20:13:34Z",
+      "status": "updated"
+    },
+    {
+      "slug": "echo-dot-5th-gen-2024-vibrant-sound",
+      "documentId": "khol83cnzr72grbimpe1rjwf",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-07-16T08:56:17Z",
+      "status": "updated"
+    },
+    {
+      "slug": "blink-outdoor-4-4th-gen-camera-system-review",
+      "documentId": "prw5plfrut71t2twjz5f5crb",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-07-16T08:34:52Z",
+      "status": "updated"
+    },
+    {
+      "slug": "6-best-smart-lighting-options-in-2024",
+      "documentId": "sqtvb9mqwtv33oy11fosg79q",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-07-16T08:55:35Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-smart-thermostats-for-efficient",
+      "documentId": "tbsrd6t5kqvb086r9nj0q9vj",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-07-16T09:02:02Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-6-smart-plugs-and-outlets-for-home-automation",
+      "documentId": "e8x432xc2hneodvvedruvryr",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-07-16T09:02:36Z",
+      "status": "updated"
+    },
+    {
+      "slug": "amazon-smart-thermostat-your-ultimate-alexa-enabled-comfort-control",
+      "documentId": "hzcexfp7coriizys8bqiq5lu",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-07-16T08:38:45Z",
+      "status": "updated"
+    },
+    {
+      "slug": "6-top-rated-smart-doorbells-of-2024",
+      "documentId": "ge8gvnfllm23hb9yylwct6kz",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-06-26T04:35:02Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-fan-switches-for-home",
+      "documentId": "esusxn23zvk14hgp8cwmwac3",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-07-16T09:04:11Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-home-monitor-cameras",
+      "documentId": "s395umn9rt2ijpl6v760hbq2",
+      "publishedAt": "2024-04-12T06:55:18Z",
+      "dateModified": "2024-07-16T09:04:52Z",
+      "status": "updated"
+    },
+    {
+      "slug": "amazon-fire-tv-stick-4k",
+      "documentId": "qfubpdvxxr1n10xb9qiydg1q",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T09:06:18Z",
+      "status": "updated"
+    },
+    {
+      "slug": "amazon-echo-dot-vs-echo-pop-a-comparison",
+      "documentId": "e7hcul1ntpfea015i9zi08sr",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:34:45Z",
+      "status": "updated"
+    },
+    {
+      "slug": "google-nest-amazon-thermostat",
+      "documentId": "fscpq0lvep26ekl1a51furu7",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:42:20Z",
+      "status": "updated"
+    },
+    {
+      "slug": "ring-smart-bridge-vs-govee-tv-backlight-sync-illuminating-showdown",
+      "documentId": "em6jbrfmfwlv7fh9osp8r66t",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:35:00Z",
+      "status": "updated"
+    },
+    {
+      "slug": "blink-outdoor-vs-blink-mini-camera-system-face-off",
+      "documentId": "yh4g4g4xf3y72xrmxbqmg1wm",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-15T20:05:44Z",
+      "status": "updated"
+    },
+    {
+      "slug": "teeho-te001-vs-eufy-c210",
+      "documentId": "l1hkizgqzc1p59rlj3b7z3k5",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:38:15Z",
+      "status": "updated"
+    },
+    {
+      "slug": "amazon-smart-plug-review",
+      "documentId": "neax8yor6wkog58kyvie73ev",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:55:23Z",
+      "status": "updated"
+    },
+    {
+      "slug": "amazon-vs-eightree-smart-plug",
+      "documentId": "i2tvks85hz8z486871ff3xhz",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:39:29Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-fingerprint-deadbolt-lock",
+      "documentId": "pc83bakra8d6tf73xovdi8ol",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:45:27Z",
+      "status": "updated"
+    },
+    {
+      "slug": "sehmua-2k-outdoor-wireless-security",
+      "documentId": "vm4rzvyz47iuyschga3asx1f",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:45:48Z",
+      "status": "updated"
+    },
+    {
+      "slug": "chamberlain-myq-g0401-smart-garage",
+      "documentId": "b68eq4qhqn954zv6geq6ulli",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:47:55Z",
+      "status": "updated"
+    },
+    {
+      "slug": "teeho-te001-vs-eufy-c220",
+      "documentId": "xhh6rw7m7ai8m7s3j0yzdgwf",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T09:01:43Z",
+      "status": "updated"
+    },
+    {
+      "slug": "robot-rumble-lefant-m210-vs",
+      "documentId": "nhhpxwy0drjxez0dby6mssda",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-15T20:07:16Z",
+      "status": "updated"
+    },
+    {
+      "slug": "fingerbot-plus-vs-moes-hub",
+      "documentId": "qkya2zovq9jzs8xch446td8r",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:50:46Z",
+      "status": "updated"
+    },
+    {
+      "slug": "2k-pan-tilt-camera-vs-kasa",
+      "documentId": "fg8d4uf8d4645aedzozqgtr6",
+      "publishedAt": "2024-04-12T06:55:19Z",
+      "dateModified": "2024-07-16T08:37:38Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-smart-wireless-calling-systems-emergency-situations",
+      "documentId": "p39bksavl5ijyr2cp89llkgp",
+      "publishedAt": "2024-04-13T17:46:53Z",
+      "dateModified": "2024-06-26T04:35:05Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-alexa-smart-plugs-home",
+      "documentId": "wqr7bw8op6nmcjy8kmrtt2dy",
+      "publishedAt": "2024-04-13T23:48:42Z",
+      "dateModified": "2024-07-16T08:51:46Z",
+      "status": "updated"
+    },
+    {
+      "slug": "aeotec-smart-home-hub-review",
+      "documentId": "rfz8e4hpx4lz4i9nbitws6xu",
+      "publishedAt": "2024-04-14T08:12:23Z",
+      "dateModified": "2024-07-16T08:44:26Z",
+      "status": "updated"
+    },
+    {
+      "slug": "motion-sensor-smart-self-sealing-trash-can-innovative-convenient",
+      "documentId": "e94xzwslzmtoflsfuk2ppy6e",
+      "publishedAt": "2024-04-15T07:27:19Z",
+      "dateModified": "2024-07-15T20:09:03Z",
+      "status": "updated"
+    },
+    {
+      "slug": "amazon-echo-pop-vs-echo-dot",
+      "documentId": "xvdue7zsy8gr550ua8rshdd3",
+      "publishedAt": "2024-04-15T14:59:10Z",
+      "dateModified": "2024-07-16T08:40:45Z",
+      "status": "updated"
+    },
+    {
+      "slug": "cost-effective-home-security-solutions-no-monthly-fees",
+      "documentId": "jlo0xt4mmrwbglgb8f83kgwo",
+      "publishedAt": "2024-04-16T00:03:02Z",
+      "dateModified": "2024-07-16T08:57:09Z",
+      "status": "updated"
+    },
+    {
+      "slug": "best-homekit-device-smart-homes",
+      "documentId": "mauk0hvwej3nj9wk9temuvtg",
+      "publishedAt": "2024-04-16T12:33:01Z",
+      "dateModified": "2024-07-15T20:13:30Z",
+      "status": "updated"
+    },
+    {
+      "slug": "change-colors-echo-glow-smart-lamp",
+      "documentId": "lnrtkb6auxdf7msqzz60spyz",
+      "publishedAt": "2024-04-16T18:35:15Z",
+      "dateModified": "2024-07-16T08:37:01Z",
+      "status": "updated"
+    },
+    {
+      "slug": "check-lock-status-ultraloq-u-bolt-pro-smart-lock",
+      "documentId": "azf81de2gw451mrc9adw9s01",
+      "publishedAt": "2024-04-17T03:11:39Z",
+      "dateModified": "2024-07-16T08:48:50Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-smart-water-leak-detectors-home-security",
+      "documentId": "m9kkvbe21nvws3ovpsvf72xi",
+      "publishedAt": "2024-04-17T09:19:16Z",
+      "dateModified": "2024-07-15T20:13:38Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-smart-propane-sensors-enhance-safety",
+      "documentId": "r8u2dsn22jz2ohhbn38zzcd5",
+      "publishedAt": "2024-04-18T07:21:42Z",
+      "dateModified": "2024-06-26T04:31:27Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-sprinkler-systems-alexa-google-assistant",
+      "documentId": "hincbmeu4im4cgrrwtkgspcr",
+      "publishedAt": "2024-04-18T10:24:35Z",
+      "dateModified": "2024-07-15T20:08:56Z",
+      "status": "updated"
+    },
+    {
+      "slug": "temperature-settings-explained",
+      "documentId": "v3d1122cteqaf3jijzltaha8",
+      "publishedAt": "2024-04-18T10:24:36Z",
+      "dateModified": "2024-07-16T08:35:22Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-garage-controllers-comparison",
+      "documentId": "g61zy38vdiv8uru5yf94ixlv",
+      "publishedAt": "2024-04-18T10:24:36Z",
+      "dateModified": "2024-07-15T20:10:32Z",
+      "status": "updated"
+    },
+    {
+      "slug": "silence-false-alarms-alarm-sco5cn-smoke-detector",
+      "documentId": "psa0kgunj8r2vqssnoogs0t2",
+      "publishedAt": "2024-04-18T10:24:36Z",
+      "dateModified": "2024-07-16T08:46:58Z",
+      "status": "updated"
+    },
+    {
+      "slug": "set-up-automation-switchbot-smart-blinds",
+      "documentId": "uvnjm51d6lo2ianslnr7ha85",
+      "publishedAt": "2024-04-18T10:24:36Z",
+      "dateModified": "2024-07-16T08:41:20Z",
+      "status": "updated"
+    },
+    {
+      "slug": "operate-irobot-roomba-efficiently",
+      "documentId": "w1dsph0d4vhom4rvk6gr2i7w",
+      "publishedAt": "2024-04-18T10:24:37Z",
+      "dateModified": "2024-07-16T08:55:44Z",
+      "status": "updated"
+    },
+    {
+      "slug": "reset-moen-flo-factory-settings",
+      "documentId": "drzpn0otwcmx7cu6apj0zny8",
+      "publishedAt": "2024-04-18T10:24:37Z",
+      "dateModified": "2024-07-15T20:13:24Z",
+      "status": "updated"
+    },
+    {
+      "slug": "solar-security-camera-troubleshooting",
+      "documentId": "j8z9p2nsys4y1pvqs579c6au",
+      "publishedAt": "2024-04-18T10:24:37Z",
+      "dateModified": "2024-07-15T20:10:40Z",
+      "status": "updated"
+    },
+    {
+      "slug": "change-batteries-august-smart-lock-pro",
+      "documentId": "x4oqrlbeypm27tn9pten8em7",
+      "publishedAt": "2024-04-18T10:24:39Z",
+      "dateModified": "2024-07-16T08:39:54Z",
+      "status": "updated"
+    },
+    {
+      "slug": "eve-room-air-quality-sensor-review",
+      "documentId": "ee3m5blnwikmz3idqbeoforx",
+      "publishedAt": "2024-04-18T10:24:39Z",
+      "dateModified": "2024-07-16T08:40:18Z",
+      "status": "updated"
+    },
+    {
+      "slug": "omron-sc-150-bluetooth-digital",
+      "documentId": "o1fymw28szjgsczhuzq8a47i",
+      "publishedAt": "2024-04-18T10:24:39Z",
+      "dateModified": "2024-07-16T08:46:16Z",
+      "status": "updated"
+    },
+    {
+      "slug": "best-way-manage-smart-trash",
+      "documentId": "hoq55n247mg2r554w4cp5w28",
+      "publishedAt": "2024-04-18T10:24:40Z",
+      "dateModified": "2024-07-16T09:05:15Z",
+      "status": "updated"
+    },
+    {
+      "slug": "adjust-sensitivity-ring-video-doorbell-pro",
+      "documentId": "ps6q95bnnsyzn807hg7zvr5e",
+      "publishedAt": "2024-04-18T10:24:40Z",
+      "dateModified": "2024-07-15T20:05:04Z",
+      "status": "updated"
+    },
+    {
+      "slug": "troubleshoot-philips-hue-connectivity-issues",
+      "documentId": "pin2m4kn5de9xjw0934tlusc",
+      "publishedAt": "2024-04-18T10:24:40Z",
+      "dateModified": "2024-07-15T20:05:18Z",
+      "status": "updated"
+    },
+    {
+      "slug": "yolink-smart-home-kit-water-leak-sensors-review",
+      "documentId": "cm8jc9k7th0dgsr971c45g24",
+      "publishedAt": "2024-04-18T10:24:41Z",
+      "dateModified": "2024-07-16T09:00:32Z",
+      "status": "updated"
+    },
+    {
+      "slug": "review-eufy-baby-smart-sock-monitor",
+      "documentId": "dgcoe6vdeomcftvxfxa9ewml",
+      "publishedAt": "2024-04-18T10:24:41Z",
+      "dateModified": "2024-07-16T08:43:43Z",
+      "status": "updated"
+    },
+    {
+      "slug": "best-automated-smart-curtain",
+      "documentId": "l0r36q2vfwgvnf6ncft3a2lb",
+      "publishedAt": "2024-04-18T10:24:41Z",
+      "dateModified": "2024-07-16T09:02:09Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-security-camera-products-protection",
+      "documentId": "mytakw1strs4loxdjr21ljx5",
+      "publishedAt": "2024-04-18T10:24:42Z",
+      "dateModified": "2024-07-16T09:04:04Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-innovative-smart-lock-fingerprint-products-see",
+      "documentId": "z5lu7bs6dj8eaqob5dlmyybb",
+      "publishedAt": "2024-04-18T10:24:42Z",
+      "dateModified": "2024-07-16T08:54:38Z",
+      "status": "updated"
+    },
+    {
+      "slug": "future-smart-home-automation",
+      "documentId": "rr1gyil6s71x2tgblhn6frew",
+      "publishedAt": "2024-04-18T10:24:43Z",
+      "dateModified": "2024-07-16T09:01:29Z",
+      "status": "updated"
+    },
+    {
+      "slug": "access-live-view-hugolog-3k-camera",
+      "documentId": "mc85l78dwpmr2gljaeuzh4px",
+      "publishedAt": "2024-04-18T10:24:43Z",
+      "dateModified": "2024-07-16T08:56:48Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-security-camera-innovations-need",
+      "documentId": "pmurnh05oxnt6d1oxv6ujmbv",
+      "publishedAt": "2024-04-18T10:24:43Z",
+      "dateModified": "2024-07-16T08:35:30Z",
+      "status": "updated"
+    },
+    {
+      "slug": "amorho-vs-lumina-led-mirror",
+      "documentId": "f9yrkig6nhkyvvkdz7owqb42",
+      "publishedAt": "2024-04-18T10:24:44Z",
+      "dateModified": "2024-07-16T09:01:05Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-water-leak-detectors",
+      "documentId": "hagktjo9ssy1im9pj1xyk9vu",
+      "publishedAt": "2024-04-18T10:24:44Z",
+      "dateModified": "2024-07-16T08:51:01Z",
+      "status": "updated"
+    },
+    {
+      "slug": "budget-friendly-irobot-vacuums",
+      "documentId": "d1oylptmi2982jul3zqskbjk",
+      "publishedAt": "2024-04-18T10:24:44Z",
+      "dateModified": "2024-07-16T08:37:57Z",
+      "status": "updated"
+    },
+    {
+      "slug": "ge-cync-a19-smart-bulbs-review",
+      "documentId": "c1ralv2xjzmh4lf0igwptpbx",
+      "publishedAt": "2024-04-18T10:24:45Z",
+      "dateModified": "2024-07-16T08:35:14Z",
+      "status": "updated"
+    },
+    {
+      "slug": "philips-hue-smart-light-switch",
+      "documentId": "ua0vfrj73pwt9000zs3je2tf",
+      "publishedAt": "2024-04-18T10:24:45Z",
+      "dateModified": "2024-07-16T09:09:48Z",
+      "status": "updated"
+    },
+    {
+      "slug": "yogasleep-hushh-sound-machine-rev",
+      "documentId": "vl96nssx7st4pf8keie8zmbc",
+      "publishedAt": "2024-04-18T10:24:45Z",
+      "dateModified": "2024-07-16T08:59:56Z",
+      "status": "updated"
+    },
+    {
+      "slug": "alexa-cat-feeder-vs-smart",
+      "documentId": "prcpgaraawycyqe6bglwvf1p",
+      "publishedAt": "2024-04-18T10:24:45Z",
+      "dateModified": "2024-07-16T09:08:58Z",
+      "status": "updated"
+    },
+    {
+      "slug": "6-top-smart-home-hubs-2024",
+      "documentId": "nytrpszbluu20phbwrp5ejm9",
+      "publishedAt": "2024-04-18T10:24:46Z",
+      "dateModified": "2024-07-16T08:54:31Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-7-home-security-systems-2024",
+      "documentId": "t59moxq1juorxzdgpaytylba",
+      "publishedAt": "2024-04-18T10:24:46Z",
+      "dateModified": "2024-07-16T09:08:58Z",
+      "status": "updated"
+    },
+    {
+      "slug": "set-up-smart-light-bulbs-mobile-app",
+      "documentId": "ei5tyeftb0dar6vqflq96xs2",
+      "publishedAt": "2024-04-18T10:24:47Z",
+      "dateModified": "2024-07-16T09:00:53Z",
+      "status": "updated"
+    },
+    {
+      "slug": "greater-goods-smart-baby-scale",
+      "documentId": "tjuelkytqw0pw7ai73udb5ih",
+      "publishedAt": "2024-04-18T10:24:48Z",
+      "dateModified": "2024-07-16T08:59:50Z",
+      "status": "updated"
+    },
+    {
+      "slug": "best-remote-monitoring",
+      "documentId": "tde6ya3hezzmle8j0pnxcty3",
+      "publishedAt": "2024-04-18T10:24:48Z",
+      "dateModified": "2024-07-16T09:03:44Z",
+      "status": "updated"
+    },
+    {
+      "slug": "aeotec-vs-elevation-c-8",
+      "documentId": "rzyu14ud8xk1nbeqsy9d5kkg",
+      "publishedAt": "2024-04-18T10:24:49Z",
+      "dateModified": "2024-07-16T08:59:59Z",
+      "status": "updated"
+    },
+    {
+      "slug": "echo-hub-control-vs-echo-gen4",
+      "documentId": "bxezyx5uglrjww3zrz1soo5e",
+      "publishedAt": "2024-04-18T10:24:49Z",
+      "dateModified": "2024-07-16T08:54:36Z",
+      "status": "updated"
+    },
+    {
+      "slug": "rachio-3-smart-irrigation-system",
+      "documentId": "i7p39vonp0ap6bmp1f19c62l",
+      "publishedAt": "2024-04-18T10:24:49Z",
+      "dateModified": "2024-07-15T20:01:13Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-voice-recorder",
+      "documentId": "nrs99jgmaip5eqt8ga6we0hu",
+      "publishedAt": "2024-04-18T10:24:49Z",
+      "dateModified": "2024-07-15T20:03:51Z",
+      "status": "updated"
+    },
+    {
+      "slug": "ecobee-smart-thermostat-sensor-siri",
+      "documentId": "dph2olt9f9g3xgbbivn6c4mz",
+      "publishedAt": "2024-04-18T10:24:50Z",
+      "dateModified": "2024-07-15T20:01:10Z",
+      "status": "updated"
+    },
+    {
+      "slug": "echo-show-8-vs-echo-show-5-charcoal-2024",
+      "documentId": "zelbvlb5mv110hzxh2vf0etf",
+      "publishedAt": "2024-04-18T10:24:50Z",
+      "dateModified": "2024-07-15T20:04:00Z",
+      "status": "updated"
+    },
+    {
+      "slug": "top-rated-smart-robot-vacuums-effortless-cleaning",
+      "documentId": "rfccq32kkaweniebdg833ras",
+      "publishedAt": "2024-04-18T10:24:51Z",
+      "dateModified": "2024-07-15T20:04:12Z",
+      "status": "updated"
+    },
+    {
+      "slug": "outdoor-security-cameras",
+      "documentId": "esp3ecmwm4r0yv210pq0owf2",
+      "publishedAt": "2024-04-18T10:24:54Z",
+      "dateModified": "2024-07-15T20:01:04Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-blinds-integration",
+      "documentId": "zdej6byaihyppj7ht2eyn1te",
+      "publishedAt": "2024-04-18T10:24:54Z",
+      "dateModified": "2024-07-15T20:01:13Z",
+      "status": "updated"
+    },
+    {
+      "slug": "program-schedule-ecobee-thermostat",
+      "documentId": "y04zawdrh6e6736xd1mp9cz0",
+      "publishedAt": "2024-04-18T10:24:54Z",
+      "dateModified": "2024-07-15T20:03:09Z",
+      "status": "updated"
+    },
+    {
+      "slug": "kasa-smart-led-strip-vs-led",
+      "documentId": "czklg0m8tlbvbdyjp8qdmfji",
+      "publishedAt": "2024-04-18T10:24:55Z",
+      "dateModified": "2024-06-26T05:37:41Z",
+      "status": "updated"
+    },
+    {
+      "slug": "best-brands-security-sensors",
+      "documentId": "zgdhcrju1umjro5lnkrv27na",
+      "publishedAt": "2024-04-18T10:24:55Z",
+      "dateModified": "2024-07-15T20:01:00Z",
+      "status": "updated"
+    },
+    {
+      "slug": "ring-alarm-2nd-gen-vs-hiistar",
+      "documentId": "hvlksijwiwwfukj74xjyp7e3",
+      "publishedAt": "2024-04-18T10:24:56Z",
+      "dateModified": "2024-07-16T09:01:12Z",
+      "status": "updated"
+    },
+    {
+      "slug": "govee-led-vs-rgbic-bars",
+      "documentId": "pbop9nesqc29o94xn8hznnl6",
+      "publishedAt": "2024-04-18T10:24:56Z",
+      "dateModified": "2024-07-16T08:58:43Z",
+      "status": "updated"
+    },
+    {
+      "slug": "ultraloq-u-bolt-pro-wifi-smart-lock",
+      "documentId": "yfff9xdtoevgmjm3whzyn6rg",
+      "publishedAt": "2024-03-16T03:06:16Z",
+      "dateModified": "2024-07-15T20:07:02Z",
+      "status": "updated"
+    },
+    {
+      "slug": "fully-automated-smart-home-routine-wake-up-to-bedtime",
+      "documentId": "rmvjkx7e3u3egdpl6kb5ye37",
+      "publishedAt": "2026-07-29T18:20:07.505Z",
+      "dateModified": "2026-07-29T18:20:07.505Z",
+      "status": "updated"
+    },
+    {
+      "slug": "layered-smart-home-security-system-sensors-cameras-automated-alerts",
+      "documentId": "g9ewf00mnoishr7pm2yjkllt",
+      "publishedAt": "2026-07-29T18:28:31.051Z",
+      "dateModified": "2026-07-29T18:28:31.051Z",
+      "status": "updated"
+    },
+    {
+      "slug": "build-fully-automated-home-routine-single-smart-hub",
+      "documentId": "ggwdoqnkqa6g69oowwt9tg6p",
+      "publishedAt": "2026-07-29T18:30:43.824Z",
+      "dateModified": "2026-07-29T18:30:43.824Z",
+      "status": "updated"
+    },
+    {
+      "slug": "build-fully-integrated-smart-home-automation-system-from-scratch",
+      "documentId": "avefun2cid42ay3i05bfu4eu",
+      "publishedAt": "2026-07-29T18:37:22.912Z",
+      "dateModified": "2026-07-29T18:37:22.912Z",
+      "status": "updated"
+    },
+    {
+      "slug": "voice-assistant-vs-app-control-choosing-right-hub-home-automation",
+      "documentId": "vo2isuk0bh02m8pd69bp0q0f",
+      "publishedAt": "2026-07-29T18:38:25.966Z",
+      "dateModified": "2026-07-29T18:38:25.966Z",
+      "status": "updated"
+    },
+    {
+      "slug": "build-layered-smart-home-security-cameras-sensors-automation",
+      "documentId": "u1vg0x9n1fnyjenecqtyzq85",
+      "publishedAt": "2026-07-29T18:40:04.517Z",
+      "dateModified": "2026-07-29T18:40:04.517Z",
+      "status": "updated"
+    },
+    {
+      "slug": "integrating-smart-locks-doorbells-motion-detectors-automated-security-routine",
+      "documentId": "l81ks7lytqdeuicg8l6jhbrj",
+      "publishedAt": "2026-07-29T18:42:07.914Z",
+      "dateModified": "2026-07-29T18:42:07.914Z",
+      "status": "updated"
+    },
+    {
+      "slug": "local-vs-cloud-based-smart-security-homeowners-guide",
+      "documentId": "auiixiyywljrbsmsre19vi86",
+      "publishedAt": "2026-07-29T18:47:04.524Z",
+      "dateModified": "2026-07-29T18:47:04.524Z",
+      "status": "updated"
+    },
+    {
+      "slug": "how-to-choose-the-right-smart-hub-for-your-home-automation-setup",
+      "documentId": "h9wbt7vdf9eh2dl6bwy6k7zk",
+      "publishedAt": "2026-07-29T23:50:17.756Z",
+      "dateModified": "2026-07-29T23:50:17.756Z",
+      "status": "updated"
+    },
+    {
+      "slug": "zigbee-z-wave-wi-fi-smart-devices-explained",
+      "documentId": "mavu8ydypkqh39dxoh4z4a19",
+      "publishedAt": "2026-07-29T23:51:16.124Z",
+      "dateModified": "2026-07-29T23:51:16.124Z",
+      "status": "updated"
+    },
+    {
+      "slug": "smart-home-devices-that-work-together-without-a-bridge",
+      "documentId": "mknoqdou3uld8zhwdj7j5hh8",
+      "publishedAt": "2026-07-29T23:52:14.256Z",
+      "dateModified": "2026-07-29T23:52:14.256Z",
+      "status": "updated"
+    },
+    {
+      "slug": "room-by-room-guide-to-building-a-fully-automated-smart-home",
+      "documentId": "e29anyhjnd4xvtaa22fqrk9b",
+      "publishedAt": "2026-07-29T23:53:16.796Z",
+      "dateModified": "2026-07-29T23:53:16.796Z",
+      "status": "updated"
+    }
+  ]
+}

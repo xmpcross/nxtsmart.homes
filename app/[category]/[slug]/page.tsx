@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   if (!post) return { title: 'Not found' };
 
   const cover = coverImageSrc(post) || mediaUrl(post.ogImage ?? null);
+  const modifiedTime = post.dateModified || post.updatedAt;
   const description = post.seoDescription || post.excerpt || SITE.description;
 
   return {
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       url: `${SITE.url}/${category}/${post.slug}`,
       images: cover ? [{ url: cover }] : undefined,
       publishedTime: post.publishedAt,
-      modifiedTime: post.updatedAt,
+      modifiedTime,
     },
     twitter: {
       card: cover ? 'summary_large_image' : 'summary',
@@ -73,6 +74,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
   const comments = post.comments ?? [];
 
   const cover = coverImageSrc(post);
+  const modifiedTime = post.dateModified || post.updatedAt;
   const cat = post.categories?.[0];
 
   const articleJsonLd = {
@@ -82,7 +84,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
     description: post.seoDescription || post.excerpt,
     image: cover ? [cover] : undefined,
     datePublished: post.publishedAt,
-    dateModified: post.updatedAt,
+    dateModified: modifiedTime,
     publisher: {
       '@type': 'Organization',
       name: SITE.name,
