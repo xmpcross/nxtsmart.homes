@@ -1,0 +1,22 @@
+Stale price verification - 2026-07-30T00:35:21+00:00
+== /product-comparisons/amazon-echo-pop-vs-echo-dot
+Amazon price updated: 0
+Prices and availability: 0
+nxtvitality-20: 0
+fxnholdings-20: 12
+in stock literal: 0
+price class: 0
+== /product-comparisons/ring-alarm-2nd-gen-vs-hiistar
+Amazon price updated: 0
+Prices and availability: 0
+nxtvitality-20: 0
+fxnholdings-20: 13
+in stock literal: 0
+price class: 0
+== /product-reviews/amazon-smart-plug-review
+Amazon price updated: 0
+Prices and availability: 0
+nxtvitality-20: 0
+fxnholdings-20: 11
+in stock literal: 0
+price class: 0

@@ -8,6 +8,7 @@ import PostContent from '@/components/PostContent';
 import RelatedCarousel from '@/components/RelatedCarousel';
 import PostSidebar from '@/components/PostSidebar';
 import CommentsSection from '@/components/CommentsSection';
+import { sanitizeCommerceClaims } from '@/lib/sanitizeCommerce';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -163,13 +164,12 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
         <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-10">
           <div className="min-w-0">
             <div className="rounded-4xl border border-ink/8 bg-surface p-6 sm:p-10">
-              <PostContent html={post.content} />
+              <PostContent html={sanitizeCommerceClaims(post.content)} />
             </div>
 
             <div className="mt-8 rounded-2xl border border-amber-200/80 bg-amber-50/80 p-5 text-xs leading-6 text-ink-muted">
               <strong className="text-ink">Affiliate disclosure.</strong> {SITE.name} earns a
               commission when you buy through links on this page, at no extra cost to you.
-              Prices and availability are accurate as of {fmtDate(post.updatedAt)} and subject to change.
             </div>
           </div>
 

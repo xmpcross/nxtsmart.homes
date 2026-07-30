@@ -125,6 +125,7 @@ export async function listPosts(
   }
 
   return strapiFetch<ListResponse<NxtSmartPost>>('nxtsmart-posts', {
+    fields: ['title', 'slug', 'excerpt', 'postType', 'legacyWpId', 'readingTimeMinutes', 'publishedAt', 'updatedAt', 'dateModified', 'coverImageUrl', 'coverImageAlt'],
     sort: ['publishedAt:desc'],
     populate: POST_POPULATE,
     pagination: { page: opts.page ?? 1, pageSize: opts.pageSize ?? 12 },
