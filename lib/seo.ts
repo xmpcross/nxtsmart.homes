@@ -38,5 +38,9 @@ export function organizationJsonLd() {
     url: SITE.url,
     logo: absoluteUrl('/logo.png'),
     sameAs: Object.values(SITE.social).filter(Boolean),
+    contactPoint: { "@type": "ContactPoint", contactType: "customer support", url: absoluteUrl("/contact") },
   };
 }
+
+export function publisherJsonLd(){return {"@type":"Organization",name:SITE.name,url:SITE.url,logo:{"@type":"ImageObject",url:absoluteUrl(SITE.defaultImage||"/logo.png")}};}
+export function websiteJsonLd(){return {"@context":"https://schema.org","@type":"WebSite",name:SITE.name,url:SITE.url,description:SITE.description,publisher:publisherJsonLd(),potentialAction:{"@type":"SearchAction",target:SITE.url+"/search?q={search_term_string}","query-input":"required name=search_term_string"}};}

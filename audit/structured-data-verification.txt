@@ -1,0 +1,14 @@
+Structured data verification - 2026-07-30T00:54:26Z
+Branch: fix/structured-data
+
+Executable JSON-LD verified live:
+- /: Organization, WebSite
+- /smart-home-security: BreadcrumbList, Organization, WebSite
+- /how-to-guides/program-schedule-ecobee-thermostat: Article, BreadcrumbList, Organization, WebSite
+
+No active AggregateRating or ratingValue schema found on checked pages.
+No Review schema was added.
+HowTo was not added in this phase; broad source greps can still see escaped legacy HowTo strings inside serialized imported content, but not as executable application/ld+json script tags.
+
+Build: npm run build passed.
+Service: nxtsmart-homes.service active after restart.

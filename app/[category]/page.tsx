@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { getCategory, listPosts } from '@/lib/strapi';
 import { SECTIONS, SITE } from '@/lib/site';
 import PostCard from '@/components/PostCard';
+import { breadcrumbJsonLd, jsonLd } from "@/lib/seo";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -69,6 +70,7 @@ export default async function CategoryPage({
 
   return (
     <div data-testid={`category-${category}`}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbJsonLd([{ name: "Home", url: "/" }, { name, url: "/" + category }])) }} />
       <section className="border-b border-ink/8 bg-gradient-to-br from-primary-soft/40 via-paper to-accent-soft/30">
         <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16">
           <nav className="flex items-center gap-2 text-xs text-ink-faint" aria-label="Breadcrumb">

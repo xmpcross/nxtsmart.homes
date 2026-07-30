@@ -8,6 +8,7 @@ import PostContent from '@/components/PostContent';
 import RelatedCarousel from '@/components/RelatedCarousel';
 import PostSidebar from '@/components/PostSidebar';
 import CommentsSection from '@/components/CommentsSection';
+import { absoluteUrl, breadcrumbJsonLd, jsonLd, publisherJsonLd } from "@/lib/seo";
 import { sanitizeCommerceClaims } from '@/lib/sanitizeCommerce';
 
 export const revalidate = 60;
@@ -86,12 +87,9 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
     image: cover ? [cover] : undefined,
     datePublished: post.publishedAt,
     dateModified: modifiedTime,
-    publisher: {
-      '@type': 'Organization',
-      name: SITE.name,
-      url: SITE.url,
-    },
-    mainEntityOfPage: `${SITE.url}/${category}/${post.slug}`,
+    publisher: publisherJsonLd(),
+    author: publisherJsonLd(),
+    mainEntityOfPage: SITE.url + "/" + category + "/" + post.slug,
   };
 
   return (
@@ -105,7 +103,15 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
       <link rel="stylesheet" href="/vendor/cegg-products.min.css" />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbJsonLd([
+          { name: "Home", url: "/" },
+          { name: cat?.name ?? categoryName(category), url: `/${category}` },
+          { name: post.title, url: `/${category}/${post.slug}` },
+        ])) }}
       />
 
       <section className="border-b border-ink/8 bg-[#f9f9f9]" data-testid="breadcrumb-bar">
