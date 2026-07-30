@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-07-30T00:45:54.812Z",
+  "mode": "dry-run",
+  "source": "https://strapi.fxnstudio.com/api/nxtsmart-posts",
+  "totalApiRecords": 276,
+  "totalUniquePosts": 138,
+  "totalPostsWithChanges": 0,
+  "totalFieldChanges": 0,
+  "first10": [],
+  "changes": []
+}

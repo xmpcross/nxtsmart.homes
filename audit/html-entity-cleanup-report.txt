@@ -1,0 +1,23 @@
+HTML entity cleanup report - 2026-07-30T00:47:01Z
+Branch: fix/html-entity-cleanup
+
+Approved dry-run before apply:
+- Unique posts scanned: 138
+- Posts approved for cleanup: 126
+- Field changes approved: 272
+
+Backup before mutation:
+- backups/nxtsmart-posts-2026-07-30T00-42-38Z.json
+
+Database updates applied:
+- Initial entity cleanup update: 252 rows
+- Additional numeric entity cleanup update: 176 rows
+
+Post-apply source verification:
+- Remaining cleanup candidates from script: 0
+- Remaining visible entity patterns in Strapi fields: 0
+- Valid HTML link &amp; escaping remains in article body HTML where expected.
+
+Live verification:
+- /how-to-guides/program-schedule-ecobee-thermostat: no target escaped entity patterns found
+- /: no target escaped entity patterns found
