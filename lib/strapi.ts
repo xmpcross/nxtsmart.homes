@@ -33,6 +33,17 @@ export type NxtSmartCategory = {
   children?: { id: number; name: string; slug: string }[];
 };
 
+export type NxtSmartAuthor = {
+  id: number;
+  documentId?: string;
+  name: string;
+  slug: string;
+  role?: string;
+  bio?: string;
+  sameAs?: string[];
+  avatar?: StrapiImage;
+};
+
 export type NxtSmartComment = {
   id: number;
   documentId?: string;
@@ -71,6 +82,7 @@ export type NxtSmartPost = {
   gallery?: NonNullable<StrapiImage>[];
   categories?: NxtSmartCategory[];
   comments?: NxtSmartComment[];
+  author?: NxtSmartAuthor | null;
 };
 
 type ListResponse<T> = {
@@ -105,8 +117,8 @@ export function coverImageSrc(post: NxtSmartPost): string | null {
   return post.coverImageUrl ?? null;
 }
 
-const POST_POPULATE = ["coverImage", "ogImage", "categories", "gallery"];
-const POST_DETAIL_POPULATE = { coverImage: true, ogImage: true, categories: true, gallery: true, comments: { filters: { commentStatus: { "$eq": "approved" } }, sort: ["postedAt:desc"] } };
+const POST_POPULATE = ["coverImage", "ogImage", "categories", "gallery", "author"];
+const POST_DETAIL_POPULATE = { coverImage: true, ogImage: true, categories: true, gallery: true, author: { populate: ["avatar"] }, comments: { filters: { commentStatus: { "$eq": "approved" } }, sort: ["postedAt:desc"] } };
 
 export async function listPosts(
   opts: { page?: number; pageSize?: number; category?: string; postType?: NxtSmartPostType; q?: string } = {},

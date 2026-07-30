@@ -2,13 +2,13 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getPost, listPosts, mediaUrl, coverImageSrc, type NxtSmartPost } from '@/lib/strapi';
-import { SECTIONS, SITE } from '@/lib/site';
+import { DEFAULT_AUTHOR, SECTIONS, SITE } from '@/lib/site';
 import { fmtDate, primaryCategorySlug, postPath } from '@/lib/format';
 import PostContent from '@/components/PostContent';
 import RelatedCarousel from '@/components/RelatedCarousel';
 import PostSidebar from '@/components/PostSidebar';
 import CommentsSection from '@/components/CommentsSection';
-import { absoluteUrl, breadcrumbJsonLd, jsonLd, publisherJsonLd } from "@/lib/seo";
+import { absoluteUrl, breadcrumbJsonLd, jsonLd, personJsonLd, publisherJsonLd } from "@/lib/seo";
 import { sanitizeCommerceClaims } from '@/lib/sanitizeCommerce';
 
 export const revalidate = 60;
@@ -78,6 +78,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
   const cover = coverImageSrc(post);
   const modifiedTime = post.dateModified || post.updatedAt;
   const cat = post.categories?.[0];
+  const author = post.author ?? DEFAULT_AUTHOR;
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
@@ -88,7 +89,7 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
     datePublished: post.publishedAt,
     dateModified: modifiedTime,
     publisher: publisherJsonLd(),
-    author: publisherJsonLd(),
+    author: personJsonLd(author),
     mainEntityOfPage: SITE.url + "/" + category + "/" + post.slug,
   };
 
@@ -145,6 +146,8 @@ export default async function PostPage({ params }: { params: Promise<Params> }) 
                 </h1>
                 <p className="mt-5 flex flex-wrap items-center gap-3 text-sm text-ink-faint">
                   <span>Published {fmtDate(post.publishedAt)}</span>
+                  <span className="h-1 w-1 rounded-full bg-ink-faint" aria-hidden />
+                  <span>By <Link href={"/author/" + author.slug} className="font-semibold text-ink-muted hover:text-primary">{author.name}</Link></span>
                   {post.readingTimeMinutes ? (
                     <>
                       <span className="h-1 w-1 rounded-full bg-ink-faint" aria-hidden />

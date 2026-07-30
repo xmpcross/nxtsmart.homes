@@ -102,3 +102,11 @@ export const SECTIONS: Section[] = [
     blurb: "Informative articles explain the ideas, standards, and trends behind the modern smart home. Read these primers to understand Matter, Thread, Wi-Fi, Zigbee, automation platforms, privacy controls, and connected devices.",
   },
 ];
+
+export const DEFAULT_AUTHOR = {
+  name: "kspellman",
+  slug: "kspellman",
+  role: "Writer and editor",
+  bio: "kspellman writes and edits smart home guides, product comparisons, and setup resources for NXTSmart.Homes, focusing on practical information for homeowners planning connected devices, automation, and security systems.",
+  sameAs: [] as string[],
+};

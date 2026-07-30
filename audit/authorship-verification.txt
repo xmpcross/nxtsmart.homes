@@ -1,0 +1,29 @@
+Authorship verification - 2026-07-30T01:10:12Z
+== author status
+HTTP/2 200 
+== article byline
+By <a class="font-semibold text-ink-muted hover:text-primary" href="/author/kspellman">kspellman</a>
+== author page markers
+@type":"Person
+kspellman
+kspellman
+Writer and editor
+kspellman
+kspellman
+kspellman
+kspellman
+Author
+kspellman
+Writer and editor
+kspellman
+kspellman
+kspellman
+kspellman
+kspellman
+kspellman
+kspellman
+kspellman
+kspellman
+== legacy author redirect
+HTTP/2 301 
+location: https://nxtsmart.homes/about

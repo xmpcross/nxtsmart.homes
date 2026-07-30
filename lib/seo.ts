@@ -44,3 +44,7 @@ export function organizationJsonLd() {
 
 export function publisherJsonLd(){return {"@type":"Organization",name:SITE.name,url:SITE.url,logo:{"@type":"ImageObject",url:absoluteUrl(SITE.defaultImage||"/logo.png")}};}
 export function websiteJsonLd(){return {"@context":"https://schema.org","@type":"WebSite",name:SITE.name,url:SITE.url,description:SITE.description,publisher:publisherJsonLd(),potentialAction:{"@type":"SearchAction",target:SITE.url+"/search?q={search_term_string}","query-input":"required name=search_term_string"}};}
+
+export function personJsonLd(author: { name: string; slug: string; role?: string; bio?: string; sameAs?: string[] }) {
+  return { "@type": "Person", name: author.name, url: absoluteUrl("/author/" + author.slug), jobTitle: author.role, description: author.bio, sameAs: author.sameAs || [] };
+}

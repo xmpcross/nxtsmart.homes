@@ -59,7 +59,7 @@ export function middleware(request: NextRequest) {
   const exactTarget = EXACT_REDIRECTS[pathname];
   if (exactTarget) return redirectTo(request, exactTarget);
 
-  if (pathname.startsWith("/author/")) return redirectTo(request, "/about");
+  if (pathname.startsWith("/author/") && pathname !== "/author/kspellman") return redirectTo(request, "/about");
   if (pathname.startsWith("/product-category/smart-home")) return redirectTo(request, "/smart-home-devices");
   if (pathname.startsWith("/product-tag/")) return gone();
   if (GONE_PATHS.has(pathname)) return gone();
