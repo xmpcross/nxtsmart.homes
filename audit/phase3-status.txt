@@ -1,0 +1,16 @@
+Phase 3 status - 2026-07-30T01:12:57Z
+
+Completed live:
+- Removed homepage SaaS residue from live rendered homepage.
+- Removed legacy meta keywords emission from article metadata.
+- Fixed local-vs-cloud SEO title alignment and removed duplicate opening H2 from Strapi content.
+- Confirmed robots.txt allows crawling and points to sitemap.xml.
+- Confirmed sitemap.xml has no parameter, legacy category, product-tag, or author URLs.
+
+Dry runs / approvals needed:
+- Reading time recomputation would update 230 Strapi post rows. See audit/reading-time-dry-run.txt.
+- Author assignment dry-run from Phase 2.4 is still pending approval. See audit/author-assignment-dry-run.txt.
+
+Gates:
+- 3.3 empty promoted categories: choose publish content into empty categories, or remove/noindex until populated.
+- 3.9 business address/phone: confirm whether these can be published.

@@ -1,0 +1,16 @@
+Reading time dry run - 2026-07-30T01:11:23Z
+
+Total rows that would change:
+230
+
+First 10 proposed changes: id | slug | current | computed
+1 | ultraloq-u-bolt-pro-wifi-smart-lock | 1 | 10
+3 | smartthings-station-vs-sengled | 1 | 10
+5 | how-do-smart-speakers-use-artificial-intelligence | 10 | 11
+13 | understanding-the-different-types-of-security-camera-mounts | 1 | 12
+15 | benefits-of-smart-lighting | 1 | 11
+17 | how-to-set-up-a-smart-speaker | 1 | 10
+19 | how-to-maintain-and-care-for-your-security-cameras | 1 | 11
+21 | smart-lighting-how-to-set-up | 1 | 11
+23 | honeywell-step-by-step-guide | 1 | 10
+25 | troubleshooting-common-issues-with-smart-doorbells | 1 | 12

@@ -1,0 +1,17 @@
+Phase 3 quick wins verification - 2026-07-30T01:12:37Z
+
+== homepage residue
+none found on live homepage
+
+== meta keywords on article
+none found
+
+== local-vs-cloud title
+<title>Local vs. Cloud-Based Smart Security: What Every Homeowner Should Know · NXTSmart.Homes
+
+== robots/sitemap
+Allow: /
+User-Agent: *
+Allow: /
+Sitemap: https://nxtsmart.homes/sitemap.xml
+sitemap legacy/parameter URLs: none found

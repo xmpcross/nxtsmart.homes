@@ -33,7 +33,6 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   return {
     title: post.seoTitle || post.title,
     description,
-    keywords: post.seoKeywords,
     alternates: { canonical: `/${category}/${post.slug}` },
     openGraph: {
       type: 'article',
