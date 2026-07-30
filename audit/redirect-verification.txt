@@ -1,0 +1,21 @@
+Redirect verification - 2026-07-30T00:11:32+00:00
+Base: http://127.0.0.1:3015
+
+Static and legacy area checks
+/contact-us/ -> 301 /contact
+/about-us-find-the-top-smart-home-devices-expert-guides -> 301 /about
+/privacy-policy -> 301 /legal/privacy
+/terms-of-use -> 301 /legal/terms
+/category/product-reviews -> 301 /product-reviews
+/category/informative-articles -> 301 /informative-articles
+/category/top-rated -> 301 /top-rated
+/category/coupons-and-deals -> 410 
+/product-category/smart-home/foo -> 301 https://nxtsmart.homes/smart-home-devices
+/product-tag/smart-locks -> 410 
+/author/kspellman/ -> 301 https://nxtsmart.homes/about
+/?p=999999 -> 410 
+/no-such-category -> 404 
+
+Generated WordPress ?p= redirect checks
+Generated map total: 126
+Generated map failures: 0

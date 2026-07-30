@@ -28,9 +28,10 @@ async function resolveCategoryName(slug: string): Promise<string> {
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { category } = await params;
   if (isReserved(category)) return {};
-  const name = await resolveCategoryName(category);
   const sectionMeta = SECTIONS.find((s) => s.slug === category);
   const categoryRecord = await getCategory(category).catch(() => null);
+  if (!categoryRecord && !sectionMeta) return { title: "Not found" };
+  const name = categoryRecord?.name ?? sectionMeta?.title ?? category.replace(/-/g, " " );
   return {
     title: name,
     description: sectionMeta?.blurb || categoryRecord?.description || `${name} from ${SITE.name} — ${SITE.tagline}`,
@@ -57,6 +58,7 @@ export default async function CategoryPage({
   ]);
 
   const sectionMeta = SECTIONS.find((s) => s.slug === category);
+  if (!categoryRecord && !sectionMeta) notFound();
   const name = categoryRecord?.name ?? sectionMeta?.title ?? category.replace(/-/g, " ");
   const intro = sectionMeta?.blurb ?? categoryRecord?.description;
   const posts = res?.data ?? [];
