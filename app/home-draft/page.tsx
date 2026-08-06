@@ -7,6 +7,10 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Home 2 — Magzin Publisher Layout | NXTSmart.Homes',
   description: 'Magzin Modern High-Performance Publisher Layout for NXTSmart.Homes',
+  // A layout experiment, but a real public route once deployed. Kept out of the
+  // index so it cannot compete with the actual home page for the same content —
+  // which is what /home-optimus-preview already does.
+  robots: { index: false, follow: false },
 };
 
 function formatDate(dateStr?: string) {
