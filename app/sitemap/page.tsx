@@ -38,11 +38,12 @@ export default async function HtmlSitemapPage() {
   const activeCats = orderedCats.filter((c) => (byCat.get(c.slug)?.length ?? 0) > 0);
 
   return (
-    <div data-testid="sitemap-page">
-      <section className="border-b border-ink/8 bg-muted">
-        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Site map</p>
-          <h1 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl">
+    <div className="bg-paper text-ink" data-testid="sitemap-page">
+      <section className="relative isolate overflow-hidden border-b border-primary/10 bg-white">
+        
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:py-20">
+          <p className="inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-primary">Site map</p>
+          <h1 className="mt-5 font-display text-[2rem] font-bold leading-tight tracking-tight text-ink">
             Everything on {SITE.name}.
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted">
@@ -58,7 +59,7 @@ export default async function HtmlSitemapPage() {
               <a
                 key={c.slug}
                 href={`#${c.slug}`}
-                className="rounded-full border border-ink/10 bg-surface px-4 py-1.5 text-sm font-semibold text-ink-muted transition hover:border-primary/30 hover:bg-primary-soft hover:text-primary"
+                className="rounded-full border border-primary/10 bg-white/80 px-4 py-1.5 text-sm font-semibold text-ink-muted transition hover:border-primary/30 hover:bg-primary-soft hover:text-primary"
               >
                 {c.name} ({byCat.get(c.slug)!.length})
               </a>
@@ -67,9 +68,9 @@ export default async function HtmlSitemapPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16">
         {/* Top-level pages */}
-        <section className="rounded border border-ink/8 bg-surface p-6 shadow-card sm:p-8">
+        <section className="rounded border border-primary/10 bg-surface p-6 shadow-card sm:p-8">
           <h2 className="font-display text-2xl font-bold tracking-tight text-ink">Pages</h2>
           <ul className="mt-5 flex flex-wrap gap-2">
             <SiteLink href="/">Home</SiteLink>
@@ -91,7 +92,7 @@ export default async function HtmlSitemapPage() {
               <section
                 key={slug}
                 id={slug}
-                className="scroll-mt-24 rounded border border-ink/8 bg-surface p-6 shadow-card sm:p-8"
+                className="scroll-mt-24 rounded border border-primary/10 bg-surface p-6 shadow-card sm:p-8"
                 data-testid={`sitemap-cat-${slug}`}
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
@@ -100,7 +101,7 @@ export default async function HtmlSitemapPage() {
                     className="group inline-flex items-center gap-3 font-display text-xl font-bold tracking-tight text-ink hover:text-primary"
                   >
                     {name}
-                    <span className="rounded-full bg-primary-soft px-2.5 py-0.5 text-xs font-bold text-primary">
+                    <span className="rounded bg-primary-soft px-2.5 py-0.5 text-xs font-bold text-primary">
                       {items.length} {items.length === 1 ? 'post' : 'posts'}
                     </span>
                   </Link>
@@ -137,7 +138,7 @@ function SiteLink({ href, children }: { href: string; children: React.ReactNode 
     <li>
       <Link
         href={href}
-        className="inline-flex items-center rounded-full border border-ink/10 bg-muted/60 px-4 py-2 text-sm font-semibold text-ink-muted transition hover:border-primary/30 hover:bg-primary-soft hover:text-primary"
+        className="inline-flex items-center rounded-full border border-primary/10 bg-white/80 px-4 py-2 text-sm font-semibold text-ink-muted transition hover:border-primary/30 hover:bg-primary-soft hover:text-primary"
       >
         {children}
       </Link>

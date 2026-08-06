@@ -29,7 +29,7 @@ export default function SectionHeader({
           {eyebrow}
         </p>
         <h2
-          className={`mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl ${dark ? 'text-white' : 'text-ink'}`}
+          className={`mt-4 font-display text-[2rem] font-bold leading-tight tracking-tight ${dark ? 'text-white' : 'text-ink'}`}
         >
           {title}
         </h2>

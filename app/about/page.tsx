@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div data-testid="about-page">
+    <div className="bg-paper text-ink" data-testid="about-page">
       <Hero />
       <Mission />
       <Vision />
@@ -24,15 +24,15 @@ export default function AboutPage() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-ink/8 bg-hero-gradient text-ink">
-      <div className="absolute inset-0 bg-mesh opacity-70" aria-hidden />
+    <section className="relative isolate overflow-hidden border-b border-primary/10 bg-white text-ink">
+      
       <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-16 lg:py-24">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.15em] text-accent-emphasis">About</p>
-          <h1 className="mt-4 font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
+          <p className="inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-primary">About</p>
+          <h1 className="mt-5 font-display text-[2rem] font-bold leading-tight tracking-tight">
             About Us
           </h1>
-          <h2 className="mt-6 font-display text-2xl font-bold leading-snug sm:text-3xl">
+          <h2 className="mt-6 font-display text-[2rem] font-bold leading-tight">
             Your trusted guide to the smart technology universe
           </h2>
           <p className="mt-6 max-w-xl text-base leading-7 text-ink-muted sm:text-lg">
@@ -96,9 +96,9 @@ function Mission() {
           {pillars.map((p, i) => (
             <li
               key={p.title}
-              className="relative rounded-4xl border border-ink/8 bg-surface p-6 shadow-card transition hover:shadow-card-hover sm:p-8"
+              className="relative rounded border border-primary/10 bg-surface p-6 shadow-card transition hover:shadow-card-hover sm:p-8"
             >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft font-display text-sm font-bold text-primary">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-primary-soft font-display text-sm font-bold text-primary">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <h3 className="mt-5 font-display text-xl font-bold text-ink sm:text-2xl">{p.title}</h3>
@@ -113,7 +113,7 @@ function Mission() {
 
 function Vision() {
   return (
-    <section className="border-y border-ink/8 bg-muted py-20 text-ink">
+    <section className="border-y border-primary/10 bg-primary-soft/55 py-20 text-ink">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-16">
         <div>
           <SectionHeader
@@ -182,13 +182,13 @@ function ThankYou() {
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
             href="/product-comparisons"
-            className="inline-flex items-center rounded-xl bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-primary-emphasis"
+            className="inline-flex items-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-primary-emphasis"
           >
             Browse comparisons
           </Link>
           <Link
             href="/product-reviews"
-            className="inline-flex items-center rounded-xl border border-ink/12 bg-white px-6 py-3 text-sm font-bold text-ink transition hover:border-primary hover:text-primary"
+            className="inline-flex items-center rounded-full border border-primary/20 bg-white px-6 py-3 text-sm font-bold text-ink transition hover:border-primary hover:text-primary"
           >
             Read reviews
           </Link>

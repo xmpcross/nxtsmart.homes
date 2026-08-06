@@ -33,12 +33,14 @@ export default {
         },
       },
       fontFamily: {
-        // Body text — Outfit; headings — Urbanist (see globals.css base rules).
-        sans: ['var(--font-outfit)'],
-        display: ['var(--font-urbanist)'],
-        urbanist: ['var(--font-urbanist)'],
-        outfit: ['var(--font-outfit)'],
-        inter: ['var(--font-inter)'],
+        // One typeface site-wide: Geist, loaded by next/font in app/layout.tsx.
+        // The named keys are kept so existing font-urbanist / font-outfit /
+        // font-inter usages keep compiling — they all resolve to Geist now.
+        sans: ['var(--font-geist)'],
+        display: ['var(--font-geist)'],
+        urbanist: ['var(--font-geist)'],
+        outfit: ['var(--font-geist)'],
+        inter: ['var(--font-geist)'],
       },
       maxWidth: {
         prose: '70ch',

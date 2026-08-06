@@ -26,11 +26,12 @@ export default function LegalArticle({
   try { modifiedLabel = format(parseISO(modified), 'MMM d, yyyy'); } catch { /* ignore */ }
 
   return (
-    <div data-testid={`legal-${pageKey}`}>
-      <section className="bg-[#f8f8f8]">
-        <div className="mx-auto max-w-7xl px-6 py-12">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Legal</p>
-          <h1 className="mt-4 font-display text-[2rem] font-bold leading-tight tracking-tight text-ink">
+    <div className="bg-paper text-ink" data-testid={`legal-${pageKey}`}>
+      <section className="relative isolate overflow-hidden border-b border-primary/10 bg-white">
+        
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:py-20">
+          <p className="inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-primary">Legal</p>
+          <h1 className="mt-5 font-display text-[2rem] font-bold leading-tight tracking-tight text-ink">
             {title}
           </h1>
           {modifiedLabel && (
@@ -45,7 +46,7 @@ export default function LegalArticle({
 
           {/* Segmented control: gray track, active tab as an elevated white pill. */}
           <nav
-            className="mt-6 flex w-full max-w-2xl items-center rounded-xl bg-muted p-1 text-sm font-semibold"
+            className="mt-6 flex w-full max-w-2xl items-center rounded border border-primary/10 bg-white/80 p-1 text-sm font-semibold"
             aria-label="Legal pages"
           >
             {NAV.map((n) => {
@@ -55,7 +56,7 @@ export default function LegalArticle({
                   key={n.key}
                   href={n.href}
                   aria-current={active ? 'page' : undefined}
-                  className={`flex-1 rounded-lg px-4 py-2 text-center transition ${
+                  className={`flex-1 rounded px-4 py-2 text-center transition ${
                     active
                       ? 'bg-white text-ink shadow-card'
                       : 'text-ink-muted hover:text-primary'
@@ -69,7 +70,7 @@ export default function LegalArticle({
         </div>
       </section>
 
-      <section className="bg-white py-12">
+      <section className="bg-surface py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-6 lg:grid lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start lg:gap-12">
           <LegalToc />
           <article className="min-w-0">

@@ -1,0 +1,9 @@
+== status codes
+/ 200 
+/no-such-category 404 
+/contact-us 301 location: /contact
+/product-comparisons/ 200 
+
+== Subheading hits
+Subheading: Getting the Most Out of Your ecobee SmartThermostat with Voice Control</h3>
+Subheading: Getting the Most Out of Your ecobee SmartThermostat with Voice Control\u003c/h3\u003e\n\n\u003cul class=\"wp-block-list

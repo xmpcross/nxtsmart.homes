@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <rect width="1920" height="1080" fill="#ececec"/>
+  <g stroke="#d6d6d6" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round">
+    <!-- left wall corner -->
+    <path d="M760 40 L965 215 L975 220 L975 745 L965 752 L560 930"/>
+    <path d="M975 220 L988 212 M975 745 L988 752"/>
+    <!-- floor lines -->
+    <path d="M560 930 L1920 905" stroke-width="3"/>
+    <path d="M810 965 L1920 930" stroke-width="3"/>
+    <path d="M1240 1080 L1300 800 M1450 1080 L1470 810 M1720 1060 L1710 820" stroke-width="3"/>
+    <path d="M980 830 L1920 815 M1010 890 L1920 870" stroke-width="3"/>
+    <!-- radiator panel left -->
+    <g stroke-width="3">
+      <rect x="1050" y="280" width="195" height="380" rx="4"/>
+      <path d="M1045 275 h205 v12 h-205 z"/>
+      <path d="M1070 292 v348 M1090 292 v348 M1110 292 v348 M1130 292 v348 M1150 292 v348 M1170 292 v348 M1190 292 v348 M1210 292 v348 M1228 292 v348"/>
+    </g>
+    <!-- radiator panel right -->
+    <g stroke-width="3">
+      <rect x="1855" y="280" width="65" height="380"/>
+      <path d="M1848 272 h72 M1875 292 v348 M1895 292 v348 M1912 292 v348"/>
+    </g>
+    <!-- pendant lamps -->
+    <g fill="#e2e2e2">
+      <path d="M1383 48 v100"/><path d="M1383 148 l-28 90 h56 z"/>
+      <path d="M1532 75 v55"/><path d="M1532 130 l-25 80 h50 z"/>
+      <path d="M1468 50 v270"/><path d="M1468 320 l-30 100 h60 z"/>
+    </g>
+    <!-- shelf with vase -->
+    <g stroke-width="3">
+      <path d="M1300 488 h104 v12 h-104 z"/>
+      <path d="M1332 452 c0 -8 4 -14 6 -22 M1338 430 l-8 -14 M1338 430 l9 -12 M1330 452 h14 l-2 34 h-10 z"/>
+      <rect x="1356" y="462" width="14" height="24"/>
+    </g>
+    <!-- shelf with books -->
+    <g stroke-width="3">
+      <path d="M1580 502 h190 v12 h-190 z"/>
+      <rect x="1612" y="430" width="16" height="70"/>
+      <rect x="1632" y="444" width="14" height="56"/>
+      <rect x="1650" y="452" width="12" height="48"/>
+      <rect x="1690" y="446" width="14" height="54" transform="rotate(8 1697 473)"/>
+    </g>
+    <!-- sectional sofa: chaise -->
+    <g stroke-width="3">
+      <path d="M1015 700 q0 -18 18 -22 l330 -32 q22 -2 22 16 v50 q0 16 -18 18 l-334 30 q-18 2 -18 -14 z"/>
+      <rect x="1012" y="742" width="360" height="52" rx="8"/>
+      <path d="M1022 794 v14 M1355 786 v14"/>
+      <path d="M1150 596 q60 -14 96 0 l4 52 -100 10 z" fill="#e6e6e6"/>
+      <path d="M1258 578 q52 -12 84 2 l2 60 -88 8 z" fill="#fafafa"/>
+    </g>
+    <!-- sectional sofa: main -->
+    <g stroke-width="3">
+      <path d="M1385 640 h430 q18 0 18 18 v70 q0 16 -18 16 h-430 q-16 0 -16 -16 v-72 q0 -16 16 -16 z"/>
+      <path d="M1385 660 v-40 q0 -14 16 -14 h420 v54"/>
+      <path d="M1400 744 v16 M1790 744 v16"/>
+      <path d="M1398 588 q50 -12 78 0 l2 52 -82 4 z" fill="#e6e6e6"/>
+      <path d="M1508 580 q52 -12 82 2 l2 58 -86 2 z" fill="#fafafa"/>
+      <path d="M1620 584 q50 -10 78 2 l2 52 -82 2 z" fill="#e6e6e6"/>
+      <path d="M1815 600 q30 -8 48 4 v120 q-20 12 -48 4 z" fill="#ececec"/>
+    </g>
+  </g>
+</svg>

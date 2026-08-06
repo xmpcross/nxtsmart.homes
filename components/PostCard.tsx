@@ -8,10 +8,16 @@ export default function PostCard({
   post,
   variant = 'tile',
   thumbBg = 'bg-muted',
+  hideExcerpt = false,
+  compactTitle = false,
+  hideCategoryBadge = false,
 }: {
   post: NxtSmartPost;
   variant?: Variant;
   thumbBg?: string;
+  hideExcerpt?: boolean;
+  compactTitle?: boolean;
+  hideCategoryBadge?: boolean;
 }) {
   const img = coverImageSrc(post) ?? firstImageUrl(post.content);
   const imgAlt = post.coverImage?.alternativeText || post.coverImageAlt || post.title;
@@ -73,7 +79,7 @@ export default function PostCard({
               {post.title}
             </h3>
           </Link>
-          {post.excerpt && (
+          {!hideExcerpt && post.excerpt && (
             <p className="mt-3 line-clamp-3 max-w-2xl text-sm leading-7 text-ink-muted sm:text-base">
               {post.excerpt}
             </p>
@@ -134,19 +140,19 @@ export default function PostCard({
         ) : (
           <div className="aspect-[4/3] w-full bg-gradient-to-br from-primary-soft via-white to-accent-soft" />
         )}
-        {cat && (
+        {!hideCategoryBadge && cat && (
           <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">
             {cat.name}
           </span>
         )}
       </Link>
-      <div className="mt-4 flex flex-1 flex-col">
+      <div className={(compactTitle ? "p-[15px]" : "mt-4") + " flex flex-1 flex-col"}>
         <Link href={href} className="flex-1">
-          <h3 className="line-clamp-2 font-display text-lg font-bold leading-snug text-ink transition group-hover:text-primary">
+          <h3 className={(compactTitle ? "text-[14px]" : "text-lg") + " line-clamp-2 font-display font-bold leading-snug text-ink transition group-hover:text-primary"}>
             {post.title}
           </h3>
         </Link>
-        {post.excerpt && (
+        {!hideExcerpt && post.excerpt && (
           <p className="mt-2 line-clamp-2 text-sm leading-6 text-ink-muted">{post.excerpt}</p>
         )}
         <p className="mt-auto pt-3 text-xs text-ink-faint">

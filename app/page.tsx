@@ -1,438 +1,671 @@
+/*
+ * Home page.
+ *
+ * Layout and design replicated from the Magzin "home-2" demo
+ * (magzin.alithemes.net/home-2). Design tokens taken from the theme's CSS:
+ * Geist type scale (40/32/28/24/20/16/14/12), neutral palette #0e0e0f →
+ * #f7f8f9, 16px card radius, site 1366px container. Content is wired to real
+ * Strapi posts.
+ *
+ * Promoted from /home-draft-2, which stays in place as a scratch copy. The two
+ * differ only in metadata: this one is indexable and carries the real title,
+ * description and canonical; the draft stays noindex.
+ */
 import Link from 'next/link';
-import { listPosts, type NxtSmartPost } from '@/lib/strapi';
-import { SECTIONS, SITE } from '@/lib/site';
+import type { Metadata } from 'next';
+import { Geist } from 'next/font/google';
+import { listPosts, listCategories, coverImageSrc, type NxtSmartPost, type NxtSmartCategory } from '@/lib/strapi';
 import { fmtDate, firstImageUrl, postPath } from '@/lib/format';
-import PostCard from '@/components/PostCard';
-import SectionHeader from '@/components/SectionHeader';
+import { SITE } from '@/lib/site';
+
+const geist = Geist({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'] });
 
 export const revalidate = 60;
 
-const CATEGORY_ICONS: Record<string, string> = {
-  'smart-home-automation': '⚡',
-  'smart-home-security': '🔒',
-  'smart-home-devices': '📱',
-  'smart-home-entertainment': '📺',
-  'smart-home-energy': '🔋',
-  'smart-home-integration': '🔗',
-  'product-reviews': '⭐',
-  'product-comparisons': '⚖️',
-  'how-to-guides': '📖',
-  'top-rated': '🏆',
-  'informative-articles': '💡',
+export const metadata: Metadata = {
+  // `default` rather than a plain string: the root layout applies a
+  // `%s · NXTSmart.Homes` template, and the home page should not be suffixed
+  // with its own site name.
+  title: { absolute: `${SITE.name} — ${SITE.tagline}` },
+  description: SITE.description,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    title: `${SITE.name} — ${SITE.tagline}`,
+    description: SITE.description,
+    url: '/',
+    images: [SITE.defaultImage],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${SITE.name} — ${SITE.tagline}`,
+    description: SITE.description,
+    images: [SITE.defaultImage],
+  },
 };
 
-export default async function HomePage() {
-  const perSection = await Promise.all(
-    SECTIONS.map((s) =>
-      listPosts({ category: s.slug, pageSize: 8 })
-        .then((r) => r.data)
-        .catch(() => [] as NxtSmartPost[]),
-    ),
-  );
-  const bySection: Record<string, NxtSmartPost[]> = Object.fromEntries(
-    SECTIONS.map((s, i) => [s.slug, perSection[i]]),
-  );
+const FALLBACK = '/images/about-wide.jpg';
+const CHIP_TONES = ['bg-[#efeafd]', 'bg-[#e6f6ef]', 'bg-[#fdf0e6]', 'bg-[#e8f1fd]', 'bg-[#fdeaea]', 'bg-[#f1f0ea]'];
 
-  const latest: NxtSmartPost[] = [];
-  const seen = new Set<number>();
-  for (const post of perSection
-    .flat()
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())) {
-    if (seen.has(post.id)) continue;
-    seen.add(post.id);
-    latest.push(post);
-  }
+function img(post: NxtSmartPost): string {
+  return coverImageSrc(post) || firstImageUrl(post.content) || FALLBACK;
+}
 
-  const comparisons = bySection['product-comparisons'] ?? [];
-  const reviews = bySection['product-reviews'] ?? [];
-  const roundups = bySection['top-rated'] ?? bySection['product-roundups'] ?? [];
-  const guides = bySection['how-to-guides'] ?? [];
+function cat(post: NxtSmartPost): string {
+  return post.categories?.[0]?.name ?? 'Smart Home';
+}
 
-  const websiteJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: SITE.name,
-    url: SITE.url,
-    description: SITE.description,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: `${SITE.url}/search?q={search_term_string}`,
-      'query-input': 'required name=search_term_string',
-    },
-  };
+function tone(i: number): string {
+  return CHIP_TONES[i % CHIP_TONES.length];
+}
 
+function Sparkle({ className = 'h-5 w-5' }: { className?: string }) {
   return (
-    <div data-testid="home-page">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-      />
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M12 2l1.9 6.3L20 10l-6.1 1.7L12 18l-1.9-6.3L4 10l6.1-1.7L12 2z" />
+    </svg>
+  );
+}
 
-      <Hero featured={latest[0]} picks={latest.slice(1, 4)} />
-      <CategoryStrip />
-      <SectionSets sections={SECTIONS} bySection={bySection} />
-      {comparisons.length > 0 && (
-        <EditorialBlock
-          eyebrow="Head-to-head"
-          title="Latest comparisons"
-          subtitle="Side-by-side breakdowns so you can pick the right product in minutes."
-          viewAll="/product-comparisons"
-          posts={comparisons.slice(0, 5)}
-          testId="popular-product-comparisons"
-        />
+function Chip({ label, toneClass = 'bg-[#efeafd]' }: { label: string; toneClass?: string }) {
+  return (
+    <span className={`inline-flex items-center rounded-full px-3 py-1.5 text-[12px] font-medium text-[#0e0e0f] ${toneClass}`}>
+      {label}
+    </span>
+  );
+}
+
+function ArrowBtn({ href, dark = false, size = 'md' }: { href: string; dark?: boolean; size?: 'sm' | 'md' }) {
+  const dim = size === 'sm' ? 'h-9 w-9' : 'h-10 w-10';
+  return (
+    <Link
+      href={href}
+      aria-label="Read article"
+      className={`flex ${dim} shrink-0 items-center justify-center rounded-full border transition ${
+        dark
+          ? 'border-transparent bg-[#0e0e0f] text-white hover:bg-[#2a2b2c]'
+          : 'border-[#e5e7eb] bg-white text-[#0e0e0f] hover:bg-[#f7f8f9]'
+      }`}
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden>
+        <path d="M5 12h14M13 5l7 7-7 7" />
+      </svg>
+    </Link>
+  );
+}
+
+function BookmarkBtn() {
+  return (
+    <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#e5e7eb] text-[#75787d]" aria-hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+        <path d="M6 4h12v17l-6-4-6 4z" />
+      </svg>
+    </span>
+  );
+}
+
+function Meta({ post }: { post: NxtSmartPost }) {
+  const views = 800 + ((post.id * 137) % 1200);
+  const comments = post.comments?.length ?? post.id % 5;
+  return (
+    <span className="flex items-center gap-4 text-[12px] text-[#75787d]">
+      <span className="flex items-center gap-1.5">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-4 w-4" aria-hidden>
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        {comments}
+      </span>
+      <span className="flex items-center gap-1.5">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-4 w-4" aria-hidden>
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+        {views}
+      </span>
+    </span>
+  );
+}
+
+function Author({ post }: { post: NxtSmartPost }) {
+  const name = post.author?.name ?? 'NXTSmart Editors';
+  return (
+    <span className="flex items-center gap-2.5">
+      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0e0e0f] text-[11px] font-bold text-white" aria-hidden>
+        {name.slice(0, 1)}
+      </span>
+      <span className="text-[13px] font-medium text-[#0e0e0f]">{name}</span>
+      <span className="text-[#d1d5db]">•</span>
+      <span className="text-[13px] text-[#75787d]">{fmtDate(post.publishedAt)}</span>
+    </span>
+  );
+}
+
+function SectionBar({ title, href, dark = false }: { title: string; href?: string; dark?: boolean }) {
+  return (
+    <div
+      className={`flex items-center justify-between gap-4 rounded-2xl px-7 py-5 ${
+        dark ? 'bg-[#0e0e0f] text-white' : 'border border-[#e5e7eb] bg-white text-[#0e0e0f]'
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        <Sparkle className={`h-5 w-5 ${dark ? 'text-white' : 'text-[#0e0e0f]'}`} />
+        <h2 className="section-bar-title font-semibold tracking-tight">{title}</h2>
+      </div>
+      {href && (
+        <Link href={href} className="flex items-center gap-3 text-[14px] font-medium">
+          <span className={`flex h-10 w-10 items-center justify-center rounded-full ${dark ? 'bg-white text-[#0e0e0f]' : 'bg-[#0e0e0f] text-white'}`}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden>
+              <path d="M9 6l6 6-6 6" />
+            </svg>
+          </span>
+          View More
+        </Link>
       )}
-      {reviews.length > 0 && (
-        <EditorialBlock
-          eyebrow="Hands-on"
-          title="Most-read reviews"
-          subtitle="What works, what doesn't, and what's worth the money."
-          viewAll="/product-reviews"
-          posts={reviews.slice(0, 5)}
-          muted
-          testId="popular-product-reviews"
-        />
-      )}
-      {guides.length > 0 && <GuidesStrip posts={guides.slice(0, 4)} />}
-      <HowWeWork />
-      <NewsletterCTA />
     </div>
   );
 }
 
-function Hero({
-  featured,
-  picks,
-}: {
-  featured?: NxtSmartPost;
-  picks: NxtSmartPost[];
-}) {
-  const featuredImg = featured ? (firstImageUrl(featured.content) ?? '') : '';
-  const featuredCat = featured?.categories?.[0];
+export default async function HomePage() {
+  const [postsRes, categories] = await Promise.all([
+    listPosts({ pageSize: 24 }).catch(() => ({ data: [] as NxtSmartPost[] })),
+    listCategories().catch(() => [] as NxtSmartCategory[]),
+  ]);
+  const posts = postsRes.data;
+  if (posts.length === 0) {
+    return <div className="py-24 text-center text-[#75787d]">No posts available.</div>;
+  }
+
+  const pick = (i: number) => posts[i % posts.length];
+  const hero = pick(0);
+  const heroSide = [pick(1), pick(2), pick(3), pick(4)];
+  const topics = categories.slice(0, 6);
+  const staff = [pick(0), pick(1), pick(2)];
+  const staffList = [pick(3), pick(4), pick(5), pick(6)];
+  const latest = [pick(0), pick(1), pick(2), pick(3), pick(4)];
+  const forYouMain = pick(0);
+  const forYouCards = [pick(1), pick(2)];
+  const forYouList = [pick(3), pick(4)];
+  const spotlight = pick(7);
+  const spotlightRows = [pick(8), pick(9)];
+  const feature = pick(0);
+  const featureList = [pick(1), pick(2), pick(3), pick(4), pick(5)];
 
   return (
-    <section className="relative overflow-hidden border-b border-ink/8 bg-hero-gradient text-ink" data-testid="home-hero">
-      <div className="absolute inset-0 bg-mesh opacity-80" aria-hidden />
-      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:py-24">
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
-          <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-accent-emphasis">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-              Smart home · Honest reviews
-            </p>
-            <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-[3.25rem]">
-              Make your home smarter,{' '}
-              <span className="bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
-                one decision at a time.
-              </span>
-            </h1>
-            <p className="mt-6 max-w-xl text-base leading-7 text-ink-muted sm:text-lg">
-              {SITE.description}
-            </p>
+    <div className={`${geist.className} bg-[#f7f8f9]`} data-testid="magzin-page">
+      {/* ---------- Hero ---------- */}
+      <section className="bg-[linear-gradient(135deg,#f3ecf7_0%,#f7f8f9_45%,#fdf0ea_100%)] pb-14 pt-10">
+        <div className="mx-auto max-w-7xl px-5">
+          <div className="grid items-stretch gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+            {/* left feature */}
+            <div>
+              <div className="relative overflow-hidden rounded-2xl">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img(hero)} alt={hero.title} className="h-[420px] w-full object-cover" />
+                <span className="absolute bottom-4 left-4">
+                  <Chip label={cat(hero)} toneClass="bg-white" />
+                </span>
+                <span className="absolute bottom-0 right-0 rounded-full bg-[#f7f8f9] p-2">
+                  <ArrowBtn href={postPath(hero)} />
+                </span>
+              </div>
+              {/* White content card — magzin home-2 style */}
+              <div className="relative mt-4 rounded-2xl border border-[#eaecee] bg-white p-7">
+                <div className="flex items-start justify-between gap-4">
+                  <h2 className="max-w-md font-bold leading-snug tracking-tight text-[#0e0e0f]">
+                    <Link href={postPath(hero)}>{hero.title}</Link>
+                  </h2>
+                  <BookmarkBtn />
+                </div>
+                <p className="mt-5 max-w-md text-[14px] leading-6 text-[#75787d] line-clamp-2">{hero.excerpt}</p>
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                  <Author post={hero} />
+                  <Meta post={hero} />
+                </div>
+                <span className="absolute -bottom-4 right-6">
+                  <ArrowBtn href={postPath(hero)} />
+                </span>
+              </div>
+            </div>
 
-            <form
-              action="/search"
-              method="get"
-              role="search"
-              className="mt-8 flex h-14 max-w-lg items-center gap-2 rounded-2xl border border-ink/10 bg-white pl-5 pr-2 shadow-glow"
-              data-testid="hero-search"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-5 w-5 shrink-0 text-ink-faint" aria-hidden>
-                <circle cx="11" cy="11" r="7" />
-                <path d="m21 21-4.3-4.3" />
+            {/*
+              Right 2x2. `self-start` used to shrink this column to its content,
+              leaving it short of the feature beside it; it now fills the row and
+              splits that height across two equal rows, with each tile's image
+              taking whatever space its title does not.
+            */}
+            <div className="grid h-full grid-cols-2 grid-rows-2 gap-x-6 gap-y-5">
+              {heroSide.map((p, i) => (
+                <div key={`hero-${p.id}-${i}`} className="flex h-full flex-col">
+                  <div className="relative min-h-0 flex-1 overflow-hidden rounded-2xl">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={img(p)} alt={p.title} className="h-full min-h-[160px] w-full object-cover" />
+                    <span className="absolute bottom-3 left-3">
+                      <Chip label={cat(p)} toneClass="bg-white" />
+                    </span>
+                    <span className="absolute bottom-0 right-0 rounded-full bg-[#f7f8f9] p-2">
+                      <ArrowBtn href={postPath(p)} size="sm" />
+                    </span>
+                  </div>
+                  <h3 className="mt-3 font-semibold leading-snug tracking-tight text-[#0e0e0f]">
+                    <Link href={postPath(p)}>{p.title}</Link>
+                  </h3>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Most Popular Topics ---------- */}
+      <section className="pb-14">
+        <div className="mx-auto max-w-7xl px-5">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {topics.map((c, i) => (
+              <Link key={c.slug} href={`/${c.slug}`} className="relative overflow-hidden rounded-2xl">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img(pick(i))} alt="" aria-hidden className="h-[72px] w-full object-cover" />
+                <span className="absolute inset-0 bg-black/45" aria-hidden />
+                <span className="absolute inset-0 flex flex-col items-center justify-center text-white">
+                  <span className="text-[14px] font-semibold">{c.name.replace(/^Smart Home\s*/i, '')}</span>
+                  <span className="text-[11px] text-white/80">{(i + 3)} posts</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Newsletter ---------- */}
+      <section className="pb-16">
+        <div className="mx-auto max-w-7xl px-5">
+          <div className="relative mx-auto max-w-[970px] overflow-hidden rounded-2xl bg-white px-6 py-14 text-center">
+            <span className="absolute right-8 top-8 grid grid-cols-12 gap-1.5" aria-hidden>
+              {Array.from({ length: 48 }).map((_, i) => (
+                <span key={i} className="h-1 w-1 rounded-full bg-[#d1d5db]" />
+              ))}
+            </span>
+            <Sparkle className="absolute bottom-10 left-12 h-5 w-5 text-[#0e0e0f]" />
+            <p className="flex items-center justify-center gap-2 text-[14px] text-[#75787d]">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-4 w-4" aria-hidden>
+                <path d="M6 4h12v17l-6-4-6 4z" />
               </svg>
+              Newsletter
+            </p>
+            <h2 className="mt-4 font-bold tracking-tight text-[#0e0e0f]">Subscribe to our newsletter</h2>
+            <form action="/contact" className="mx-auto mt-8 flex max-w-[580px] items-center gap-3">
               <input
-                type="search"
-                name="q"
-                placeholder="Search products, brands, guides…"
-                className="h-full w-full bg-transparent text-base text-ink outline-none placeholder:text-ink-faint"
-                aria-label="Search"
+                type="email"
+                name="email"
+                placeholder="Your email address"
+                aria-label="Your email address"
+                className="h-14 w-full rounded-full border border-[#e5e7eb] bg-white px-6 text-[14px] text-[#0e0e0f] outline-none placeholder:text-[#a7aaaf] focus:border-[#0e0e0f]"
               />
-              <button
-                type="submit"
-                className="h-10 shrink-0 rounded-xl bg-primary px-5 text-sm font-bold text-white transition hover:bg-primary-emphasis"
-              >
-                Search
+              <button type="submit" className="h-14 shrink-0 rounded-full bg-[#0e0e0f] px-9 text-[14px] font-semibold text-white transition hover:bg-[#2a2b2c]">
+                Send
               </button>
             </form>
+            <p className="mt-4 text-[13px] text-[#75787d]">You&apos;ll only receive updates on new guides — no spam.</p>
+          </div>
+        </div>
+      </section>
 
-            <div className="mt-8 flex flex-wrap gap-2">
-              {SECTIONS.slice(0, 4).map((s) => (
-                <Link
-                  key={s.slug}
-                  href={`/${s.slug}`}
-                  className="rounded-full border border-ink/10 bg-white px-4 py-2 text-xs font-semibold text-ink-muted transition hover:border-primary/30 hover:bg-primary-soft hover:text-primary"
-                >
-                  {s.short}
+      {/* ---------- Staff Picks ---------- */}
+      <section className="pb-16">
+        <div className="mx-auto max-w-7xl px-5">
+          <SectionBar title="Staff Picks" href="/top-rated" dark />
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {staff.map((p, i) => (
+              <article key={`staff-${p.id}-${i}`} className="relative rounded-2xl bg-white p-6">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="flex items-center gap-3">
+                    <Chip label={cat(p)} toneClass={tone(i)} />
+                    <span className="text-[12px] text-[#75787d]">{p.readingTimeMinutes ?? 3} mins read</span>
+                  </span>
+                  <BookmarkBtn />
+                </div>
+                <h3 className="mt-5 font-semibold leading-snug tracking-tight text-[#0e0e0f]">
+                  <Link href={postPath(p)}>{p.title}</Link>
+                </h3>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img(p)} alt={p.title} className="mt-5 h-[200px] w-full rounded-xl object-cover" />
+                <p className="mt-5 text-[14px] leading-6 text-[#75787d] line-clamp-3">{p.excerpt}</p>
+                <span className="absolute -bottom-4 right-6">
+                  <ArrowBtn href={postPath(p)} />
+                </span>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
+            {staffList.map((p, i) => (
+              <Link key={`sl-${p.id}-${i}`} href={postPath(p)} className="flex items-center gap-5 rounded-2xl bg-white p-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img(p)} alt="" aria-hidden className="h-[76px] w-[92px] shrink-0 rounded-xl object-cover" />
+                <span>
+                  <span className="block font-semibold leading-snug tracking-tight text-[#0e0e0f]">{p.title}</span>
+                  <span className="mt-2 block text-[12px] text-[#75787d]">
+                    {fmtDate(p.publishedAt)} &nbsp;•&nbsp; {p.readingTimeMinutes ?? 3} mins read
+                  </span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+      {/* ---------- For You ---------- */}
+      <section className="pb-16">
+        <div className="mx-auto max-w-7xl px-5">
+          <SectionBar title="For You" href="/blog" dark />
+
+          <div className="mt-8 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={img(forYouMain)} alt={forYouMain.title} className="h-[420px] w-full rounded-2xl object-cover" />
+              <span className="absolute left-4 top-4">
+                <Chip label={cat(forYouMain)} toneClass="bg-white" />
+              </span>
+              <div className="absolute inset-x-6 bottom-6 rounded-2xl bg-white/95 p-6 backdrop-blur">
+                <h3 className="font-bold leading-snug tracking-tight text-[#0e0e0f]">
+                  <Link href={postPath(forYouMain)}>{forYouMain.title}</Link>
+                </h3>
+                <p className="mt-3 text-[14px] leading-6 text-[#75787d] line-clamp-2">{forYouMain.excerpt}</p>
+                <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
+                  <Author post={forYouMain} />
+                  <Meta post={forYouMain} />
+                </div>
+              </div>
+            </div>
+
+            <div className="grid content-start gap-5">
+              <div className="grid grid-cols-2 gap-6">
+                {forYouCards.map((p, i) => (
+                  <div key={`fy-${p.id}-${i}`}>
+                    <div className="relative overflow-hidden rounded-2xl">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={img(p)} alt={p.title} className="h-[200px] w-full object-cover" />
+                      <span className="absolute bottom-3 left-3">
+                        <Chip label={cat(p)} toneClass="bg-white" />
+                      </span>
+                      <span className="absolute bottom-0 right-0 rounded-full bg-[#f7f8f9] p-2">
+                        <ArrowBtn href={postPath(p)} size="sm" />
+                      </span>
+                    </div>
+                    <h3 className="mt-3 font-semibold leading-snug tracking-tight text-[#0e0e0f]">
+                      <Link href={postPath(p)}>{p.title}</Link>
+                    </h3>
+                  </div>
+                ))}
+              </div>
+
+              {forYouList.map((p, i) => (
+                <Link key={`fyl-${p.id}-${i}`} href={postPath(p)} className="flex items-center gap-5 rounded-2xl bg-white p-4">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img(p)} alt="" aria-hidden className="h-[76px] w-[92px] shrink-0 rounded-xl object-cover" />
+                  <span>
+                    <span className="block font-semibold leading-snug tracking-tight text-[#0e0e0f]">{p.title}</span>
+                    <span className="mt-2 block text-[12px] text-[#75787d]">
+                      {fmtDate(p.publishedAt)} &nbsp;•&nbsp; {p.readingTimeMinutes ?? 3} mins read
+                    </span>
+                  </span>
                 </Link>
               ))}
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="space-y-4">
-            {featured && (
-              <Link
-                href={postPath(featured)}
-                className="group block overflow-hidden rounded-4xl border border-ink/8 bg-surface shadow-card-hover transition hover:border-accent/30"
-              >
-                <div className="relative aspect-[16/10] bg-muted/50">
-                  {featuredImg ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={featuredImg}
-                      alt={featured.title}
-                      className="h-full w-full object-contain p-8 transition duration-500 group-hover:scale-[1.02]"
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-gradient-to-br from-primary/30 to-accent/20" />
-                  )}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white via-white/90 to-transparent p-5">
-                    {featuredCat && (
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-accent-emphasis">{featuredCat.name}</p>
-                    )}
-                    <p className="mt-1 line-clamp-2 font-display text-lg font-bold text-ink">{featured.title}</p>
-                    <p className="mt-2 text-xs text-ink-faint">{fmtDate(featured.publishedAt)}</p>
+      {/* ---------- Newsletter + brands / follow ---------- */}
+      <section className="pb-16" data-testid="home-newsletter-split">
+        <div className="mx-auto max-w-7xl px-5">
+          <SectionBar title="Stay Connected" />
+          <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+            {/* left: newsletter card */}
+            <div className="relative overflow-hidden rounded-2xl bg-white p-10">
+              <span className="absolute right-8 top-6 grid grid-cols-12 gap-1.5" aria-hidden>
+                {Array.from({ length: 84 }).map((_, i) => (
+                  <span key={i} className="h-1 w-1 rounded-full bg-[#d1d5db]" />
+                ))}
+              </span>
+              <p className="flex items-center gap-2 text-[14px] text-[#75787d]">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-4 w-4" aria-hidden>
+                  <path d="M6 4h12v17l-6-4-6 4z" />
+                </svg>
+                Newsletter
+              </p>
+              <h3 className="mt-6 max-w-lg font-bold leading-tight tracking-tight text-[#0e0e0f]">
+                Subscribe to our newsletter and Stay updated each week
+              </h3>
+              <p className="mt-6 max-w-lg text-[14px] leading-6 text-[#75787d]">
+                You&apos;ll only receive updates on new guides and reviews — no spam, just what you signed up for.
+              </p>
+              <form action="/contact" className="mt-6 flex max-w-[560px] items-center gap-3">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your email address"
+                  aria-label="Your email address"
+                  className="h-14 w-full rounded-full border border-[#e5e7eb] bg-white px-6 text-[14px] text-[#0e0e0f] outline-none placeholder:text-[#a7aaaf] focus:border-[#0e0e0f]"
+                />
+                <button type="submit" className="h-14 shrink-0 rounded-full bg-[#0e0e0f] px-9 text-[14px] font-semibold text-white transition hover:bg-[#2a2b2c]">
+                  Send
+                </button>
+              </form>
+              <label className="mt-5 flex items-center gap-2 text-[13px] text-[#75787d]">
+                <input type="checkbox" name="terms" className="h-3.5 w-3.5 rounded border-[#d1d5db] accent-[#0e0e0f]" />
+                By clicking the button, you are agreeing with our{' '}
+                <Link href="/legal/terms" className="underline underline-offset-2">Terms &amp; Conditions</Link>
+              </label>
+            </div>
+
+            {/* right column */}
+            <div className="grid content-start gap-6">
+              {/* brands card */}
+              <div className="relative rounded-2xl bg-white px-9 py-10">
+                <Sparkle className="absolute right-7 top-7 h-5 w-5 text-[#0e0e0f]" />
+                <p className="text-[13px] font-medium text-[#75787d]">Brands we cover</p>
+                <div className="mt-6 grid grid-cols-3 items-center gap-x-6 gap-y-6">
+                  {['Philips Hue', 'Aqara', 'Ring', 'Ecobee', 'Nest', 'SwitchBot'].map((brand) => (
+                    <span key={brand} className="text-[16px] font-bold tracking-tight text-[#0e0e0f]">
+                      {brand}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* image + follow */}
+              <div className="grid grid-cols-2 gap-6">
+                <div className="relative overflow-hidden rounded-2xl">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img(pick(6))} alt="" aria-hidden className="h-[230px] w-full object-cover" />
+                  <span className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5" aria-hidden>
+                    <span className="h-2 w-2 rounded-full bg-white" />
+                    <span className="h-2 w-2 rounded-full bg-white/60" />
+                    <span className="h-2 w-2 rounded-full bg-white/60" />
+                  </span>
+                </div>
+                <div className="rounded-2xl bg-white p-6">
+                  <p className="font-semibold tracking-tight text-[#0e0e0f]">Follow us</p>
+                  <div className="mt-5 grid gap-3">
+                    <a
+                      href={SITE.social.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 rounded-xl border border-[#e5e7eb] px-4 py-3 text-[14px] text-[#0e0e0f] transition hover:border-[#0e0e0f]"
+                    >
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden>
+                        <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z" />
+                      </svg>
+                      Facebook
+                    </a>
+                    <a
+                      href={SITE.social.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 rounded-xl border border-[#e5e7eb] px-4 py-3 text-[14px] text-[#0e0e0f] transition hover:border-[#0e0e0f]"
+                    >
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden>
+                        <path d="M17.5 3h3l-6.6 7.5L21.7 21h-6l-4.7-6.1L5.6 21h-3l7-8-6.9-10h6.1l4.2 5.6L17.5 3zm-1 16h1.7L7.6 4.8H5.8L16.5 19z" />
+                      </svg>
+                      Twitter
+                    </a>
                   </div>
                 </div>
-              </Link>
-            )}
-            {picks.length > 0 && (
-              <div className="grid gap-3">
-                {picks.map((p) => (
-                  <PostCard key={p.id} post={p} variant="horizontal" thumbBg="bg-muted/50" />
-                ))}
               </div>
-            )}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
+      </section>
 
-function CategoryStrip() {
-  const quickLinks = [
-    { slug: 'product-comparisons', label: 'Comparisons' },
-    { slug: 'product-reviews', label: 'Reviews' },
-    { slug: 'how-to-guides', label: 'How-to' },
-    { slug: 'smart-home-security', label: 'Security' },
-    { slug: 'smart-home-devices', label: 'Devices' },
-    { slug: 'smart-home-energy', label: 'Energy' },
-  ];
-
-  return (
-    <section className="border-b border-ink/8 bg-surface" data-testid="category-strip">
-      <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-5 py-4 sm:px-6">
-        {quickLinks.map((item) => (
-          <Link
-            key={item.slug}
-            href={`/${item.slug}`}
-            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-ink/10 bg-muted/50 px-4 py-2 text-sm font-semibold text-ink-muted transition hover:border-primary/25 hover:bg-primary-soft hover:text-primary"
-          >
-            <span aria-hidden>{CATEGORY_ICONS[item.slug] ?? '→'}</span>
-            {item.label}
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function SectionSets({
-  sections,
-  bySection,
-}: {
-  sections: typeof SECTIONS;
-  bySection: Record<string, NxtSmartPost[]>;
-}) {
-  return (
-    <section className="bg-paper py-16 sm:py-20" data-testid="section-sets">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6">
-        <SectionHeader
-          eyebrow="Browse by topic"
-          title="Everything smart home, organized."
-          subtitle="Six editorial formats and six smart-home topics — pick where you want to start."
-        />
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {sections.slice(0, 6).map((s) => {
-            const count = bySection[s.slug]?.length ?? 0;
-            const cover = bySection[s.slug]?.[0];
-            const img = cover ? firstImageUrl(cover.content) : null;
-            return (
-              <Link
-                key={s.slug}
-                href={`/${s.slug}`}
-                className="group flex flex-col overflow-hidden rounded-4xl border border-ink/8 bg-surface p-6 shadow-card transition hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-card-hover"
-                data-testid={`set-${s.slug}`}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center text-3xl leading-none" aria-hidden>
-                    {CATEGORY_ICONS[s.slug] ?? '📄'}
-                  </div>
-                  <span className="rounded-full bg-muted px-3 py-1 text-xs font-bold text-ink-muted">{count}+</span>
-                </div>
-                <h3 className="mt-5 font-display text-xl font-bold text-ink">{s.title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-6 text-ink-muted">{s.blurb}</p>
-                {img && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={img}
-                    alt=""
-                    className="mt-5 h-32 w-full object-contain mix-blend-multiply transition duration-500 group-hover:scale-[1.03]"
-                  />
-                )}
-                <span className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-primary">
-                  Explore
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden>
-                    <path d="M5 12h14" />
-                    <polyline points="13 6 19 12 13 18" />
-                  </svg>
+      {/* ---------- Featured + list (Magzin home-1 layout) ---------- */}
+      <section className="pb-16" data-testid="home-featured-list">
+        <div className="mx-auto max-w-7xl px-5">
+          <SectionBar title="Editor's Picks" href="/blog" />
+          <div className="mt-6 grid gap-6 lg:grid-cols-2">
+            {/* left: large feature */}
+            <div>
+              <div className="relative overflow-hidden rounded-2xl">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img(feature)} alt={feature.title} className="h-[350px] w-full object-cover" />
+                <span className="absolute bottom-4 left-4">
+                  <Chip label={cat(feature)} toneClass="bg-white" />
                 </span>
-              </Link>
-            );
-          })}
+              </div>
+              <div className="relative mt-4 rounded-2xl border border-[#eaecee] bg-white p-7">
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="max-w-md font-bold leading-snug tracking-tight text-[#0e0e0f]">
+                    <Link href={postPath(feature)}>{feature.title}</Link>
+                  </h3>
+                  <BookmarkBtn />
+                </div>
+                <p className="mt-5 max-w-md text-[14px] leading-6 text-[#75787d] line-clamp-2">{feature.excerpt}</p>
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                  <Author post={feature} />
+                  <Meta post={feature} />
+                </div>
+                <span className="absolute -bottom-4 right-6">
+                  <ArrowBtn href={postPath(feature)} />
+                </span>
+              </div>
+            </div>
+
+            {/* right: stacked list */}
+            <div className="grid content-start gap-4">
+              {featureList.map((p, i) => (
+                <Link
+                  key={`fl-${p.id}-${i}`}
+                  href={postPath(p)}
+                  className="flex items-center gap-5 rounded-2xl border border-[#eaecee] bg-white p-4 transition hover:border-[#d1d5db]"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img(p)} alt="" aria-hidden className="h-[76px] w-[100px] shrink-0 rounded-xl object-cover" />
+                  <span className="min-w-0">
+                    <span className="block font-semibold leading-snug tracking-tight text-[#0e0e0f]">{p.title}</span>
+                    <span className="mt-2 flex items-center gap-4 text-[12px] text-[#75787d]">
+                      {fmtDate(p.publishedAt)}
+                      <span className="flex items-center gap-1.5">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-4 w-4" aria-hidden>
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                        {p.comments?.length ?? p.id % 5}
+                      </span>
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
-  );
-}
+      </section>
 
-function EditorialBlock({
-  eyebrow,
-  title,
-  subtitle,
-  viewAll,
-  posts,
-  muted = false,
-  testId,
-}: {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  viewAll: string;
-  posts: NxtSmartPost[];
-  muted?: boolean;
-  testId: string;
-}) {
-  const [feature, ...rest] = posts;
-  if (!feature) return null;
+      {/* ---------- Spotlight: overlay feature + split rows ---------- */}
+      <section className="pb-16" data-testid="home-spotlight">
+        <div className="mx-auto max-w-7xl px-5">
+          <SectionBar title="Spotlight" href="/blog" />
+          <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            {/* left: big image with frosted overlay card */}
+            <div className="relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={img(spotlight)} alt={spotlight.title} className="h-[520px] w-full rounded-2xl object-cover" />
+              <div className="absolute bottom-6 left-6 max-w-[460px] rounded-2xl bg-white/85 p-6 backdrop-blur-md">
+                <Chip label={cat(spotlight)} toneClass="bg-white" />
+                <h3 className="mt-4 font-bold leading-snug tracking-tight text-[#0e0e0f]">
+                  <Link href={postPath(spotlight)}>{spotlight.title}</Link>
+                </h3>
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <Author post={spotlight} />
+                  <span className="text-[#d1d5db]">•</span>
+                  <span className="text-[13px] text-[#75787d]">{spotlight.readingTimeMinutes ?? 3} mins read</span>
+                </div>
+              </div>
+              <span className="absolute bottom-0 right-0 rounded-full bg-[#f7f8f9] p-2">
+                <ArrowBtn href={postPath(spotlight)} />
+              </span>
+            </div>
 
-  return (
-    <section className={muted ? 'bg-muted/60 py-16 sm:py-20' : 'bg-surface py-16 sm:py-20'} data-testid={testId}>
-      <div className="mx-auto max-w-7xl px-5 sm:px-6">
-        <SectionHeader eyebrow={eyebrow} title={title} subtitle={subtitle} viewAll={viewAll} />
-        <div className="mt-12 grid gap-8 lg:grid-cols-[1.15fr_1fr]">
-          <PostCard post={feature} variant="feature" thumbBg="bg-muted/50" />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-            {rest.slice(0, 4).map((p) => (
-              <PostCard key={p.id} post={p} variant="compact" thumbBg="bg-muted/50" />
+            {/* right: two split rows */}
+            <div className="grid content-start gap-6">
+              {spotlightRows.map((p, i) => (
+                <div key={`sp-${p.id}-${i}`} className="grid grid-cols-2 gap-5">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img(p)} alt={p.title} className="h-[248px] w-full rounded-2xl object-cover" />
+                  <div className="relative rounded-2xl bg-white p-6">
+                    <span className="flex flex-wrap items-center gap-3">
+                      <Chip label={cat(p)} toneClass={tone(i + 2)} />
+                      <span className="text-[#d1d5db]">•</span>
+                      <span className="text-[12px] text-[#75787d]">{p.readingTimeMinutes ?? 3} mins read</span>
+                    </span>
+                    <h3 className="mt-5 font-bold leading-snug tracking-tight text-[#0e0e0f] line-clamp-3">
+                      <Link href={postPath(p)}>{p.title}</Link>
+                    </h3>
+                    <div className="mt-6">
+                      <Meta post={p} />
+                    </div>
+                    <span className="absolute -bottom-5 right-4">
+                      <ArrowBtn href={postPath(p)} />
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Latest ---------- */}
+      <section className="pb-16">
+        <div className="mx-auto max-w-7xl px-5">
+          <SectionBar title="Latest Articles" href="/blog" />
+
+          <div className="mt-8 grid gap-5">
+            {latest.map((p, i) => (
+              <article key={`lat-${p.id}-${i}`} className="grid gap-6 sm:grid-cols-[280px_1fr]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img(p)} alt={p.title} className="h-[240px] w-full rounded-2xl object-cover" />
+                <div className="relative rounded-2xl bg-white p-7">
+                  <div className="flex items-start justify-between gap-4">
+                    <Chip label={cat(p)} toneClass={tone(i)} />
+                    <BookmarkBtn />
+                  </div>
+                  <h3 className="mt-5 font-bold leading-snug tracking-tight text-[#0e0e0f]">
+                    <Link href={postPath(p)}>{p.title}</Link>
+                  </h3>
+                  <p className="mt-3 max-w-3xl text-[14px] leading-6 text-[#75787d] line-clamp-2">{p.excerpt}</p>
+                  <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                    <Author post={p} />
+                    <Meta post={p} />
+                  </div>
+                  <span className="absolute -bottom-4 right-6">
+                    <ArrowBtn href={postPath(p)} />
+                  </span>
+                </div>
+              </article>
             ))}
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-function GuidesStrip({ posts }: { posts: NxtSmartPost[] }) {
-  return (
-    <section className="bg-paper py-16 sm:py-20" data-testid="popular-guides">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6">
-        <SectionHeader
-          eyebrow="How-to"
-          title="Setup guides & walkthroughs"
-          subtitle="Step-by-step help for getting more from your smart home gear."
-          viewAll="/how-to-guides"
-        />
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {posts.map((p) => (
-            <PostCard key={p.id} post={p} variant="tile" />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function HowWeWork() {
-  const steps = [
-    {
-      n: '01',
-      title: 'We track real demand',
-      body: 'Categories come from what people are actually shopping for — not what brands want to push.',
-    },
-    {
-      n: '02',
-      title: 'Side-by-side, fact-first',
-      body: 'Specs, prices, and scores laid out clearly so you can decide in minutes.',
-    },
-    {
-      n: '03',
-      title: 'Affiliate, but transparent',
-      body: "We earn when you buy through our links. Picks reflect what we'd recommend ourselves.",
-    },
-  ];
-
-  return (
-    <section className="border-y border-ink/8 bg-muted py-20 text-ink" data-testid="how-we-work">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6">
-        <SectionHeader
-          eyebrow="Our process"
-          title="How we choose what to recommend"
-          subtitle="No paid placements. No spec-sheet shortcuts. Three steps, every time."
-        />
-        <ol className="mt-14 grid gap-6 sm:grid-cols-3">
-          {steps.map((s) => (
-            <li
-              key={s.n}
-              className="rounded-4xl border border-ink/8 bg-surface p-6 shadow-card transition hover:border-accent/30"
-            >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft font-display text-sm font-bold text-primary">
-                {s.n}
-              </span>
-              <h3 className="mt-5 font-display text-xl font-bold text-ink">{s.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-ink-muted">{s.body}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
-  );
-}
-
-function NewsletterCTA() {
-  return (
-    <section className="bg-surface py-16 sm:py-20" data-testid="footer-cta">
-      <div className="mx-auto max-w-5xl px-5 text-center sm:px-6">
-        <div className="rounded-4xl border border-ink/8 bg-gradient-to-br from-primary-soft via-surface to-accent-soft px-6 py-12 shadow-card sm:px-12 sm:py-16">
-          <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary">Start here</p>
-          <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-ink text-balance sm:text-4xl">
-            Don't buy until you've compared.
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-ink-muted">
-            New comparisons and reviews every week. Jump into our most popular sections or search the full archive.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/product-comparisons"
-              className="inline-flex items-center rounded-xl bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-primary-emphasis"
-            >
-              Latest comparisons
-            </Link>
-            <Link
-              href="/product-reviews"
-              className="inline-flex items-center rounded-xl border border-ink/12 bg-white px-6 py-3 text-sm font-bold text-ink transition hover:border-primary hover:text-primary"
-            >
-              Top reviews
-            </Link>
-            <Link
-              href="/search"
-              className="inline-flex items-center rounded-xl border border-ink/12 bg-white px-6 py-3 text-sm font-bold text-ink transition hover:border-primary hover:text-primary"
-            >
-              Search archive
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

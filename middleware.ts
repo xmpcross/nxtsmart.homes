@@ -5,6 +5,9 @@ import { RETIRED_POST_REDIRECTS } from "@/lib/retiredPosts";
 const SITE_ORIGIN = "https://nxtsmart.homes";
 
 const EXACT_REDIRECTS: Record<string, string> = {
+  // Retired draft. Its layout is now the homepage, so send it there rather than
+  // 404 — it was noindex, but anyone holding the link should still land somewhere.
+  "/home-draft-2": "/",
   "/contact-us": "/contact",
   "/about-us-find-the-top-smart-home-devices-expert-guides": "/about",
   "/privacy-policy": "/legal/privacy",

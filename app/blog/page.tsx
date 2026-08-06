@@ -37,11 +37,12 @@ export default async function BlogPage() {
   const sections = SECTIONS.filter((s) => (byCat.get(s.slug)?.length ?? 0) > 0);
 
   return (
-    <div data-testid="blog-page">
-      <section className="border-b border-ink/8 bg-muted">
-        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Blog</p>
-          <h1 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl">
+    <div className="bg-paper text-ink" data-testid="blog-page">
+      <section className="relative isolate overflow-hidden border-b border-primary/10 bg-white">
+        
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:py-20">
+          <p className="inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-primary">Blog</p>
+          <h1 className="mt-5 font-display text-[2rem] font-bold leading-tight tracking-tight text-ink">
             All posts &amp; categories
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted">
@@ -52,7 +53,7 @@ export default async function BlogPage() {
               <a
                 key={s.slug}
                 href={`#${s.slug}`}
-                className="rounded-full border border-ink/10 bg-surface px-4 py-1.5 text-sm font-semibold text-ink-muted transition hover:border-primary/30 hover:bg-primary-soft hover:text-primary"
+                className="rounded-full border border-primary/10 bg-white/80 px-4 py-1.5 text-sm font-semibold text-ink-muted transition hover:border-primary/30 hover:bg-primary-soft hover:text-primary"
               >
                 {s.title} ({byCat.get(s.slug)!.length})
               </a>
@@ -61,11 +62,11 @@ export default async function BlogPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16">
         {sections.map((s) => (
           <section key={s.slug} id={s.slug} className="mb-14 scroll-mt-24 last:mb-0" data-testid={`blog-section-${s.slug}`}>
             <div className="flex items-baseline justify-between gap-4">
-              <h2 className="font-display text-2xl font-bold tracking-tight text-ink">{s.title}</h2>
+              <h2 className="font-display text-[2rem] font-bold leading-tight tracking-tight text-ink">{s.title}</h2>
               <Link href={`/${s.slug}`} className="shrink-0 text-sm font-semibold text-primary hover:underline">
                 View category →
               </Link>

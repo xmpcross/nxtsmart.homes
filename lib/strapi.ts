@@ -141,6 +141,7 @@ export async function listPosts(
   }
 
   return strapiFetch<ListResponse<NxtSmartPost>>('nxtsmart-posts', {
+    status: "published",
     fields: ['title', 'slug', 'excerpt', 'postType', 'legacyWpId', 'readingTimeMinutes', 'publishedAt', 'updatedAt', 'dateModified', 'coverImageUrl', 'coverImageAlt'],
     sort: ['publishedAt:desc'],
     populate: POST_POPULATE,
@@ -151,6 +152,7 @@ export async function listPosts(
 
 export async function getPost(slug: string): Promise<NxtSmartPost | null> {
   const res = await strapiFetch<ListResponse<NxtSmartPost>>('nxtsmart-posts', {
+    status: "published",
     filters: { slug: { $eq: slug } },
     populate: POST_DETAIL_POPULATE,
     pagination: { pageSize: 1 },
@@ -181,6 +183,7 @@ export async function listAllPostSlugs(): Promise<{ slug: string; category: stri
   let page = 1;
   while (true) {
     const res = await strapiFetch<ListResponse<NxtSmartPost>>('nxtsmart-posts', {
+    status: "published",
       fields: ['slug', 'updatedAt'],
       populate: { categories: { fields: ['slug'] } },
       sort: ['publishedAt:desc'],

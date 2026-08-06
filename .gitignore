@@ -5,3 +5,12 @@ node_modules
 .env.production
 *.tsbuildinfo
 next-env.d.ts.bak
+
+# Editor/working leftovers — snapshots taken before a swap, not source.
+*.bak*
+*.before-*
+*.tmp
+next.log
+
+# 62 MB WordPress export kept for reference on the box; not repo content.
+backups/
